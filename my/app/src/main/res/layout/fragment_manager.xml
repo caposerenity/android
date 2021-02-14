@@ -7,9 +7,10 @@
 
     <Spinner
         android:id="@+id/mspinner"
-        style="@style/SpinnerStyle"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="?attr/xui_config_content_spacing_vertical" />
+        android:layout_marginTop="5dp"
+        android:layout_height="50dp"
+        android:layout_width="match_parent"
+        android:entries="@array/managerSpinner"/>
     <TableLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"

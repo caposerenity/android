@@ -1,4 +1,4 @@
-package com.example.my;
+package com.example.chapter3.demo.manager;
 
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -7,8 +7,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 
-
-import com.example.my.fragment.ManagerFragment;
+import com.example.chapter3.demo.R;
 
 public class ManagerActivity extends AppCompatActivity {
     private static final int PAGE_COUNT = 2;
@@ -43,7 +42,5 @@ public class ManagerActivity extends AppCompatActivity {
             }
         });
         tabLayout.setupWithViewPager(pager);
-
     }
-
 }

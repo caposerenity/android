@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ManagerActivity">
+    tools:context=".manager.ManagerActivity">
     <android.support.v4.view.ViewPager
         android:id="@+id/view_pager"
         android:layout_width="match_parent"
@@ -12,17 +12,16 @@
         android:layout_weight="1">
 
     </android.support.v4.view.ViewPager>
-    <com.google.android.material.tabs.TabLayout
+    <android.support.design.widget.TabLayout
         android:id="@+id/tabs"
         android:layout_width="match_parent"
-        android:layout_height="?attr/xui_actionbar_height"
-        android:background="@drawable/xui_list_item_bg_with_border_top"
+        android:layout_height="60dp"
         app:tabGravity="fill"
         app:tabIndicatorColor="@android:color/transparent"
         app:tabMinWidth="300dp"
         app:tabMode="fixed"
         app:tabPaddingTop="2dp">
-    </com.google.android.material.tabs.TabLayout>
+    </android.support.design.widget.TabLayout>
 
 
 </LinearLayout>
