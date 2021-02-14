@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:id="@+id/managerfragment">
+
+    <Spinner
+        android:id="@+id/mspinner"
+        android:layout_marginTop="5dp"
+        android:layout_height="50dp"
+        android:layout_width="match_parent"
+        android:entries="@array/managerSpinner"/>
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="80dp">
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <TextView android:text="任务名称  "/>
+            <TextView android:text="实在不会画表格，这个任务就交给俊杰哥哥了[/可怜]"/>
+        </TableRow>
+    </TableLayout>
+</FrameLayout>
