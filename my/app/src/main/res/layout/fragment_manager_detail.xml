@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginStart="20dp">
+
+    <TextView
+        android:id="@+id/TaskName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <TextView
+        android:id="@+id/Teamleader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/TaskName"
+        android:layout_marginTop="19dp"
+        android:text="生产组长：" />
+
+    <TextView
+        android:id="@+id/state"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/Teamleader"
+        android:layout_marginTop="19dp"
+        android:text="当前状态：" />
+    <TextView
+        android:id="@+id/Checkman"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/state"
+        android:layout_marginTop="19dp"
+        android:text="质检员：" />
+    <TextView
+        android:id="@+id/makeTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/Checkman"
+        android:layout_marginTop="19dp"
+        android:text="创建时间" />
+    <TextView
+        android:id="@+id/ddl1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/makeTime"
+        android:layout_marginTop="19dp"
+        android:text="预计完成时间：" />
+    <TextView
+        android:id="@+id/ddl2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ddl1"
+        android:layout_marginTop="19dp"
+        android:text="预计质检完成时间：" />
+    <TextView
+        android:id="@+id/note"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ddl2"
+        android:layout_marginTop="19dp"
+        android:text="备注：" />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/note"
+        android:layout_marginTop="19dp"
+        android:background="@drawable/tag"
+        android:textColor="@color/blue_start"
+        android:text="添加备注">
+
+    </Button>
+
+
+</RelativeLayout>

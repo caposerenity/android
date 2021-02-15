@@ -1,7 +1,9 @@
 package com.example.my.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import com.example.my.fragment.ManagerFragment;
+import com.example.my.listview.Task;
 import com.google.android.material.tabs.TabLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentPagerAdapter;
@@ -10,7 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.chapter3.demo.R;
 
-public class ManagerActivity extends AppCompatActivity {
+public class ManagerActivity extends AppCompatActivity implements ManagerFragment.OnItemSelectedListener{
     private static final int PAGE_COUNT = 2;
 
     @Override
@@ -43,5 +45,12 @@ public class ManagerActivity extends AppCompatActivity {
             }
         });
         tabLayout.setupWithViewPager(pager);
+    }
+
+    @Override
+    public void onItemSelected(Task task) {
+        Intent i = new Intent(this, ManagerDetailActivity.class);
+        i.putExtra("task", task);
+        startActivity(i);
     }
 }
