@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -10,17 +10,41 @@
         android:id="@+id/mspinner"
         android:layout_marginTop="5dp"
         android:layout_height="50dp"
-        android:layout_width="match_parent"
+        android:layout_width="200dp"
         android:entries="@array/managerSpinner"/>
-    <TableLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="80dp">
-        <TableRow
+        android:layout_height="100dp"
+        android:layout_marginTop="80dp"
+        android:background="@drawable/bianqian"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="35dp"
+            android:layout_marginLeft="20dp"
+            android:shadowRadius="@android:integer/config_longAnimTime"
+            android:text="    当前超期任务数:   "
+            android:textColor="@color/app_color_theme_1"
+            android:textSize="25sp"
+            android:fontFamily="@string/app_name"
+            />
+        <TextView
+            android:id="@+id/mnum"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-            <TextView android:text="任务名称  "/>
-            <TextView android:text="实在不会画表格，这个任务就交给俊杰哥哥了[/可怜]"/>
-        </TableRow>
-    </TableLayout>
+            android:layout_height="wrap_content"
+            android:layout_marginTop="35dp"
+            android:shadowRadius="@android:integer/config_longAnimTime"
+            android:text="3"
+            android:textSize="25sp"
+            android:fontFamily="@string/app_name"
+            />
+    </LinearLayout>
+    <ListView
+        android:id="@+id/mlist"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="200dp"
+        android:dividerHeight="10dp"
+        tools:listitem="@layout/list_item"/>
 </FrameLayout>

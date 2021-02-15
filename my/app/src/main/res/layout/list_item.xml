@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/tv_tag"
+    style="@style/TextStyle.Title"
+    android:layout_marginStart="5dp"
+    android:background="@drawable/tag"
+    android:paddingBottom="5dp"
+    android:paddingStart="15dp"
+    android:paddingEnd="15dp"
+    android:paddingTop="5dp"
+    android:textColor="@color/xui_config_color_black"
+    android:text="已完成"
+    >
+
+</TextView>
