@@ -41,6 +41,7 @@ public class ManagerDetailFragment extends Fragment {
 		tl.append(item.getTeamleader());
 		checkman.append(item.getCheckman());
 		note.append(item.getNote());
+		maketime.append(item.getMaketime());
 		return view;
 	}
 

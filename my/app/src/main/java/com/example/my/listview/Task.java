@@ -6,6 +6,8 @@ import java.util.ArrayList;
 //此类用于存放所有任务的具体数据
 public class Task implements Serializable {
     private static final long serialVersionUID = -6099312954099962806L;
+    //id
+    private String id;
     //任务名称
     private String name;
     //组长
@@ -24,7 +26,8 @@ public class Task implements Serializable {
     private String note;
 
 
-    public Task(String name,String teamleader, String checkman, String ddl1,String ddl2,String maketime,String state,String note) {
+    public Task(String id,String name,String teamleader, String checkman, String ddl1,String ddl2,String maketime,String state,String note) {
+        this.id=id;
         this.checkman=checkman;
         this.ddl1=ddl1;
         this.ddl2=ddl2;
@@ -61,12 +64,15 @@ public class Task implements Serializable {
     public String getNote(){
         return note;
     }
+    public String getId(){
+        return id;
+    }
 
     public static ArrayList<Task> getItems() {
         ArrayList<Task> items = new ArrayList<Task>();
-        items.add(new Task("任务1","张西秀","张东南","2020-02-27 20:00","2020-02-29 12:00","2020-02-25 11:00","已完成","好好干嗷"));
-        items.add(new Task("任务2","张西秀","张东南","2020-02-27 20:00","2020-02-29 12:00","2020-02-25 11:00","未完成","好好干嗷好好干嗷"));
-        items.add(new Task("任务3","张西秀","张东南","2020-02-27 20:00","2020-02-29 12:00","2020-02-25 11:00","已完成","好好干嗷好好干嗷好好干嗷"));
+        items.add(new Task("0","任务1","张西秀","张东南","2020-02-27 20:00","2020-02-29 12:00","2020-02-25 11:00","已提交","好好干嗷"));
+        items.add(new Task("1","任务2","张西秀","张东南","2020-02-27 20:00","2020-02-29 12:00","2020-02-25 11:00","未提交","好好干嗷好好干嗷"));
+        items.add(new Task("2","任务3","张西秀","张东南","2020-02-27 20:00","2020-02-29 12:00","2020-02-25 11:00","已提交","好好干嗷好好干嗷好好干嗷"));
         return items;
     }
 

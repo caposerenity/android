@@ -5,6 +5,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +23,8 @@ import com.example.my.listview.Task;
 import java.util.ArrayList;
 
 public class ManagerFragment extends Fragment {
+    private ArrayList<Task> tasks;
+    private ArrayList<Task> showTasks;
     private ArrayAdapter<Task> adapterItems;
     private ListView lvItems;
     private OnItemSelectedListener listener;
@@ -52,9 +56,10 @@ public class ManagerFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // Create arraylist from item fixtures
-        ArrayList<Task> items = Task.getItems();
+        tasks= Task.getItems();
+        showTasks=new ArrayList<Task>(tasks);
         adapterItems = new ArrayAdapter<Task>(getActivity(),
-                R.layout.list_item, items);
+                R.layout.list_item, showTasks);
     }
 
     @Override
@@ -66,14 +71,45 @@ public class ManagerFragment extends Fragment {
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Log.d(""+tasks.size(), "test: ");
                 switch(position){
                     case 0:
+                        for(int i=0;i<tasks.size();i++){
+                            if(!showTasks.contains(tasks.get(i))){
+                                showTasks.add(tasks.get(i));
+                            }
+                        }
                         Toast.makeText(getActivity(),"全部",Toast.LENGTH_LONG).show();
                         break;
                     case 1:
+                        for(int i=0;i<tasks.size();i++){
+                            if(tasks.get(i).getTag().equals("已提交")){
+                                if(!showTasks.contains(tasks.get(i))){
+                                    showTasks.add(tasks.get(i));
+                                }
+                            }
+                            if(!tasks.get(i).getTag().equals("已提交")){
+                                if(showTasks.contains(tasks.get(i))){
+                                    showTasks.remove(tasks.get(i));
+                                }
+                            }
+                        }
                         Toast.makeText(getActivity(),"已提交",Toast.LENGTH_LONG).show();
                         break;
                     case 2:
+                        for(int i=0;i<tasks.size();i++){
+                            if(!tasks.get(i).getTag().equals("已提交")){
+                                Log.d(tasks.get(i).getName(), "test: ");
+                                if(!showTasks.contains(tasks.get(i))){
+                                    showTasks.add(tasks.get(i));
+                                }
+                            }
+                            if(tasks.get(i).getTag().equals("已提交")){
+                                if(showTasks.contains(tasks.get(i))){
+                                    showTasks.remove(tasks.get(i));
+                                }
+                            }
+                        }
                         Toast.makeText(getActivity(),"未提交",Toast.LENGTH_LONG).show();
                         break;
                 }
