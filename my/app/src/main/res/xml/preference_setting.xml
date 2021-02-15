@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+        xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory android:title="基本设置">
+        <SwitchPreference
+                android:defaultValue="true"
+                android:key="example_switch"
+                android:summary="Switch Preference描述"
+                android:title="Switch Preference" />
+
+
+    </PreferenceCategory>
+
+</PreferenceScreen>
