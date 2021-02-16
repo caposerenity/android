@@ -36,7 +36,9 @@
                 android:key="notifications_new_message_vibrate"
                 android:title="震动" />
 
-        <Preference android:title="修改密码">
+        <Preference
+                android:title="修改密码"
+                android:key="modify_password">
         </Preference>
     </PreferenceCategory>
 
