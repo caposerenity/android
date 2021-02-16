@@ -2,7 +2,11 @@
 <resources>
     <string-array name="managerSpinner">
         <item>全部</item>
-        <item>已提交任务</item>
-        <item>未提交任务</item>
+        <item>待完成</item>
+        <item>待质检</item>
+        <item>质检中</item>
+        <item>不合格</item>
+        <item>待提交客户</item>
+        <item>已提交客户</item>
     </string-array>
 </resources>

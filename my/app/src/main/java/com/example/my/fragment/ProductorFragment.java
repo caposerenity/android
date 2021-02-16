@@ -1,40 +1,44 @@
 package com.example.my.fragment;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+
 import com.example.chapter3.demo.R;
+import com.example.my.activity.AddTaskActivity;
+import com.example.my.activity.NoteActivity;
 import com.example.my.adapter.TaskAdapter;
 import com.example.my.listview.Task;
 
 import java.util.ArrayList;
 
-public class ManagerFragment extends Fragment {
+public class ProductorFragment extends Fragment {
     private ArrayList<Task> tasks;
     private ArrayList<Task> showTasks;
     private ArrayAdapter<Task> adapterItems;
     private OnItemSelectedListener listener;
+    private static final int REQUEST_CODE_ADD_TASK = 1003;
 
     public interface OnItemSelectedListener {
         public void onItemSelected(Task i);
     }
-
     //后续在此传参给fragment
-    public static ManagerFragment newInstance() {
-        ManagerFragment mf = new ManagerFragment();
+    public static ProductorFragment newInstance() {
+        ProductorFragment mf = new ProductorFragment();
         Bundle args = new Bundle();
         mf.setArguments(args);
         return mf;
@@ -43,8 +47,8 @@ public class ManagerFragment extends Fragment {
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        if (activity instanceof OnItemSelectedListener) {
-            listener = (OnItemSelectedListener) activity;
+        if (activity instanceof ProductorFragment.OnItemSelectedListener) {
+            listener = (ProductorFragment.OnItemSelectedListener) activity;
         } else {
             throw new ClassCastException(activity.toString()
                     + " must implement ItemsListFragment.OnItemSelectedListener");
@@ -63,14 +67,16 @@ public class ManagerFragment extends Fragment {
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view=inflater.inflate(R.layout.fragment_manager, container, false);
-        Spinner spinner=view.findViewById(R.id.mspinner);
-        TextView text=view.findViewById(R.id.mnum);
+        Log.d("producer", "onCreateView: ");
+        View view=inflater.inflate(R.layout.fragment_producer, container, false);
+        Spinner spinner=view.findViewById(R.id.pspinner);
+        TextView text1=view.findViewById(R.id.pnum1);
+        TextView text2=view.findViewById(R.id.pnum2);
+        Button addbutton=view.findViewById(R.id.add_button);
         //后续在此编辑选择条件
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Log.d(""+tasks.size(), "test: ");
                 switch(position){
                     //很奇怪。。这么写之后调试的时候没有问题，打包成apk使用就显示不了了
                     case 0:
@@ -106,9 +112,18 @@ public class ManagerFragment extends Fragment {
 
             }
         });
-        //后续在此编辑超期任务数
-        text.setText("1");
-        ListView lvItems = (ListView) view.findViewById(R.id.mlist);
+        //后续在此传入超期任务数和待完成任务数
+        text1.setText("1");
+        text2.setText("2");
+        addbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivityForResult(
+                        new Intent(getActivity(), AddTaskActivity.class),
+                        REQUEST_CODE_ADD_TASK);
+            }
+        });
+        ListView lvItems = (ListView) view.findViewById(R.id.plist);
         lvItems.setAdapter(adapterItems);
         lvItems.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="任务名"
+            android:textColor="#333333"
+            android:textSize="25sp" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:layout_marginStart="10dp">
+
+            <com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText
+                android:id="@+id/taskName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="@string/edit_task_name"
+                android:textColor="@color/xui_config_color_edittext_textcolor" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="组长"
+            android:textColor="#333333"
+            android:textSize="25sp" />
+
+        <com.xuexiang.xui.widget.button.ButtonView
+            android:id="@+id/select_teamleader"
+            style="@style/TextStyle.Explain"
+            android:layout_width="307dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            android:layout_marginTop="10dp"
+            tools:text="点击选择组长 >" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="预计完成时间"
+            android:textColor="#333333"
+            android:textSize="25sp" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:layout_marginStart="10dp">
+
+            <com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText
+                android:id="@+id/select_ddl1"
+                android:layout_width="322dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="@string/edit_task_name"
+                android:textColor="@color/xui_config_color_edittext_textcolor" />
+
+        </LinearLayout>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="质检截止时间"
+            android:textColor="#333333"
+            android:textSize="25sp" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:layout_marginStart="10dp">
+
+            <com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText
+                android:id="@+id/select_ddl2"
+                android:layout_width="322dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="@string/edit_task_name"
+                android:textColor="@color/xui_config_color_edittext_textcolor" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+
+</LinearLayout>

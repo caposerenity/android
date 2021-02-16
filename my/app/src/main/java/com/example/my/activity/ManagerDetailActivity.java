@@ -16,7 +16,7 @@ public class ManagerDetailActivity extends FragmentActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_manageritem_detail);
+		setContentView(R.layout.activity_item_detail);
 		Task item= (Task) getIntent().getSerializableExtra("task");
 		if (savedInstanceState == null) {
 			fragmentItemDetail = ManagerDetailFragment.newInstance(item);

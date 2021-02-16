@@ -23,6 +23,9 @@
 
         <activity android:name="com.example.my.activity.SettingAcitivity">
         </activity>
+        <activity android:name="com.example.my.activity.NoteActivity">
+        </activity>
+        <activity android:name="com.example.my.activity.AddTaskActivity"/>
     </application>
 
 </manifest>

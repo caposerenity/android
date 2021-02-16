@@ -51,6 +51,10 @@
     <string name="lab_register_account">点击注册即表示同意</string>
     <string name="lab_service_protocol"><![CDATA[<用户协议>]]></string>
     <string name="url_add_qq_group"><![CDATA[https://qm.qq.com/cgi-bin/qm/qr?k=0lUqsbfHTNDbS2KK4nTPwPq07tOqAk6J&authKey=4PzQ2cQYIr28Qyg%2FkTk%2BmI7xlcq8B0IZKZGc1H3XloRrCDBO8az97DIsBHnQW0Ya]]></string>
+    <string name="basic">Basic</string>
+    <string name="disable">DISABLE</string>
+    <string name="edit_teamleader">单击编辑生产组组长</string>
+    <string name="edit_task_name">单击编辑任务名</string>
 
 
 </resources>
