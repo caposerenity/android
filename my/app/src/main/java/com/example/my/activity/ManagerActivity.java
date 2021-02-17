@@ -58,8 +58,8 @@ public class ManagerActivity extends AppCompatActivity implements ManagerFragmen
 
     @Override
     public void onItemSelected(Task task) {
-        Intent i = new Intent(this, SettingAcitivity.class);
-        //i.putExtra("task", task);
+        Intent i = new Intent(this, ManagerDetailActivity.class);
+        i.putExtra("task", task);
         startActivity(i);
     }
 }
