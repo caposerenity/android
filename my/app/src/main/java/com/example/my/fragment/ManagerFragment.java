@@ -70,7 +70,7 @@ public class ManagerFragment extends Fragment {
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Log.d(""+tasks.size(), "test: ");
+                Log.d("123"+tasks.size(), "test: ");
                 switch(position){
                     //很奇怪。。这么写之后调试的时候没有问题，打包成apk使用就显示不了了
                     case 0:
@@ -103,7 +103,7 @@ public class ManagerFragment extends Fragment {
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-
+//                Log.d("123", "nothing");
             }
         });
         //后续在此编辑超期任务数
