@@ -21,7 +21,7 @@ public class ManagerActivity extends AppCompatActivity implements ManagerFragmen
     protected void onCreate(Bundle savedInstance) {
         super.onCreate(savedInstance);
         //此处模拟用户角色。0：系统管理员 1：生产部经理 2：组长 3：质检部经理 4：质检员 5：行政综合部
-        role=1;
+        role=0;
         setContentView(R.layout.manager);
         ViewPager pager=findViewById(R.id.view_pager);
         TabLayout tabLayout=findViewById(R.id.tabs);

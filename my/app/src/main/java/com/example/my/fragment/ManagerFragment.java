@@ -19,6 +19,8 @@ import android.widget.TextView;
 import com.example.chapter3.demo.R;
 import com.example.my.adapter.TaskAdapter;
 import com.example.my.listview.Task;
+import com.xuexiang.xui.utils.SnackbarUtils;
+import com.xuexiang.xui.widget.spinner.materialspinner.MaterialSpinner;
 
 import java.util.ArrayList;
 
@@ -61,17 +63,17 @@ public class ManagerFragment extends Fragment {
                 R.layout.list_item, showTasks);
     }
 
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view=inflater.inflate(R.layout.fragment_manager, container, false);
-        Spinner spinner=view.findViewById(R.id.mspinner);
+        MaterialSpinner mMaterialSpinner=view.findViewById(R.id.spinner);
         TextView text=view.findViewById(R.id.mnum);
-        //后续在此编辑选择条件
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Log.d("123"+tasks.size(), "test: ");
-                switch(position){
+
+
+        mMaterialSpinner.setOnItemSelectedListener((spinner, position, id, item) ->
+        {
+            switch(position){
                     //很奇怪。。这么写之后调试的时候没有问题，打包成apk使用就显示不了了
                     case 0:
                         for(int i=0;i<tasks.size();i++){
@@ -99,13 +101,48 @@ public class ManagerFragment extends Fragment {
                         update("已提交客户");
                         break;
                 }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-//                Log.d("123", "nothing");
-            }
+            adapterItems.notifyDataSetChanged();
         });
+        //后续在此编辑选择条件
+//        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//                Log.d("123"+tasks.size(), "test: ");
+//                switch(position){
+//                    //很奇怪。。这么写之后调试的时候没有问题，打包成apk使用就显示不了了
+//                    case 0:
+//                        for(int i=0;i<tasks.size();i++){
+//                            if(!showTasks.contains(tasks.get(i))){
+//                                showTasks.add(tasks.get(i));
+//                            }
+//                        }
+//                        break;
+//                    case 1:
+//                        update("待完成");
+//                        break;
+//                    case 2:
+//                        update("待质检");
+//                        break;
+//                    case 3:
+//                        update("质检中");
+//                        break;
+//                    case 4:
+//                        update("不合格");
+//                        break;
+//                    case 5:
+//                        update("待提交客户");
+//                        break;
+//                    case 6:
+//                        update("已提交客户");
+//                        break;
+//                }
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> parent) {
+////                Log.d("123", "nothing");
+//            }
+//        });
         //后续在此编辑超期任务数
         text.setText("1");
         ListView lvItems = (ListView) view.findViewById(R.id.mlist);
