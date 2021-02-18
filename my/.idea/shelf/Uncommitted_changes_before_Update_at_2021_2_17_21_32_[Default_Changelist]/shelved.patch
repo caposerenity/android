@@ -1,0 +1,452 @@
+Index: app/src/main/java/com/example/my/activity/ManagerActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.my.activity;\r\n\r\nimport android.content.Intent;\r\nimport android.os.Bundle;\r\nimport com.example.my.fragment.ManagerFragment;\r\nimport com.example.my.fragment.ProductorFragment;\r\nimport com.example.my.listview.Task;\r\nimport com.google.android.material.tabs.TabLayout;\r\nimport androidx.fragment.app.Fragment;\r\nimport androidx.fragment.app.FragmentPagerAdapter;\r\nimport androidx.viewpager.widget.ViewPager;\r\nimport androidx.appcompat.app.AppCompatActivity;\r\n\r\nimport com.example.chapter3.demo.R;\r\n\r\npublic class ManagerActivity extends AppCompatActivity implements ManagerFragment.OnItemSelectedListener,ProductorFragment.OnItemSelectedListener{\r\n    private static final int PAGE_COUNT = 2;\r\n    private int role;\r\n\r\n    @Override\r\n    protected void onCreate(Bundle savedInstance) {\r\n        super.onCreate(savedInstance);\r\n        //此处模拟用户角色。0：系统管理员 1：生产部经理 2：组长 3：质检部经理 4：质检员 5：行政综合部\r\n        role=1;\r\n        setContentView(R.layout.manager);\r\n        ViewPager pager=findViewById(R.id.view_pager);\r\n        TabLayout tabLayout=findViewById(R.id.tabs);\r\n        pager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {\r\n            //此处根据用户点击的图标以及用户的角色动态决定装载哪个fragment\r\n            @Override\r\n            public Fragment getItem(int i) {\r\n                //后续会往newInstance函数里传参\r\n                switch (role){\r\n                    case 0:\r\n                        return ManagerFragment.newInstance();\r\n                    default:\r\n                        return ProductorFragment.newInstance();\r\n                }\r\n            }\r\n\r\n            @Override\r\n            public int getCount() {\r\n                return PAGE_COUNT;\r\n            }\r\n\r\n            @Override\r\n            public CharSequence getPageTitle(int position) {\r\n                if(position==0){\r\n                    return \"任务\";\r\n                }\r\n                else{\r\n                    return \"我的\";\r\n                }\r\n            }\r\n        });\r\n        tabLayout.setupWithViewPager(pager);\r\n    }\r\n\r\n    @Override\r\n    public void onItemSelected(Task task) {\r\n        Intent i = new Intent(this, ManagerDetailActivity.class);\r\n        i.putExtra(\"task\", task);\r\n        startActivity(i);\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/my/activity/ManagerActivity.java	(revision 1b7b9ee1e217174995b953eb8b8aaec71a5efb0a)
++++ app/src/main/java/com/example/my/activity/ManagerActivity.java	(date 1613565038838)
+@@ -4,6 +4,7 @@
+ import android.os.Bundle;
+ import com.example.my.fragment.ManagerFragment;
+ import com.example.my.fragment.ProductorFragment;
++import com.example.my.fragment.TeamLeaderFragment;
+ import com.example.my.listview.Task;
+ import com.google.android.material.tabs.TabLayout;
+ import androidx.fragment.app.Fragment;
+@@ -33,8 +34,10 @@
+                 switch (role){
+                     case 0:
+                         return ManagerFragment.newInstance();
+-                    default:
++                    case 1:
+                         return ProductorFragment.newInstance();
++                    default:
++                        return TeamLeaderFragment.newInstance();
+                 }
+             }
+ 
+Index: app/src/main/java/com/example/my/fragment/TeamLeaderFragment.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/my/fragment/TeamLeaderFragment.java	(date 1613565038832)
++++ app/src/main/java/com/example/my/fragment/TeamLeaderFragment.java	(date 1613565038832)
+@@ -0,0 +1,15 @@
++package com.example.my.fragment;
++
++import android.os.Bundle;
++
++import androidx.fragment.app.Fragment;
++
++public class TeamLeaderFragment extends Fragment {
++    //后续在此传参给fragment
++    public static TeamLeaderFragment newInstance() {
++        TeamLeaderFragment mf = new TeamLeaderFragment();
++        Bundle args = new Bundle();
++        mf.setArguments(args);
++        return mf;
++    }
++}
+Index: app/src/main/res/layout/fragment_teamleader.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/fragment_teamleader.xml	(date 1613565166959)
++++ app/src/main/res/layout/fragment_teamleader.xml	(date 1613565166959)
+@@ -0,0 +1,78 @@
++<?xml version="1.0" encoding="utf-8"?>
++<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
++    xmlns:tools="http://schemas.android.com/tools"
++    xmlns:app="http://schemas.android.com/apk/res-auto"
++    android:layout_width="match_parent"
++    android:layout_height="match_parent"
++    android:orientation="vertical"
++    android:id="@+id/producerfragment">
++
++    <Spinner
++        android:id="@+id/pspinner"
++        android:layout_marginTop="5dp"
++        android:layout_height="50dp"
++        android:layout_width="200dp"
++        android:entries="@array/managerSpinner"/>
++    <LinearLayout
++        android:layout_width="match_parent"
++        android:layout_height="100dp"
++        android:layout_marginTop="80dp"
++        android:background="@drawable/ic_widget_banner"
++        android:orientation="horizontal">
++        <TextView
++            android:layout_width="wrap_content"
++            android:layout_height="wrap_content"
++            android:layout_marginTop="15dp"
++            android:layout_marginLeft="20dp"
++            android:shadowRadius="@android:integer/config_longAnimTime"
++            android:text="    即将任务数:   "
++            android:textColor="@color/app_color_theme_1"
++            android:textSize="25sp"
++            android:fontFamily="@string/app_name"
++            />
++        <TextView
++            android:id="@+id/pnum1"
++            android:layout_width="match_parent"
++            android:layout_height="wrap_content"
++            android:layout_marginTop="15dp"
++            android:shadowRadius="@android:integer/config_longAnimTime"
++            android:text="3"
++            android:textSize="25sp"
++            android:fontFamily="@string/app_name"
++            />
++    </LinearLayout>
++    <LinearLayout
++        android:layout_width="match_parent"
++        android:layout_height="100dp"
++        android:layout_marginTop="200dp"
++        android:background="@drawable/ic_widget_banner"
++        android:orientation="horizontal">
++        <TextView
++            android:layout_width="wrap_content"
++            android:layout_height="wrap_content"
++            android:layout_marginTop="15dp"
++            android:layout_marginLeft="20dp"
++            android:shadowRadius="@android:integer/config_longAnimTime"
++            android:text="    即将超期任务数:   "
++            android:textSize="25sp"
++            android:fontFamily="@string/app_name"
++            />
++        <TextView
++            android:id="@+id/pnum2"
++            android:layout_width="match_parent"
++            android:layout_height="wrap_content"
++            android:layout_marginTop="15dp"
++            android:shadowRadius="@android:integer/config_longAnimTime"
++            android:text="3"
++            android:textSize="25sp"
++            android:fontFamily="@string/app_name"
++            />
++    </LinearLayout>
++    <ListView
++        android:id="@+id/plist"
++        android:layout_width="wrap_content"
++        android:layout_height="wrap_content"
++        android:layout_marginTop="300dp"
++        android:dividerHeight="10dp"
++        tools:listitem="@layout/list_item"/>
++</FrameLayout>
+\ No newline at end of file
+Index: app/src/main/java/com/example/my/fragment/ManagerFragment.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.my.fragment;\r\n\r\nimport android.app.Activity;\r\nimport android.os.Bundle;\r\nimport androidx.annotation.NonNull;\r\nimport androidx.annotation.Nullable;\r\nimport androidx.fragment.app.Fragment;\r\n\r\nimport android.util.Log;\r\nimport android.view.LayoutInflater;\r\nimport android.view.View;\r\nimport android.view.ViewGroup;\r\nimport android.widget.AdapterView;\r\nimport android.widget.ArrayAdapter;\r\nimport android.widget.ListView;\r\nimport android.widget.Spinner;\r\nimport android.widget.TextView;\r\n\r\nimport com.example.chapter3.demo.R;\r\nimport com.example.my.adapter.TaskAdapter;\r\nimport com.example.my.listview.Task;\r\n\r\nimport java.util.ArrayList;\r\n\r\npublic class ManagerFragment extends Fragment {\r\n    private ArrayList<Task> tasks;\r\n    private ArrayList<Task> showTasks;\r\n    private ArrayAdapter<Task> adapterItems;\r\n    private OnItemSelectedListener listener;\r\n\r\n    public interface OnItemSelectedListener {\r\n        public void onItemSelected(Task i);\r\n    }\r\n\r\n    //后续在此传参给fragment\r\n    public static ManagerFragment newInstance() {\r\n        ManagerFragment mf = new ManagerFragment();\r\n        Bundle args = new Bundle();\r\n        mf.setArguments(args);\r\n        return mf;\r\n    }\r\n\r\n    @Override\r\n    public void onAttach(Activity activity) {\r\n        super.onAttach(activity);\r\n        if (activity instanceof OnItemSelectedListener) {\r\n            listener = (OnItemSelectedListener) activity;\r\n        } else {\r\n            throw new ClassCastException(activity.toString()\r\n                    + \" must implement ItemsListFragment.OnItemSelectedListener\");\r\n        }\r\n    }\r\n\r\n    @Override\r\n    public void onCreate(Bundle savedInstanceState) {\r\n        super.onCreate(savedInstanceState);\r\n        // Create arraylist from item fixtures\r\n        tasks= Task.getItems();\r\n        showTasks=new ArrayList<Task>(tasks);\r\n        adapterItems = new TaskAdapter(getActivity(),\r\n                R.layout.list_item, showTasks);\r\n    }\r\n\r\n    @Override\r\n    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {\r\n        View view=inflater.inflate(R.layout.fragment_manager, container, false);\r\n        Spinner spinner=view.findViewById(R.id.mspinner);\r\n        TextView text=view.findViewById(R.id.mnum);\r\n        //后续在此编辑选择条件\r\n        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {\r\n            @Override\r\n            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {\r\n                Log.d(\"\"+tasks.size(), \"test: \");\r\n                switch(position){\r\n                    //很奇怪。。这么写之后调试的时候没有问题，打包成apk使用就显示不了了\r\n                    case 0:\r\n                        for(int i=0;i<tasks.size();i++){\r\n                            if(!showTasks.contains(tasks.get(i))){\r\n                                showTasks.add(tasks.get(i));\r\n                            }\r\n                        }\r\n                        break;\r\n                    case 1:\r\n                        update(\"待完成\");\r\n                        break;\r\n                    case 2:\r\n                        update(\"待质检\");\r\n                        break;\r\n                    case 3:\r\n                        update(\"质检中\");\r\n                        break;\r\n                    case 4:\r\n                        update(\"不合格\");\r\n                        break;\r\n                    case 5:\r\n                        update(\"待提交客户\");\r\n                        break;\r\n                    case 6:\r\n                        update(\"已提交客户\");\r\n                        break;\r\n                }\r\n            }\r\n\r\n            @Override\r\n            public void onNothingSelected(AdapterView<?> parent) {\r\n\r\n            }\r\n        });\r\n        //后续在此编辑超期任务数\r\n        text.setText(\"1\");\r\n        ListView lvItems = (ListView) view.findViewById(R.id.mlist);\r\n        lvItems.setAdapter(adapterItems);\r\n        lvItems.setOnItemClickListener(new AdapterView.OnItemClickListener() {\r\n            @Override\r\n            public void onItemClick(AdapterView<?> adapterView, View item, int position,\r\n                                    long rowId) {\r\n                // Retrieve item based on position\r\n                Task i = adapterItems.getItem(position);\r\n                // Fire selected event for item\r\n                listener.onItemSelected(i);\r\n\r\n            }\r\n        });\r\n        return view;\r\n    }\r\n    private void update(String s){\r\n        Log.d(\"abc\", s);\r\n        for(int i=0;i<tasks.size();i++){\r\n            if(tasks.get(i).getTag().equals(s)){\r\n                Log.d(tasks.get(i).getTag(), s);\r\n                if(!showTasks.contains(tasks.get(i))){\r\n                    showTasks.add(tasks.get(i));\r\n                }\r\n            }\r\n            if(!tasks.get(i).getTag().equals(s)){\r\n                showTasks.remove(tasks.get(i));\r\n            }\r\n        }\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/my/fragment/ManagerFragment.java	(revision 1b7b9ee1e217174995b953eb8b8aaec71a5efb0a)
++++ app/src/main/java/com/example/my/fragment/ManagerFragment.java	(date 1613562916650)
+@@ -15,6 +15,7 @@
+ import android.widget.ListView;
+ import android.widget.Spinner;
+ import android.widget.TextView;
++import android.widget.Toast;
+ 
+ import com.example.chapter3.demo.R;
+ import com.example.my.adapter.TaskAdapter;
+@@ -67,74 +68,76 @@
+         Spinner spinner=view.findViewById(R.id.mspinner);
+         TextView text=view.findViewById(R.id.mnum);
+         //后续在此编辑选择条件
+-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
++        spinner.setOnItemSelectedListener(new ProvOnItemSelectedListener());
++        //后续在此编辑超期任务数
++        text.setText("1");
++        ListView lvItems = (ListView) view.findViewById(R.id.mlist);
++        lvItems.setAdapter(adapterItems);
++        lvItems.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+             @Override
+-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+-                Log.d(""+tasks.size(), "test: ");
+-                switch(position){
+-                    //很奇怪。。这么写之后调试的时候没有问题，打包成apk使用就显示不了了
+-                    case 0:
+-                        for(int i=0;i<tasks.size();i++){
+-                            if(!showTasks.contains(tasks.get(i))){
+-                                showTasks.add(tasks.get(i));
+-                            }
+-                        }
+-                        break;
+-                    case 1:
+-                        update("待完成");
+-                        break;
+-                    case 2:
+-                        update("待质检");
+-                        break;
+-                    case 3:
+-                        update("质检中");
+-                        break;
+-                    case 4:
+-                        update("不合格");
+-                        break;
+-                    case 5:
+-                        update("待提交客户");
+-                        break;
+-                    case 6:
+-                        update("已提交客户");
+-                        break;
+-                }
+-            }
++            public void onItemClick(AdapterView<?> adapterView, View item, int position,
++                                    long rowId) {
++                // Retrieve item based on position
++                Task i = adapterItems.getItem(position);
++                // Fire selected event for item
++                listener.onItemSelected(i);
++
++            }
++        });
++        return view;
++    }
++    private void update(String s){
++        Log.d("abc", s);
++        for(int i=0;i<tasks.size();i++){
++            if(tasks.get(i).getTag().equals(s)){
++                Log.d(tasks.get(i).getTag(), s);
++                if(!showTasks.contains(tasks.get(i))){
++                    showTasks.add(tasks.get(i));
++                }
++            }
++            if(!tasks.get(i).getTag().equals(s)){
++                showTasks.remove(tasks.get(i));
++            }
++        }
++    }
++    private class  ProvOnItemSelectedListener implements AdapterView.OnItemSelectedListener{
++        @Override
++        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
++            Toast.makeText(getActivity(),"here！！",Toast.LENGTH_LONG);
++            Log.d(""+tasks.size(), "test: ");
++            switch(position){
++                //很奇怪。。这么写之后调试的时候没有问题，打包成apk使用就显示不了了
++                case 0:
++                    for(int i=0;i<tasks.size();i++){
++                        if(!showTasks.contains(tasks.get(i))){
++                            showTasks.add(tasks.get(i));
++                        }
++                    }
++                    break;
++                case 1:
++                    update("待完成");
++                    break;
++                case 2:
++                    update("待质检");
++                    break;
++                case 3:
++                    update("质检中");
++                    break;
++                case 4:
++                    update("不合格");
++                    break;
++                case 5:
++                    update("待提交客户");
++                    break;
++                case 6:
++                    update("已提交客户");
++                    break;
++            }
++        }
+ 
+-            @Override
+-            public void onNothingSelected(AdapterView<?> parent) {
++        @Override
++        public void onNothingSelected(AdapterView<?> parent) {
+ 
+-            }
+-        });
+-        //后续在此编辑超期任务数
+-        text.setText("1");
+-        ListView lvItems = (ListView) view.findViewById(R.id.mlist);
+-        lvItems.setAdapter(adapterItems);
+-        lvItems.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+-            @Override
+-            public void onItemClick(AdapterView<?> adapterView, View item, int position,
+-                                    long rowId) {
+-                // Retrieve item based on position
+-                Task i = adapterItems.getItem(position);
+-                // Fire selected event for item
+-                listener.onItemSelected(i);
+-
+-            }
+-        });
+-        return view;
+-    }
+-    private void update(String s){
+-        Log.d("abc", s);
+-        for(int i=0;i<tasks.size();i++){
+-            if(tasks.get(i).getTag().equals(s)){
+-                Log.d(tasks.get(i).getTag(), s);
+-                if(!showTasks.contains(tasks.get(i))){
+-                    showTasks.add(tasks.get(i));
+-                }
+-            }
+-            if(!tasks.get(i).getTag().equals(s)){
+-                showTasks.remove(tasks.get(i));
+-            }
+         }
+     }
+-}
++}
+\ No newline at end of file
+Index: app/src/main/java/com/example/my/fragment/ManagerDetailFragment.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.my.fragment;\r\n\r\nimport android.content.Intent;\r\nimport android.os.Bundle;\r\nimport android.util.Log;\r\nimport android.view.LayoutInflater;\r\nimport android.view.View;\r\nimport android.view.ViewGroup;\r\nimport android.widget.Button;\r\nimport android.widget.TextView;\r\n\r\nimport androidx.fragment.app.Fragment;\r\n\r\nimport com.example.chapter3.demo.R;\r\nimport com.example.my.activity.NoteActivity;\r\nimport com.example.my.listview.Task;\r\nimport com.example.my.utils.XToastUtils;\r\nimport com.xuexiang.xui.widget.picker.widget.TimePickerView;\r\nimport com.xuexiang.xui.widget.picker.widget.builder.TimePickerBuilder;\r\nimport com.xuexiang.xui.widget.picker.widget.configure.TimePickerType;\r\nimport com.xuexiang.xui.widget.picker.widget.listener.OnTimeSelectListener;\r\nimport com.xuexiang.xutil.data.DateUtils;\r\n\r\nimport java.util.Calendar;\r\nimport java.util.Date;\r\n\r\npublic class ManagerDetailFragment extends Fragment {\r\n\tprivate Task item;\r\n\tprivate static final int REQUEST_CODE_ADD = 1002;\r\n\tprivate TimePickerView mTimePickerDialog;\r\n\r\n\t@Override\r\n\tpublic void onCreate(Bundle savedInstanceState) {\r\n\t\tsuper.onCreate(savedInstanceState);\r\n\t\titem = (Task) getArguments().getSerializable(\"task\");\r\n\t\tLog.d(item.getTag(), \"here!!\");\r\n\t}\r\n\r\n\t@Override\r\n\tpublic View onCreateView(LayoutInflater inflater, ViewGroup container,\r\n\t\t\tBundle savedInstanceState) {\r\n\t\tView view = inflater.inflate(R.layout.fragment_manager_detail, container, false);\r\n\t\tTextView tag = view.findViewById(R.id.state);\r\n\t\tTextView name = view.findViewById(R.id.TaskName);\r\n\t\tTextView ddl1=view.findViewById(R.id.ddl1);\r\n\t\tTextView ddl2=view.findViewById(R.id.ddl2);\r\n\t\tTextView tl=view.findViewById(R.id.Teamleader);\r\n\t\tTextView checkman=view.findViewById(R.id.Checkman);\r\n\t\tTextView note=view.findViewById(R.id.note);\r\n\t\tTextView maketime=view.findViewById(R.id.makeTime);\r\n\t\tname.append(item.getName());\r\n\t\ttag.append(item.getTag());\r\n\t\tddl1.append(item.getDdl1());\r\n\t\tddl2.append(item.getDdl2());\r\n\t\ttl.append(item.getTeamleader());\r\n\t\tcheckman.append(item.getCheckman());\r\n\t\tnote.append(item.getNote());\r\n\t\tmaketime.append(item.getMaketime());\r\n\t\tButton button=view.findViewById(R.id.add_button);\r\n\t\tbutton.setOnClickListener(new View.OnClickListener() {\r\n\t\t\t@Override\r\n\t\t\tpublic void onClick(View view) {\r\n\t\t\t\tstartActivityForResult(\r\n\t\t\t\t\t\tnew Intent(getActivity(), NoteActivity.class),\r\n\t\t\t\t\t\tREQUEST_CODE_ADD);\r\n\t\t\t}\r\n\t\t});\r\n\t\tButton button1=view.findViewById(R.id.edit_button1);\r\n\t\tButton button2=view.findViewById(R.id.edit_button2);\r\n\t\tbutton1.setOnClickListener(new View.OnClickListener() {\r\n\t\t\t//在此编辑修改完成截止时间的操作\r\n\t\t\t@Override\r\n\t\t\tpublic void onClick(View view) {\r\n\t\t\t\t\tif (mTimePickerDialog == null) {\r\n\t\t\t\t\t\tCalendar calendar = Calendar.getInstance();\r\n\t\t\t\t\t\tcalendar.setTime(DateUtils.string2Date(\"2013-07-08 12:32:46\", DateUtils.yyyyMMddHHmmss.get()));\r\n\t\t\t\t\t\tmTimePickerDialog = new TimePickerBuilder(getContext(), new OnTimeSelectListener() {\r\n\t\t\t\t\t\t\t@Override\r\n\t\t\t\t\t\t\tpublic void onTimeSelected(Date date, View v) {\r\n\t\t\t\t\t\t\t\tXToastUtils.toast(DateUtils.date2String(date, DateUtils.yyyyMMddHHmmss.get()));\r\n\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t})\r\n\t\t\t\t\t\t\t\t.setTimeSelectChangeListener(date -> Log.i(\"pvTime\", \"onTimeSelectChanged\"))\r\n\t\t\t\t\t\t\t\t.setType(TimePickerType.ALL)\r\n\t\t\t\t\t\t\t\t.setTitleText(\"时间选择\")\r\n\t\t\t\t\t\t\t\t.isDialog(true)\r\n\t\t\t\t\t\t\t\t.setOutSideCancelable(false)\r\n\t\t\t\t\t\t\t\t.setDate(calendar)\r\n\t\t\t\t\t\t\t\t.build();\r\n\t\t\t\t\t}\r\n\t\t\t\t\tmTimePickerDialog.show();\r\n\t\t\t}\r\n\t\t});\r\n\t\tbutton2.setOnClickListener(new View.OnClickListener() {\r\n\t\t\t//在此编辑修改质检截止时间的操作\r\n\t\t\t@Override\r\n\t\t\tpublic void onClick(View view) {\r\n\t\t\t\tif (mTimePickerDialog == null) {\r\n\t\t\t\t\tCalendar calendar = Calendar.getInstance();\r\n\t\t\t\t\tcalendar.setTime(DateUtils.string2Date(\"2013-07-08 12:32:46\", DateUtils.yyyyMMddHHmmss.get()));\r\n\t\t\t\t\tmTimePickerDialog = new TimePickerBuilder(getContext(), new OnTimeSelectListener() {\r\n\t\t\t\t\t\t@Override\r\n\t\t\t\t\t\tpublic void onTimeSelected(Date date, View v) {\r\n\t\t\t\t\t\t\tXToastUtils.toast(DateUtils.date2String(date, DateUtils.yyyyMMddHHmmss.get()));\r\n\t\t\t\t\t\t}\r\n\t\t\t\t\t})\r\n\t\t\t\t\t\t\t.setTimeSelectChangeListener(date -> Log.i(\"pvTime\", \"onTimeSelectChanged\"))\r\n\t\t\t\t\t\t\t.setType(TimePickerType.ALL)\r\n\t\t\t\t\t\t\t.setTitleText(\"时间选择\")\r\n\t\t\t\t\t\t\t.isDialog(true)\r\n\t\t\t\t\t\t\t.setOutSideCancelable(false)\r\n\t\t\t\t\t\t\t.setDate(calendar)\r\n\t\t\t\t\t\t\t.build();\r\n\t\t\t\t}\r\n\t\t\t\tmTimePickerDialog.show();\r\n\t\t\t}\r\n\t\t});\r\n\t\treturn view;\r\n\t}\r\n\r\n    //后续在此传递参数，创建新表单行\r\n    public static ManagerDetailFragment newInstance(Task item) {\r\n    \tManagerDetailFragment fragmentDemo = new ManagerDetailFragment();\r\n        Bundle args = new Bundle();\r\n        args.putSerializable(\"task\", item);\r\n        fragmentDemo.setArguments(args);\r\n        return fragmentDemo;\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/my/fragment/ManagerDetailFragment.java	(revision 1b7b9ee1e217174995b953eb8b8aaec71a5efb0a)
++++ app/src/main/java/com/example/my/fragment/ManagerDetailFragment.java	(date 1613564803336)
+@@ -48,6 +48,8 @@
+ 		TextView checkman=view.findViewById(R.id.Checkman);
+ 		TextView note=view.findViewById(R.id.note);
+ 		TextView maketime=view.findViewById(R.id.makeTime);
++		TextView finish1=view.findViewById(R.id.finish1);
++		TextView finish2=view.findViewById(R.id.finish2);
+ 		name.append(item.getName());
+ 		tag.append(item.getTag());
+ 		ddl1.append(item.getDdl1());
+@@ -56,6 +58,8 @@
+ 		checkman.append(item.getCheckman());
+ 		note.append(item.getNote());
+ 		maketime.append(item.getMaketime());
++		finish1.append(item.getFinish1());
++		finish2.append(item.getFinish2());
+ 		Button button=view.findViewById(R.id.add_button);
+ 		button.setOnClickListener(new View.OnClickListener() {
+ 			@Override
+Index: app/src/main/java/com/example/my/listview/Task.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.my.listview;\r\n\r\nimport java.io.Serializable;\r\nimport java.util.ArrayList;\r\n\r\n//此类用于存放所有任务的具体数据\r\npublic class Task implements Serializable {\r\n    private static final long serialVersionUID = -6099312954099962806L;\r\n    //id\r\n    private String id;\r\n    //任务名称\r\n    private String name;\r\n    //组长\r\n    private String teamleader;\r\n    //质检员\r\n    private String checkman;\r\n    //完成截止日期\r\n    private String ddl1;\r\n    //质检截止日期\r\n    private String ddl2;\r\n    //创建日期\r\n    private String maketime;\r\n    //当前状态\r\n    private String state;\r\n    //备注信息\r\n    private String note;\r\n\r\n\r\n    public Task(String id,String name,String teamleader, String checkman, String ddl1,String ddl2,String maketime,String state,String note) {\r\n        this.id=id;\r\n        this.checkman=checkman;\r\n        this.ddl1=ddl1;\r\n        this.ddl2=ddl2;\r\n        this.maketime=maketime;\r\n        this.name=name;\r\n        this.teamleader=teamleader;\r\n        this.state=state;\r\n        this.note=note;\r\n    }\r\n\r\n    public String getName() {\r\n        return name;\r\n    }\r\n\r\n    public String getDdl1() {\r\n        return ddl1;\r\n    }\r\n\r\n    public String getTeamleader(){\r\n        return teamleader;\r\n    }\r\n    public String getCheckman(){\r\n        return checkman;\r\n    }\r\n    public String getDdl2(){\r\n        return ddl2;\r\n    }\r\n    public String getMaketime(){\r\n        return maketime;\r\n    }\r\n    public String getTag(){\r\n        return state;\r\n    }\r\n    public String getNote(){\r\n        return note;\r\n    }\r\n    public String getId(){\r\n        return id;\r\n    }\r\n\r\n    public static ArrayList<Task> getItems() {\r\n        ArrayList<Task> items = new ArrayList<Task>();\r\n        items.add(new Task(\"0\",\"任务1\",\"张西秀\",\"张东南\",\"2020-02-27 20:00\",\"2020-02-29 12:00\",\"2020-02-25 11:00\",\"已提交客户\",\"好好干嗷\"));\r\n        items.add(new Task(\"1\",\"任务2\",\"张西秀\",\"张东南\",\"2020-02-27 20:00\",\"2020-02-29 12:00\",\"2020-02-25 11:00\",\"待提交客户\",\"好好干嗷好好干嗷\"));\r\n        items.add(new Task(\"2\",\"任务3\",\"张西秀\",\"张东南\",\"2020-02-27 20:00\",\"2020-02-29 12:00\",\"2020-02-25 11:00\",\"待质检\",\"好好干嗷好好干嗷好好干嗷\"));\r\n        return items;\r\n    }\r\n\r\n    @Override\r\n    public String toString() {\r\n        return getName()+\"      \"+\"截止日期\"+getDdl1();\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/my/listview/Task.java	(revision 1b7b9ee1e217174995b953eb8b8aaec71a5efb0a)
++++ app/src/main/java/com/example/my/listview/Task.java	(date 1613564803342)
+@@ -24,9 +24,13 @@
+     private String state;
+     //备注信息
+     private String note;
++    //作业完成时间
++    private String finish1;
++    //质检完成时间
++    private String finish2;
+ 
+ 
+-    public Task(String id,String name,String teamleader, String checkman, String ddl1,String ddl2,String maketime,String state,String note) {
++    public Task(String id,String name,String teamleader, String checkman, String ddl1,String ddl2,String maketime,String state,String note,String finish1,String finish2) {
+         this.id=id;
+         this.checkman=checkman;
+         this.ddl1=ddl1;
+@@ -36,6 +40,8 @@
+         this.teamleader=teamleader;
+         this.state=state;
+         this.note=note;
++        this.finish1=finish1;
++        this.finish2=finish2;
+     }
+ 
+     public String getName() {
+@@ -67,12 +73,18 @@
+     public String getId(){
+         return id;
+     }
++    public String getFinish1(){
++        return finish1;
++    }
++    public String getFinish2(){
++        return finish2;
++    }
+ 
+     public static ArrayList<Task> getItems() {
+         ArrayList<Task> items = new ArrayList<Task>();
+-        items.add(new Task("0","任务1","张西秀","张东南","2020-02-27 20:00","2020-02-29 12:00","2020-02-25 11:00","已提交客户","好好干嗷"));
+-        items.add(new Task("1","任务2","张西秀","张东南","2020-02-27 20:00","2020-02-29 12:00","2020-02-25 11:00","待提交客户","好好干嗷好好干嗷"));
+-        items.add(new Task("2","任务3","张西秀","张东南","2020-02-27 20:00","2020-02-29 12:00","2020-02-25 11:00","待质检","好好干嗷好好干嗷好好干嗷"));
++        items.add(new Task("0","任务1","张西秀","张东南","2020-02-27 20:00","2020-02-29 12:00","2020-02-25 11:00","已提交客户","好好干嗷","2020-02-28 12:00","2020-03-01 12:00"));
++        items.add(new Task("1","任务2","张西秀","张东南","2020-02-27 20:00","2020-02-29 12:00","2020-02-25 11:00","待提交客户","好好干嗷好好干嗷","2020-02-28 12:00","2020-03-01 12:00"));
++        items.add(new Task("2","任务3","张西秀","张东南","2020-02-27 20:00","2020-02-29 12:00","2020-02-25 11:00","待质检","好好干嗷好好干嗷好好干嗷","2020-02-28 12:00","2020-03-01 12:00"));
+         return items;
+     }
+ 
+Index: app/src/main/res/layout/manager.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<LinearLayout xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    xmlns:tools=\"http://schemas.android.com/tools\"\r\n    xmlns:app=\"http://schemas.android.com/apk/res-auto\"\r\n    android:orientation=\"vertical\" android:layout_width=\"match_parent\"\r\n    android:layout_height=\"match_parent\"\r\n    tools:context=\"com.example.my.activity.ManagerActivity\">\r\n    <androidx.viewpager.widget.ViewPager\r\n        android:id=\"@+id/view_pager\"\r\n        android:layout_width=\"match_parent\"\r\n        android:layout_height=\"0dp\"\r\n        android:layout_weight=\"1\">\r\n\r\n    </androidx.viewpager.widget.ViewPager>\r\n    <com.google.android.material.tabs.TabLayout\r\n        android:id=\"@+id/tabs\"\r\n        android:layout_width=\"match_parent\"\r\n        android:layout_height=\"60dp\"\r\n        app:tabGravity=\"fill\"\r\n        app:tabIndicatorColor=\"@android:color/transparent\"\r\n        app:tabMinWidth=\"300dp\"\r\n        app:tabMode=\"fixed\"\r\n        app:tabPaddingTop=\"2dp\">\r\n    </com.google.android.material.tabs.TabLayout>\r\n\r\n\r\n</LinearLayout>\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/manager.xml	(revision 1b7b9ee1e217174995b953eb8b8aaec71a5efb0a)
++++ app/src/main/res/layout/manager.xml	(date 1613565488768)
+@@ -4,7 +4,7 @@
+     xmlns:app="http://schemas.android.com/apk/res-auto"
+     android:orientation="vertical" android:layout_width="match_parent"
+     android:layout_height="match_parent"
+-    tools:context="com.example.my.activity.ManagerActivity">
++    tools:context="com.example.my.activity.Mainactivity">
+     <androidx.viewpager.widget.ViewPager
+         android:id="@+id/view_pager"
+         android:layout_width="match_parent"
+Index: app/src/main/java/com/example/my/adapter/TaskAdapter.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.my.adapter;\r\n\r\nimport android.content.Context;\r\nimport android.view.LayoutInflater;\r\nimport android.view.View;\r\nimport android.view.ViewGroup;\r\nimport android.widget.ArrayAdapter;\r\nimport android.widget.TextView;\r\n\r\nimport androidx.annotation.NonNull;\r\n\r\nimport com.example.chapter3.demo.R;\r\nimport com.example.my.listview.Task;\r\n\r\nimport java.util.List;\r\n\r\npublic class TaskAdapter extends ArrayAdapter<Task> {\r\n    private int resourceId;\r\n\r\n    public TaskAdapter(@NonNull Context context, int resource, List<Task> items) {\r\n        super(context, resource,items);\r\n        resourceId=resource;\r\n    }\r\n\r\n    @Override\r\n    public View getView(int position, View convertView, ViewGroup parent){\r\n        Task task=getItem(position); //获取当前项的Fruit实例\r\n\r\n        // 加个判断，以免ListView每次滚动时都要重新加载布局，以提高运行效率\r\n        View view;\r\n        ViewHolder viewHolder;\r\n        if (convertView==null){\r\n\r\n            // 避免ListView每次滚动时都要重新加载布局，以提高运行效率\r\n            view= LayoutInflater.from(getContext()).inflate(resourceId,parent,false);\r\n\r\n            // 避免每次调用getView()时都要重新获取控件实例\r\n            viewHolder=new ViewHolder();\r\n            viewHolder.tag=view.findViewById(R.id.tv_tag);\r\n            viewHolder.title=view.findViewById(R.id.tv_title);\r\n            viewHolder.subtitle=view.findViewById(R.id.tv_sub_title);\r\n            // 将ViewHolder存储在View中（即将控件的实例存储在其中）\r\n            view.setTag(viewHolder);\r\n        } else{\r\n            view=convertView;\r\n            viewHolder=(ViewHolder) view.getTag();\r\n        }\r\n\r\n        // 获取控件实例，并调用set...方法使其显示出来\r\n        viewHolder.tag.setText(task.getTag());\r\n        viewHolder.title.setText(task.getName());\r\n        viewHolder.subtitle.setText(\"完成截止时间:\"+task.getDdl1()+\"  \"+\"质检截止时间\"+task.getDdl2());\r\n        return view;\r\n    }\r\n    // 定义一个内部类，用于对控件的实例进行缓存\r\n    class ViewHolder{\r\n        TextView tag;\r\n        TextView title;\r\n        TextView subtitle;\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/my/adapter/TaskAdapter.java	(revision 1b7b9ee1e217174995b953eb8b8aaec71a5efb0a)
++++ app/src/main/java/com/example/my/adapter/TaskAdapter.java	(date 1613563915439)
+@@ -4,6 +4,7 @@
+ import android.view.LayoutInflater;
+ import android.view.View;
+ import android.view.ViewGroup;
++import android.widget.AdapterView;
+ import android.widget.ArrayAdapter;
+ import android.widget.TextView;
+ 
+Index: app/src/main/res/layout/fragment_manager_detail.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<RelativeLayout xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    android:layout_width=\"match_parent\"\r\n    android:layout_height=\"match_parent\"\r\n    android:layout_marginStart=\"20dp\">\r\n\r\n    <TextView\r\n        android:id=\"@+id/TaskName\"\r\n        android:layout_width=\"wrap_content\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:layout_marginTop=\"20dp\"\r\n        android:textAppearance=\"?android:attr/textAppearanceLarge\" />\r\n\r\n    <TextView\r\n        android:id=\"@+id/Teamleader\"\r\n        android:layout_width=\"wrap_content\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:layout_below=\"@+id/TaskName\"\r\n        android:layout_marginTop=\"19dp\"\r\n        android:text=\"生产组长：\" />\r\n\r\n    <TextView\r\n        android:id=\"@+id/state\"\r\n        android:layout_width=\"wrap_content\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:layout_below=\"@+id/Teamleader\"\r\n        android:layout_marginTop=\"19dp\"\r\n        android:text=\"当前状态：\" />\r\n    <TextView\r\n        android:id=\"@+id/Checkman\"\r\n        android:layout_width=\"wrap_content\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:layout_below=\"@+id/state\"\r\n        android:layout_marginTop=\"19dp\"\r\n        android:text=\"质检员：\" />\r\n    <TextView\r\n        android:id=\"@+id/makeTime\"\r\n        android:layout_width=\"wrap_content\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:layout_below=\"@+id/Checkman\"\r\n        android:layout_marginTop=\"19dp\"\r\n        android:text=\"创建时间\" />\r\n    <TextView\r\n        android:id=\"@+id/ddl1\"\r\n        android:layout_width=\"wrap_content\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:layout_below=\"@+id/makeTime\"\r\n        android:layout_marginTop=\"19dp\"\r\n        android:text=\"预计完成时间：\" />\r\n    <TextView\r\n        android:id=\"@+id/ddl2\"\r\n        android:layout_width=\"wrap_content\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:layout_below=\"@+id/ddl1\"\r\n        android:layout_marginTop=\"19dp\"\r\n        android:text=\"预计质检完成时间：\" />\r\n    <TextView\r\n        android:id=\"@+id/note\"\r\n        android:layout_width=\"wrap_content\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:layout_below=\"@+id/ddl2\"\r\n        android:layout_marginTop=\"19dp\"\r\n        android:text=\"备注：\" />\r\n    <Button\r\n        android:layout_width=\"wrap_content\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:id=\"@+id/add_button\"\r\n        android:layout_below=\"@+id/note\"\r\n        android:layout_marginTop=\"19dp\"\r\n        android:background=\"@drawable/tag\"\r\n        android:textColor=\"@color/blue_start\"\r\n        android:text=\"添加备注\">\r\n    </Button>\r\n    <Button\r\n        android:layout_width=\"wrap_content\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:id=\"@+id/edit_button1\"\r\n        android:layout_below=\"@+id/add_button\"\r\n        android:layout_marginTop=\"19dp\"\r\n        android:background=\"@drawable/tag\"\r\n        android:textColor=\"@color/blue_start\"\r\n        android:text=\"修改完成截止时间\">\r\n    </Button>\r\n    <Button\r\n        android:layout_width=\"wrap_content\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:id=\"@+id/edit_button2\"\r\n        android:layout_below=\"@+id/add_button\"\r\n        android:layout_marginTop=\"19dp\"\r\n        android:layout_marginStart=\"150dp\"\r\n        android:background=\"@drawable/tag\"\r\n        android:textColor=\"@color/blue_start\"\r\n        android:text=\"修改质检截止时间\">\r\n    </Button>\r\n\r\n</RelativeLayout>\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/fragment_manager_detail.xml	(revision 1b7b9ee1e217174995b953eb8b8aaec71a5efb0a)
++++ app/src/main/res/layout/fragment_manager_detail.xml	(date 1613564803330)
+@@ -55,10 +55,24 @@
+         android:layout_marginTop="19dp"
+         android:text="预计质检完成时间：" />
+     <TextView
+-        android:id="@+id/note"
++        android:id="@+id/finish1"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_below="@+id/ddl2"
++        android:layout_marginTop="19dp"
++        android:text="预计质检完成时间：" />
++    <TextView
++        android:id="@+id/finish2"
++        android:layout_width="wrap_content"
++        android:layout_height="wrap_content"
++        android:layout_below="@+id/finish1"
++        android:layout_marginTop="19dp"
++        android:text="预计质检完成时间：" />
++    <TextView
++        android:id="@+id/note"
++        android:layout_width="wrap_content"
++        android:layout_height="wrap_content"
++        android:layout_below="@+id/finish2"
+         android:layout_marginTop="19dp"
+         android:text="备注：" />
+     <Button
