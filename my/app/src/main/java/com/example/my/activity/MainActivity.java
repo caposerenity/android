@@ -1,8 +1,12 @@
 package com.example.my.activity;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import com.example.my.fragment.CheckManagerFragment;
 import com.example.my.fragment.CheckManagerFragment_1;
 import com.example.my.fragment.CheckmanFragment;
@@ -16,6 +20,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
+import com.example.my.activity.testconnect;
 
 import com.example.chapter3.demo.R;
 
@@ -26,11 +31,25 @@ public class MainActivity extends AppCompatActivity implements ManagerFragment.O
     private int role;
     private String name;
 
+    private void checkNeedPermissions(){
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED
+                || ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            //多个权限一起申请
+            ActivityCompat.requestPermissions(this, new String[]{
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                    Manifest.permission.READ_EXTERNAL_STORAGE
+            }, 1);
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstance) {
         super.onCreate(savedInstance);
+        checkNeedPermissions();
         //TODO:获取用户角色。0：系统管理员 1：生产部经理 2：组长 3：质检部经理 4：质检员 5：行政综合部
-        role=3;
+        role=0;
         //TODO:获取用户姓名
         name="张东南";
         setContentView(R.layout.manager);
@@ -77,6 +96,7 @@ public class MainActivity extends AppCompatActivity implements ManagerFragment.O
 
     @Override
     public void onItemSelected(Task task) {
+
         if(role==0||role==1){
             Intent i = new Intent(this, ManagerDetailActivity.class);
             i.putExtra("task", task);

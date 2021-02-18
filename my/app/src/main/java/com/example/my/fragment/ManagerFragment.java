@@ -1,9 +1,13 @@
 package com.example.my.fragment;
 
+import android.Manifest;
 import android.app.Activity;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
@@ -17,6 +21,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.chapter3.demo.R;
+import com.example.my.activity.testconnect;
 import com.example.my.adapter.TaskAdapter;
 import com.example.my.listview.Task;
 import com.xuexiang.xui.utils.SnackbarUtils;
@@ -81,6 +86,7 @@ public class ManagerFragment extends Fragment {
                         }
                         break;
                     case 1:
+                        testconnect.httpsend("1");
                         update("待完成");
                         break;
                     case 2:
