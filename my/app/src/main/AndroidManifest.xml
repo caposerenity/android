@@ -10,7 +10,7 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme" tools:ignore="GoogleAppIndexingWarning">
 
-        <activity android:name="com.example.my.activity.ManagerActivity">
+        <activity android:name="com.example.my.activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -26,6 +26,11 @@
         <activity android:name="com.example.my.activity.NoteActivity">
         </activity>
         <activity android:name="com.example.my.activity.AddTaskActivity"/>
+        <activity android:name="com.example.my.activity.TeamLeaderDetailActivity"/>
+        <activity android:name="com.example.my.activity.CheckmanDetailActivity"/>
+        <activity android:name="com.example.my.activity.ExecutorDetailActivity"/>
+        <activity android:name="com.example.my.activity.CheckManagerDetail1Activity"/>
+        <activity android:name="com.example.my.activity.CheckManagerDetail2Activity"/>
     </application>
 
 </manifest>

@@ -49,12 +49,12 @@ public class AddTaskActivity extends AppCompatActivity {
         ddl2=findViewById(R.id.select_ddl2);
         note=findViewById(R.id.edit_note);
         submit=findViewById(R.id.submit);
-        //在此填入第一个组长名
+        //TODO:填入第一个组长名
         teamLeader.setText("单击选择组长");
         ddl1.setText("2020-02-28 12:00:00");
         ddl2.setText("2020-02-29 12:00:00");
         ddl1.setOnClickListener(new View.OnClickListener() {
-            //在此编辑修改质检截止时间的操作
+            //TODO:修改完成截止时间
             @Override
             public void onClick(View view) {
                 if (ddl1TimePickerDialog == null) {
@@ -79,7 +79,7 @@ public class AddTaskActivity extends AppCompatActivity {
             }
         });
         ddl2.setOnClickListener(new View.OnClickListener() {
-            //在此编辑修改质检截止时间的操作
+            //TODO:修改质检截止时间的操作
             @Override
             public void onClick(View view) {
                 if (ddl2TimePickerDialog == null) {
@@ -103,7 +103,7 @@ public class AddTaskActivity extends AppCompatActivity {
                 ddl2TimePickerDialog.show();
             }
         });
-        //这里模拟获取组长的操作。后续在此获取所有组长
+        //TODO:获取组长的操作
         teamLeaderOption= new String[]{"张东南", "张西北", "张东北大茬子"};
         teamLeader.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -120,7 +120,7 @@ public class AddTaskActivity extends AppCompatActivity {
                 pvOptions.show();
             }
         });
-        //后续在此编辑提交后存入数据库的操作
+        //TODO:提交后存入数据库的操作
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

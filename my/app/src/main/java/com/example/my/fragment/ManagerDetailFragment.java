@@ -33,7 +33,6 @@ public class ManagerDetailFragment extends Fragment {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		item = (Task) getArguments().getSerializable("task");
-		Log.d(item.getTag(), "here!!");
 	}
 
 	@Override
@@ -48,6 +47,8 @@ public class ManagerDetailFragment extends Fragment {
 		TextView checkman=view.findViewById(R.id.Checkman);
 		TextView note=view.findViewById(R.id.note);
 		TextView maketime=view.findViewById(R.id.makeTime);
+		TextView finish1=view.findViewById(R.id.finish1);
+		TextView finish2=view.findViewById(R.id.finish2);
 		name.append(item.getName());
 		tag.append(item.getTag());
 		ddl1.append(item.getDdl1());
@@ -56,6 +57,8 @@ public class ManagerDetailFragment extends Fragment {
 		checkman.append(item.getCheckman());
 		note.append(item.getNote());
 		maketime.append(item.getMaketime());
+		finish1.append(item.getFinish1());
+		finish2.append(item.getFinish2());
 		Button button=view.findViewById(R.id.add_button);
 		button.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -118,7 +121,6 @@ public class ManagerDetailFragment extends Fragment {
 		return view;
 	}
 
-    //后续在此传递参数，创建新表单行
     public static ManagerDetailFragment newInstance(Task item) {
     	ManagerDetailFragment fragmentDemo = new ManagerDetailFragment();
         Bundle args = new Bundle();

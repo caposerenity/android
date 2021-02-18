@@ -19,7 +19,7 @@
             style="@style/Material.SpinnerStyle"
             android:layout_marginStart="40dp"
             android:layout_marginTop="?attr/xui_config_content_spacing_vertical"
-            app:ms_entries="@array/managerSpinner"
+            app:ms_entries="@array/teamLeaderSpinner"
             />
     </LinearLayout>
     <LinearLayout
@@ -32,15 +32,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
-            android:layout_marginLeft="20dp"
+            android:layout_marginStart="20dp"
             android:shadowRadius="@android:integer/config_longAnimTime"
-            android:text="    当前超期任务数:   "
+            android:text="    待完成任务数:   "
             android:textColor="@color/app_color_theme_1"
             android:textSize="25sp"
             android:fontFamily="@string/app_name"
             />
         <TextView
-            android:id="@+id/pnum1"
+            android:id="@+id/tnum1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
@@ -60,14 +60,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
-            android:layout_marginStart="20dp"
+            android:layout_marginLeft="20dp"
             android:shadowRadius="@android:integer/config_longAnimTime"
-            android:text="    当前待完成任务数:   "
+            android:text="    当前超期任务数:   "
             android:textSize="25sp"
             android:fontFamily="@string/app_name"
             />
         <TextView
-            android:id="@+id/pnum2"
+            android:id="@+id/tnum2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
@@ -78,20 +78,10 @@
             />
     </LinearLayout>
     <ListView
-        android:id="@+id/plist"
+        android:id="@+id/tlist"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="300dp"
         android:dividerHeight="10dp"
         tools:listitem="@layout/list_item"/>
-    <com.xuexiang.xui.widget.shadow.ShadowButton
-        android:id="@+id/add_button"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:text="+"
-        android:textSize="60sp"
-        app:sd_bgColor="@color/blue_start"
-        app:sd_shadowRadius="10dp"
-        app:sd_shapeType="round"
-        android:layout_gravity="bottom|end"/>
 </FrameLayout>

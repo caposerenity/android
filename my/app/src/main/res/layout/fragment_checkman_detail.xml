@@ -20,59 +20,31 @@
         android:text="生产组长：" />
 
     <TextView
-        android:id="@+id/state"
+        android:id="@+id/makeTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/Teamleader"
         android:layout_marginTop="19dp"
-        android:text="当前状态：" />
-    <TextView
-        android:id="@+id/Checkman"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/state"
-        android:layout_marginTop="19dp"
-        android:text="质检员：" />
-    <TextView
-        android:id="@+id/makeTime"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/Checkman"
-        android:layout_marginTop="19dp"
         android:text="创建时间" />
-    <TextView
-        android:id="@+id/ddl1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/makeTime"
-        android:layout_marginTop="19dp"
-        android:text="预计完成时间：" />
-    <TextView
-        android:id="@+id/ddl2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/ddl1"
-        android:layout_marginTop="19dp"
-        android:text="预计质检完成时间：" />
     <TextView
         android:id="@+id/finish1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/ddl2"
+        android:layout_below="@+id/makeTime"
         android:layout_marginTop="19dp"
-        android:text="作业完成时间：" />
+        android:text="质检开始时间：" />
     <TextView
-        android:id="@+id/finish2"
+        android:id="@+id/ddl2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/finish1"
         android:layout_marginTop="19dp"
-        android:text="质检完成时间：" />
+        android:text="质检截止时间：" />
     <TextView
         android:id="@+id/note"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/finish2"
+        android:layout_below="@+id/ddl2"
         android:layout_marginTop="19dp"
         android:text="备注：" />
     <Button
@@ -88,23 +60,13 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/edit_button1"
-        android:layout_below="@+id/add_button"
+        android:id="@+id/submit"
+        android:layout_below="@+id/note"
         android:layout_marginTop="19dp"
+        android:layout_marginStart="100dp"
         android:background="@drawable/tag"
         android:textColor="@color/blue_start"
-        android:text="修改完成截止时间">
-    </Button>
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/edit_button2"
-        android:layout_below="@+id/add_button"
-        android:layout_marginTop="19dp"
-        android:layout_marginStart="150dp"
-        android:background="@drawable/tag"
-        android:textColor="@color/blue_start"
-        android:text="修改质检截止时间">
+        android:text="提交检查结果">
     </Button>
 
 </RelativeLayout>

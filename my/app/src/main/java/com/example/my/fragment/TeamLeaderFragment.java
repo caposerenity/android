@@ -2,10 +2,6 @@ package com.example.my.fragment;
 
 import android.app.Activity;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,30 +9,41 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Spinner;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 
 import com.example.chapter3.demo.R;
 import com.example.my.adapter.TaskAdapter;
 import com.example.my.listview.Task;
-import com.xuexiang.xui.utils.SnackbarUtils;
 import com.xuexiang.xui.widget.spinner.materialspinner.MaterialSpinner;
 
 import java.util.ArrayList;
 
-public class ManagerFragment extends Fragment {
+public class TeamLeaderFragment extends Fragment {
     private ArrayList<Task> tasks;
     private ArrayList<Task> showTasks;
     private ArrayAdapter<Task> adapterItems;
-    private OnItemSelectedListener listener;
+    private TeamLeaderFragment.OnItemSelectedListener listener;
+    //这里是组长名称
+    private String leaderName;
 
     public interface OnItemSelectedListener {
         public void onItemSelected(Task i);
     }
 
-    public static ManagerFragment newInstance(ArrayList<Task> tasks) {
-        ManagerFragment mf = new ManagerFragment();
-        mf.tasks=tasks;
+    //MainActivity需要传入组长名称
+    public static TeamLeaderFragment newInstance(ArrayList<Task> all,String leaderName) {
+        TeamLeaderFragment mf = new TeamLeaderFragment();
+        mf.tasks=new ArrayList<Task>();
+        for(int i=0;i<all.size();i++){
+            if((all.get(i).getTeamleader().equals(leaderName))&&(all.get(i).getTag().equals("待完成")||all.get(i).getTag().equals("不合格"))){
+                mf.tasks.add(all.get(i));
+            }
+        }
+        mf.leaderName=leaderName;
         Bundle args = new Bundle();
         mf.setArguments(args);
         return mf;
@@ -45,14 +52,13 @@ public class ManagerFragment extends Fragment {
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        if (activity instanceof OnItemSelectedListener) {
-            listener = (OnItemSelectedListener) activity;
+        if (activity instanceof TeamLeaderFragment.OnItemSelectedListener) {
+            listener = (TeamLeaderFragment.OnItemSelectedListener) activity;
         } else {
             throw new ClassCastException(activity.toString()
                     + " must implement ItemsListFragment.OnItemSelectedListener");
         }
     }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,49 +67,39 @@ public class ManagerFragment extends Fragment {
         adapterItems = new TaskAdapter(getActivity(),
                 R.layout.list_item, showTasks);
     }
-
-
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view=inflater.inflate(R.layout.fragment_manager, container, false);
+        View view=inflater.inflate(R.layout.fragment_teamleader, container, false);
         MaterialSpinner mMaterialSpinner=view.findViewById(R.id.spinner);
-        TextView text=view.findViewById(R.id.mnum);
+        TextView text1=view.findViewById(R.id.tnum1);
+        TextView text2=view.findViewById(R.id.tnum2);
 
 
         mMaterialSpinner.setOnItemSelectedListener((spinner, position, id, item) ->
         {
             switch(position){
-                    case 0:
-                        for(int i=0;i<tasks.size();i++){
-                            if(!showTasks.contains(tasks.get(i))){
-                                showTasks.add(tasks.get(i));
-                            }
+                //很奇怪。。这么写之后调试的时候没有问题，打包成apk使用就显示不了了
+                case 0:
+                    for(int i=0;i<tasks.size();i++){
+                        if(!showTasks.contains(tasks.get(i))){
+                            showTasks.add(tasks.get(i));
                         }
-                        break;
-                    case 1:
-                        update("待完成");
-                        break;
-                    case 2:
-                        update("待质检");
-                        break;
-                    case 3:
-                        update("质检中");
-                        break;
-                    case 4:
-                        update("不合格");
-                        break;
-                    case 5:
-                        update("待提交客户");
-                        break;
-                    case 6:
-                        update("已提交客户");
-                        break;
-                }
+                    }
+                    break;
+                case 1:
+                    update("待完成");
+                    break;
+                case 2:
+                    update("不合格");
+                    break;
+            }
             adapterItems.notifyDataSetChanged();
         });
-        //TODO:编辑超期任务数
-        text.setText("1");
-        ListView lvItems = (ListView) view.findViewById(R.id.mlist);
+        //后续在此编辑超期任务数
+        text1.setText("1");
+        //在此编辑待完成任务数
+        text2.setText("2");
+        ListView lvItems = (ListView) view.findViewById(R.id.tlist);
         lvItems.setAdapter(adapterItems);
         lvItems.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -113,7 +109,6 @@ public class ManagerFragment extends Fragment {
                 Task i = adapterItems.getItem(position);
                 // Fire selected event for item
                 listener.onItemSelected(i);
-
             }
         });
         return view;

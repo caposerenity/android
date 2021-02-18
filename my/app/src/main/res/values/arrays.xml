@@ -10,12 +10,14 @@
         <item>已提交客户</item>
     </string-array>
 
-    <string-array name="sort_mode_entry">
-        <item>根据品牌名称排序</item>
-        <item>根据价格升序排序</item>
-        <item>根据价格降序排序</item>
-        <item>根据销售量升序排序</item>
-        <item>根据销售量降序排序</item>
-        <item>综合排序</item>
+    <string-array name="teamLeaderSpinner">
+        <item>全部</item>
+        <item>待完成</item>
+        <item>不合格</item>
+    </string-array>
+    <string-array name="executorSpinner">
+        <item>全部</item>
+        <item>未提交任务</item>
+        <item>已提交任务</item>
     </string-array>
 </resources>

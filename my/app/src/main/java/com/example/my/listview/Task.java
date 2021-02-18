@@ -24,9 +24,13 @@ public class Task implements Serializable {
     private String state;
     //备注信息
     private String note;
+    //作业完成时间
+    private String finish1;
+    //质检完成时间
+    private String finish2;
 
 
-    public Task(String id,String name,String teamleader, String checkman, String ddl1,String ddl2,String maketime,String state,String note) {
+    public Task(String id,String name,String teamleader, String checkman, String ddl1,String ddl2,String maketime,String state,String note,String finish1,String finish2) {
         this.id=id;
         this.checkman=checkman;
         this.ddl1=ddl1;
@@ -36,6 +40,8 @@ public class Task implements Serializable {
         this.teamleader=teamleader;
         this.state=state;
         this.note=note;
+        this.finish1=finish1;
+        this.finish2=finish2;
     }
 
     public String getName() {
@@ -67,12 +73,20 @@ public class Task implements Serializable {
     public String getId(){
         return id;
     }
+    public String getFinish1(){
+        return finish1;
+    }
+    public String getFinish2(){
+        return finish2;
+    }
 
     public static ArrayList<Task> getItems() {
         ArrayList<Task> items = new ArrayList<Task>();
-        items.add(new Task("0","任务1","张西秀","张东南","2020-02-27 20:00","2020-02-29 12:00","2020-02-25 11:00","已提交客户","好好干嗷"));
-        items.add(new Task("1","任务2","张西秀","张东南","2020-02-27 20:00","2020-02-29 12:00","2020-02-25 11:00","待提交客户","好好干嗷好好干嗷"));
-        items.add(new Task("2","任务3","张西秀","张东南","2020-02-27 20:00","2020-02-29 12:00","2020-02-25 11:00","待质检","好好干嗷好好干嗷好好干嗷"));
+        items.add(new Task("0","任务1","张西秀","张东南","2020-02-27 20:00","2020-02-29 12:00","2020-02-25 11:00","已提交客户","好好干嗷","2020-02-28 12:00","2020-03-01 12:00"));
+        items.add(new Task("1","任务2","张西秀","张东南","2020-02-27 20:00","2020-02-29 12:00","2020-02-25 11:00","待提交客户","好好干嗷好好干嗷","2020-02-28 12:00","2020-03-01 12:00"));
+        items.add(new Task("2","任务3","张西秀","张东南","2020-02-27 20:00","2020-02-29 12:00","2020-02-25 11:00","待质检","好好干嗷好好干嗷好好干嗷","2020-02-28 12:00","2020-03-01 12:00"));
+        items.add(new Task("3","任务4","张西秀","张东南","2020-02-27 20:00","2020-02-29 12:00","2020-02-25 11:00","待完成","好好干嗷好好干嗷好好干嗷","2020-02-28 12:00","2020-03-01 12:00"));
+        items.add(new Task("4","任务5","张西秀","张东南","2020-02-27 20:00","2020-02-29 12:00","2020-02-25 11:00","不合格","好好干嗷好好干嗷好好干嗷","2020-02-28 12:00","2020-03-01 12:00"));
         return items;
     }
 

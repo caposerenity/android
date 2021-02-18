@@ -2,29 +2,21 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"  android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/managerfragment">
-
-<!--    <Spinner-->
-<!--        android:id="@+id/mspinner"-->
-<!--        android:layout_marginTop="5dp"-->
-<!--        android:layout_height="50dp"-->
-<!--        android:layout_width="200dp"-->
-<!--        android:entries="@array/managerSpinner"/>-->
+    android:orientation="vertical" xmlns:app="http://schemas.android.com/apk/res-auto">
     <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:gravity="center_vertical"
-            android:orientation="vertical">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:gravity="center_vertical"
+        android:orientation="vertical">
 
         <com.xuexiang.xui.widget.spinner.materialspinner.MaterialSpinner
-                android:id="@+id/spinner"
-                style="@style/Material.SpinnerStyle"
-                android:layout_marginStart="40dp"
-                android:layout_marginTop="?attr/xui_config_content_spacing_vertical"
-                app:ms_entries="@array/managerSpinner"
-        />
+            android:id="@+id/spinner"
+            style="@style/Material.SpinnerStyle"
+            android:layout_marginStart="40dp"
+            android:layout_marginTop="?attr/xui_config_content_spacing_vertical"
+            app:ms_entries="@array/executorSpinner"
+            />
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
@@ -35,10 +27,10 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="35dp"
             android:layout_marginLeft="20dp"
             android:shadowRadius="@android:integer/config_longAnimTime"
-            android:text="    当前超期任务数:   "
+            android:text="    当前待提交任务数:   "
             android:textColor="@color/app_color_theme_1"
             android:textSize="25sp"
             android:fontFamily="@string/app_name"

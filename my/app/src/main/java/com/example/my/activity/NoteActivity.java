@@ -64,7 +64,7 @@ public class NoteActivity extends AppCompatActivity {
     }
 
     private boolean saveNote2Database(String content) {
-        // 在此实现修改备注的逻辑
+        // TODO:实现修改备注的逻辑
         return true;
     }
 }

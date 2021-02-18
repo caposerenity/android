@@ -18,19 +18,11 @@
         android:layout_below="@+id/TaskName"
         android:layout_marginTop="19dp"
         android:text="生产组长：" />
-
-    <TextView
-        android:id="@+id/state"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/Teamleader"
-        android:layout_marginTop="19dp"
-        android:text="当前状态：" />
     <TextView
         android:id="@+id/Checkman"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/state"
+        android:layout_below="@+id/Teamleader"
         android:layout_marginTop="19dp"
         android:text="质检员：" />
     <TextView
@@ -88,23 +80,13 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/edit_button1"
-        android:layout_below="@+id/add_button"
+        android:id="@+id/submit"
+        android:layout_below="@+id/note"
         android:layout_marginTop="19dp"
+        android:layout_marginStart="100dp"
         android:background="@drawable/tag"
         android:textColor="@color/blue_start"
-        android:text="修改完成截止时间">
-    </Button>
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/edit_button2"
-        android:layout_below="@+id/add_button"
-        android:layout_marginTop="19dp"
-        android:layout_marginStart="150dp"
-        android:background="@drawable/tag"
-        android:textColor="@color/blue_start"
-        android:text="修改质检截止时间">
+        android:text="提交">
     </Button>
 
 </RelativeLayout>

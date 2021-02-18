@@ -23,6 +23,7 @@ import com.example.my.activity.AddTaskActivity;
 import com.example.my.activity.NoteActivity;
 import com.example.my.adapter.TaskAdapter;
 import com.example.my.listview.Task;
+import com.xuexiang.xui.widget.spinner.materialspinner.MaterialSpinner;
 
 import java.util.ArrayList;
 
@@ -37,8 +38,9 @@ public class ProductorFragment extends Fragment {
         public void onItemSelected(Task i);
     }
     //后续在此传参给fragment
-    public static ProductorFragment newInstance() {
+    public static ProductorFragment newInstance(ArrayList<Task> tasks) {
         ProductorFragment mf = new ProductorFragment();
+        mf.tasks=tasks;
         Bundle args = new Bundle();
         mf.setArguments(args);
         return mf;
@@ -59,7 +61,6 @@ public class ProductorFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // Create arraylist from item fixtures
-        tasks= Task.getItems();
         showTasks=new ArrayList<Task>(tasks);
         adapterItems = new TaskAdapter(getActivity(),
                 R.layout.list_item, showTasks);
@@ -69,48 +70,41 @@ public class ProductorFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         Log.d("producer", "onCreateView: ");
         View view=inflater.inflate(R.layout.fragment_producer, container, false);
-        Spinner spinner=view.findViewById(R.id.pspinner);
+        MaterialSpinner mMaterialSpinner=view.findViewById(R.id.spinner);
         TextView text1=view.findViewById(R.id.pnum1);
         TextView text2=view.findViewById(R.id.pnum2);
         Button addbutton=view.findViewById(R.id.add_button);
-        //后续在此编辑选择条件
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                switch(position){
-                    //很奇怪。。这么写之后调试的时候没有问题，打包成apk使用就显示不了了
-                    case 0:
-                        for(int i=0;i<tasks.size();i++){
-                            if(!showTasks.contains(tasks.get(i))){
-                                showTasks.add(tasks.get(i));
-                            }
+        mMaterialSpinner.setOnItemSelectedListener((spinner, position, id, item) ->
+        {
+            switch(position){
+                //很奇怪。。这么写之后调试的时候没有问题，打包成apk使用就显示不了了
+                case 0:
+                    for(int i=0;i<tasks.size();i++){
+                        if(!showTasks.contains(tasks.get(i))){
+                            showTasks.add(tasks.get(i));
                         }
-                        break;
-                    case 1:
-                        update("待完成");
-                        break;
-                    case 2:
-                        update("待质检");
-                        break;
-                    case 3:
-                        update("质检中");
-                        break;
-                    case 4:
-                        update("不合格");
-                        break;
-                    case 5:
-                        update("待提交客户");
-                        break;
-                    case 6:
-                        update("已提交客户");
-                        break;
-                }
+                    }
+                    break;
+                case 1:
+                    update("待完成");
+                    break;
+                case 2:
+                    update("待质检");
+                    break;
+                case 3:
+                    update("质检中");
+                    break;
+                case 4:
+                    update("不合格");
+                    break;
+                case 5:
+                    update("待提交客户");
+                    break;
+                case 6:
+                    update("已提交客户");
+                    break;
             }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
+            adapterItems.notifyDataSetChanged();
         });
         //后续在此传入超期任务数和待完成任务数
         text1.setText("1");
