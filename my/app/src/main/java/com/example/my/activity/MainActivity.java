@@ -108,13 +108,13 @@ public class MainActivity extends AppCompatActivity implements ManagerFragment.O
             startActivity(i);
         }
         else if(role==3){
-            if(task.getTag().equals("待质检")){
+            if(task.getStatus().equals("待质检")){
                 Intent i = new Intent(this, CheckManagerDetail1Activity.class);
                 i.putExtra("task", task);
                 startActivity(i);
             }
             //TODO：
-            else if(task.getCheckman().equals(name)){
+            else if(task.getQuality_inspector().equals(name)){
                 Intent i = new Intent(this, CheckmanDetailActivity.class);
                 i.putExtra("task", task);
                 startActivity(i);

@@ -28,7 +28,7 @@ public class CheckManagerFragment extends Fragment {
         mf.tasks=new ArrayList<Task>();
         mf.myName=Checkman;
         for(int i=0;i<all.size();i++){
-            if((all.get(i).getTag().equals("待质检")||all.get(i).equals("质检中"))){
+            if((all.get(i).getStatus().equals("待质检")||all.get(i).equals("质检中"))){
                 mf.tasks.add(all.get(i));
             }
         }
@@ -50,7 +50,7 @@ public class CheckManagerFragment extends Fragment {
                     case 0:
                         ArrayList<Task> args=new ArrayList<Task>();
                         for(int j=0;j<tasks.size();j++){
-                            if(tasks.get(j).getTag().equals("待质检")){
+                            if(tasks.get(j).getStatus().equals("待质检")){
                                 args.add(tasks.get(j));
                             }
                         }
@@ -58,7 +58,7 @@ public class CheckManagerFragment extends Fragment {
                     case 1:
                         ArrayList<Task> args2=new ArrayList<Task>();
                         for(int j=0;j<tasks.size();j++){
-                            if(tasks.get(j).getTag().equals("质检中")){
+                            if(tasks.get(j).getStatus().equals("质检中")){
                                 args2.add(tasks.get(j));
                             }
                         }

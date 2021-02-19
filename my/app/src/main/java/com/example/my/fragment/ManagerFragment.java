@@ -127,13 +127,13 @@ public class ManagerFragment extends Fragment {
     private void update(String s){
         Log.d("abc", s);
         for(int i=0;i<tasks.size();i++){
-            if(tasks.get(i).getTag().equals(s)){
-                Log.d(tasks.get(i).getTag(), s);
+            if(tasks.get(i).getStatus().equals(s)){
+                Log.d(tasks.get(i).getStatus(), s);
                 if(!showTasks.contains(tasks.get(i))){
                     showTasks.add(tasks.get(i));
                 }
             }
-            if(!tasks.get(i).getTag().equals(s)){
+            if(!tasks.get(i).getStatus().equals(s)){
                 showTasks.remove(tasks.get(i));
             }
         }

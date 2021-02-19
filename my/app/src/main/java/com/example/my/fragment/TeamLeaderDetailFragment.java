@@ -42,10 +42,10 @@ public class TeamLeaderDetailFragment extends Fragment {
         TextView note=view.findViewById(R.id.note);
         TextView maketime=view.findViewById(R.id.makeTime);
         TextView ddl1=view.findViewById(R.id.ddl1);
-        name.append(item.getName());
-        ddl1.append(item.getDdl1());
-        note.append(item.getNote());
-        maketime.append(item.getMaketime());
+        name.append(item.getTask_name());
+        ddl1.append(item.getExpected_time());
+        note.append(item.getComments());
+        maketime.append(item.getCreate_time());
         Button button=view.findViewById(R.id.add_button);
         button.setOnClickListener(new View.OnClickListener() {
             @Override

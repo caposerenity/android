@@ -39,7 +39,7 @@ public class TeamLeaderFragment extends Fragment {
         TeamLeaderFragment mf = new TeamLeaderFragment();
         mf.tasks=new ArrayList<Task>();
         for(int i=0;i<all.size();i++){
-            if((all.get(i).getTeamleader().equals(leaderName))&&(all.get(i).getTag().equals("待完成")||all.get(i).getTag().equals("不合格"))){
+            if((all.get(i).getGroup_leader().equals(leaderName))&&(all.get(i).getStatus().equals("待完成")||all.get(i).getStatus().equals("不合格"))){
                 mf.tasks.add(all.get(i));
             }
         }
@@ -116,13 +116,13 @@ public class TeamLeaderFragment extends Fragment {
     private void update(String s){
         Log.d("abc", s);
         for(int i=0;i<tasks.size();i++){
-            if(tasks.get(i).getTag().equals(s)){
-                Log.d(tasks.get(i).getTag(), s);
+            if(tasks.get(i).getStatus().equals(s)){
+                Log.d(tasks.get(i).getStatus(), s);
                 if(!showTasks.contains(tasks.get(i))){
                     showTasks.add(tasks.get(i));
                 }
             }
-            if(!tasks.get(i).getTag().equals(s)){
+            if(!tasks.get(i).getStatus().equals(s)){
                 showTasks.remove(tasks.get(i));
             }
         }

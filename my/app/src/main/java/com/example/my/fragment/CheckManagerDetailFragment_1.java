@@ -37,12 +37,12 @@ public class CheckManagerDetailFragment_1 extends Fragment {
         TextView note=view.findViewById(R.id.note);
         TextView maketime=view.findViewById(R.id.makeTime);
         TextView finish1=view.findViewById(R.id.finish1);
-        name.append(item.getName());
-        ddl2.append(item.getDdl2());
-        tl.append(item.getTeamleader());
-        note.append(item.getNote());
-        maketime.append(item.getMaketime());
-        finish1.append(item.getFinish1());
+        name.append(item.getTask_name());
+        ddl2.append(item.getExpected_exam_time());
+        tl.append(item.getGroup_leader());
+        note.append(item.getComments());
+        maketime.append(item.getCreate_time());
+        finish1.append(item.getFinish_time());
         Button button=view.findViewById(R.id.add_button);
         button.setOnClickListener(new View.OnClickListener() {
             @Override

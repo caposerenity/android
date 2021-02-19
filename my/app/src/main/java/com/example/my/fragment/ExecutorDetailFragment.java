@@ -36,15 +36,15 @@ public class ExecutorDetailFragment extends Fragment {
         TextView maketime=view.findViewById(R.id.makeTime);
         TextView finish1=view.findViewById(R.id.finish1);
         TextView finish2=view.findViewById(R.id.finish2);
-        name.append(item.getName());
-        ddl1.append(item.getDdl1());
-        ddl2.append(item.getDdl2());
-        tl.append(item.getTeamleader());
-        checkman.append(item.getCheckman());
-        note.append(item.getNote());
-        maketime.append(item.getMaketime());
-        finish1.append(item.getFinish1());
-        finish2.append(item.getFinish2());
+        name.append(item.getTask_name());
+        ddl1.append(item.getExpected_time());
+        ddl2.append(item.getExpected_exam_time());
+        tl.append(item.getGroup_leader());
+        checkman.append(item.getQuality_inspector());
+        note.append(item.getComments());
+        maketime.append(item.getCreate_time());
+        finish1.append(item.getFinish_time());
+        finish2.append(item.getFinish_exam_time());
         Button button=view.findViewById(R.id.add_button);
         button.setOnClickListener(new View.OnClickListener() {
             @Override

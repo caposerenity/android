@@ -36,7 +36,7 @@ public class CheckmanFragment extends Fragment {
         CheckmanFragment mf = new CheckmanFragment();
         mf.tasks=new ArrayList<Task>();
         for(int i=0;i<all.size();i++){
-            if((all.get(i).getCheckman().equals(Checkman))&&(all.get(i).getTag().equals("待质检"))){
+            if((all.get(i).getQuality_inspector().equals(Checkman))&&(all.get(i).getStatus().equals("待质检"))){
                 mf.tasks.add(all.get(i));
             }
         }
