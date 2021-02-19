@@ -38,13 +38,15 @@ create table tb_task
 (
     task_id int auto_increment,
     task_name varchar(255) not null,
-    status int default 0 not null,
+    status varchar(255) default '待完成' not null,
     create_time datetime not null,
     expected_time datetime not null,
     expected_exam_time datetime not null,
-    quality_inspector int not null,
-    produce_manager int not null,
+    quality_inspector int default null,
+    group_leader int not null,
     comments varchar(2550) null,
+    finish_time datetime,
+    finish_exam_time datetime,
     constraint tb_task_pk
         primary key (task_id)
 );
