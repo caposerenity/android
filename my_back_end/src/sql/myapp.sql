@@ -20,21 +20,21 @@ DROP TABLE IF EXISTS `Coupon`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 
-DROP TABLE IF EXISTS `user`;
+DROP TABLE IF EXISTS tb_user;
 
-create table user
+create table tb_user
 (
     user_id int auto_increment,
     name varchar(255) null,
     phone varchar(255) not null,
     password varchar(255) not null,
-    position int default 0 not null,
-    constraint user_pk
+    position varchar(255) default '游客' not null,
+    constraint tb_user_pk
         primary key (user_id)
 );
-DROP TABLE IF EXISTS `task`;
+DROP TABLE IF EXISTS tb_task;
 
-create table task
+create table tb_task
 (
     task_id int auto_increment,
     task_name varchar(255) not null,
@@ -45,7 +45,7 @@ create table task
     quality_inspector int not null,
     produce_manager int not null,
     comments varchar(2550) null,
-    constraint task_pk
+    constraint tb_task_pk
         primary key (task_id)
 );
 

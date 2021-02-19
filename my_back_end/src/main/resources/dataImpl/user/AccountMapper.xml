@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.my_back_end.data.user.AccountMapper">
+    <insert id="createNewAccount" parameterType="com.example.my_back_end.po.User" useGeneratedKeys="true" keyProperty="user_id">
+        insert into tb_user(phone,password,name)
+        values(#{phone},#{password},#{name})
+    </insert>
+    <select id="getAccountByPhone" resultMap="User">
+        select * from tb_user where phone=#{phone}
+    </select>
+    <select id="getAccountById" resultMap="User">
+        select * from tb_user where user_id=#{user_id}
+    </select>
+    <update id="changePos">
+        update tb_user set position=#{newPos}
+        where user_id=#{user_id}
+    </update>
+    <select id="filterUser" resultMap="User">
+        select * from tb_user where position=#{position}
+    </select>
+    <update id="changePassword">
+        update tb_user set password=#{newPassword}
+        where user_id=#{user_id}
+    </update>
+    <update id="changeName">
+        update tb_user set name=#{name}
+        where user_id=#{user_id}
+    </update>
+
+
+
+    <resultMap id="User" type="com.example.my_back_end.po.User">
+        <id column="id" property="id"></id>
+        <result column="name" property="name"></result>
+        <result column="phone" property="phone"></result>
+        <result column="password" property="password"></result>
+        <result column="position" property="position"></result>
+    </resultMap>
+</mapper>

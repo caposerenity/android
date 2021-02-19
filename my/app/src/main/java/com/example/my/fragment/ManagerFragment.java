@@ -86,7 +86,7 @@ public class ManagerFragment extends Fragment {
                         }
                         break;
                     case 1:
-                        testconnect.httpsend("1");
+                        testconnect.sendByOKHttp();
                         update("待完成");
                         break;
                     case 2:
