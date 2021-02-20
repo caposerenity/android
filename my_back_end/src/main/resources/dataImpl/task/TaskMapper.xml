@@ -5,10 +5,32 @@
         insert into tb_task(task_name,create_time,expected_time,expected_exam_time,quality_inspector,group_leader,comments)
         values(#{task_name},#{create_time},#{expected_time},#{expected_exam_time},#{quality_inspector},#{group_leader},#{comments})
     </insert>
+
     <select id="getTaskById" resultMap="Task">
         select * from tb_task where task_id=#{task_id}
     </select>
 
+    <update id="modifyTask" parameterType="com.example.my_back_end.po.Task">
+        update tb_task
+        set task_name=#{task_name},status=#{status},create_time=#{create_time},expected_time=#{expected_time},
+            expected_exam_time=#{expected_exam_time},quality_inspector=#{quality_inspector},group_leader=#{group_leader},
+            comments=#{comments},finish_time=#{finish_time},finish_exam_time=#{finish_exam_time}
+        where task_id=#{task_id}
+    </update>
+
+    <select id="getAllTasks" resultMap="Task">
+        select * from tb_task
+    </select>
+
+    <select id="getTasks" resultMap="Task">
+        select * from tb_task
+        where quality_inspector=#{user_id} or group_leader=#{user_id}
+    </select>
+
+    <select id="filterTasksByStatus" resultMap="Task">
+        select * from tb_task
+        where status=#{status}
+    </select>
 
 
 

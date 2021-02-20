@@ -89,7 +89,7 @@ public class Task implements Serializable {
     }
 
 
-    
+
     public static ArrayList<Task> getItems() {
         ArrayList<Task> items = new ArrayList<Task>();
         items.add(new Task("0","任务1","张西秀","张东南","2020-02-27 20:00","2020-02-29 12:00","2020-02-25 11:00","已提交客户","好好干嗷","2020-02-28 12:00","2020-03-01 12:00"));
