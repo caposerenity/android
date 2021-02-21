@@ -21,11 +21,13 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.chapter3.demo.R;
-import com.example.my.activity.testconnect;
+import com.example.my.requests.requests;
 import com.example.my.adapter.TaskAdapter;
 import com.example.my.listview.Task;
 import com.xuexiang.xui.utils.SnackbarUtils;
 import com.xuexiang.xui.widget.spinner.materialspinner.MaterialSpinner;
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import rxhttp.RxHttp;
 
 import java.util.ArrayList;
 
@@ -86,7 +88,8 @@ public class ManagerFragment extends Fragment {
                         }
                         break;
                     case 1:
-                        //testconnect.sendByOKHttp();
+                        requests.register("lyxxn1","13712345678","1234");
+                        //requests.getAllTasks();
                         update("待完成");
                         break;
                     case 2:

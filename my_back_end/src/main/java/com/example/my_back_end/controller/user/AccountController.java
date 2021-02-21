@@ -3,9 +3,12 @@ package com.example.my_back_end.controller.user;
 
 import com.example.my_back_end.bl.user.AccountService;
 import com.example.my_back_end.enums.positions;
+import com.example.my_back_end.po.User;
 import com.example.my_back_end.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController()
 @RequestMapping("/api/user")
@@ -35,7 +38,7 @@ public class AccountController  {
     }
 
     @GetMapping("/{position}/filterPosition")
-    public ResponseVO filterPosition(@PathVariable positions position) {
+    public List<User> filterPosition(@PathVariable positions position) {
        return accountService.filterPosition(position);
     }
 
