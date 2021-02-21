@@ -22,8 +22,15 @@ import com.xuexiang.xui.widget.picker.widget.configure.TimePickerType;
 import com.xuexiang.xui.widget.picker.widget.listener.OnTimeSelectListener;
 import com.xuexiang.xutil.data.DateUtils;
 
+import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
+
+import okhttp3.Cache;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+import okhttp3.internal.http.RealResponseBody;
 
 import static com.xuexiang.xui.XUI.getContext;
 
@@ -54,7 +61,6 @@ public class AddTaskActivity extends AppCompatActivity {
         ddl1.setText("2020-02-28 12:00:00");
         ddl2.setText("2020-02-29 12:00:00");
         ddl1.setOnClickListener(new View.OnClickListener() {
-            //TODO:修改完成截止时间
             @Override
             public void onClick(View view) {
                 if (ddl1TimePickerDialog == null) {
@@ -79,7 +85,6 @@ public class AddTaskActivity extends AppCompatActivity {
             }
         });
         ddl2.setOnClickListener(new View.OnClickListener() {
-            //TODO:修改质检截止时间的操作
             @Override
             public void onClick(View view) {
                 if (ddl2TimePickerDialog == null) {
@@ -129,6 +134,21 @@ public class AddTaskActivity extends AppCompatActivity {
                 String time1=ddl1.getText().toString();
                 String time2=ddl2.getText().toString();
                 String notes=note.getText().toString();
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        OkHttpClient client = new OkHttpClient();
+                        Request request = new Request.Builder().url("http://10.0.2.2:8000/api/user/hello").build();
+                        try {
+                            Response response = client.newCall(request).execute();//发送请求
+                            String result = response.body().string();
+                            Log.d("123OKhttp", "result: " + result);
+
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }).start();
                 finish();
             }
         });

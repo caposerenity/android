@@ -7,9 +7,6 @@ import okhttp3.Response;
 
 import java.io.IOException;
 
-import static com.xuexiang.xutil.XUtil.runOnUiThread;
-
-
 public class testconnect {
 
     public static void sendByOKHttp() {

@@ -44,7 +44,7 @@ public class TaskAdapter extends ArrayAdapter<Task> {
             view.setTag(viewHolder);
         } else{
             view=convertView;
-            viewHolder=(ViewHolder) view.getStatus();
+            viewHolder=(ViewHolder) view.getTag();
         }
 
         // 获取控件实例，并调用set...方法使其显示出来
