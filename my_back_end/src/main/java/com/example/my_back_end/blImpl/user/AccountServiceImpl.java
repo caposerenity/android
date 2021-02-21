@@ -60,10 +60,10 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public ResponseVO filterPosition(positions position) {
+    public List<User> filterPosition(positions position) {
         List<User> filteredUsers=accountMapper.filterUser(position.toString());
-
-        return ResponseVO.buildSuccess(filteredUsers);
+        return filteredUsers;
+        //return ResponseVO.buildSuccess(filteredUsers);
     }
 
     @Override

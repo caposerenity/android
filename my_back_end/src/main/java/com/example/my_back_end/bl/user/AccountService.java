@@ -1,7 +1,10 @@
 package com.example.my_back_end.bl.user;
 
 import com.example.my_back_end.enums.positions;
+import com.example.my_back_end.po.User;
 import com.example.my_back_end.vo.*;
+
+import java.util.List;
 
 public interface AccountService {
     public ResponseVO registerAccount(UserVO userVO);
@@ -10,7 +13,7 @@ public interface AccountService {
 
     public ResponseVO changePos(PosChangeVO posChangeVO);
 
-    public ResponseVO filterPosition(positions position);
+    public List<User> filterPosition(positions position);
 
     public ResponseVO changePassword(UserInfoVO userInfoVO);
 
