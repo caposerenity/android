@@ -21,7 +21,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.chapter3.demo.R;
-import com.example.my.activity.testconnect;
+import com.example.my.requests.requests;
 import com.example.my.adapter.TaskAdapter;
 import com.example.my.listview.Task;
 import com.xuexiang.xui.utils.SnackbarUtils;
@@ -86,7 +86,7 @@ public class ManagerFragment extends Fragment {
                         }
                         break;
                     case 1:
-                        //testconnect.sendByOKHttp();
+                        requests.login("13700000000","123456");
                         update("待完成");
                         break;
                     case 2:
