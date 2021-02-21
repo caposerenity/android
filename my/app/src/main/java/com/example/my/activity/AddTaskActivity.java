@@ -1,7 +1,6 @@
 package com.example.my.activity;
 
 import android.os.Bundle;
-import android.text.Editable;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;

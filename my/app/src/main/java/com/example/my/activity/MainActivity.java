@@ -20,7 +20,6 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
-import com.example.my.activity.testconnect;
 
 import com.example.chapter3.demo.R;
 
@@ -48,10 +47,10 @@ public class MainActivity extends AppCompatActivity implements ManagerFragment.O
     protected void onCreate(Bundle savedInstance) {
         super.onCreate(savedInstance);
         //checkNeedPermissions();
-        //TODO:获取用户角色。0：系统管理员 1：生产部经理 2：组长 3：质检部经理 4：质检员 5：行政综合部
-        role=0;
-        //TODO:获取用户姓名
-        name="张东南";
+        //获取用户角色。0：系统管理员 1：生产部经理 2：组长 3：质检部经理 4：质检员 5：行政综合部
+        role=getIntent().getIntExtra("role",4);
+        //获取用户姓名
+        name=getIntent().getStringExtra("name");
         setContentView(R.layout.manager);
         ViewPager pager=findViewById(R.id.view_pager);
         TabLayout tabLayout=findViewById(R.id.tabs);

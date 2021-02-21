@@ -8,7 +8,6 @@ import okhttp3.Response;
 import java.io.IOException;
 
 public class testconnect {
-
     public static void sendByOKHttp() {
         new Thread(new Runnable() {
             @Override
