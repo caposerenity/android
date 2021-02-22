@@ -10,7 +10,6 @@
                 android:title="Switch Preference" />
         <EditTextPreference
                 android:capitalize="words"
-                android:defaultValue="user_id"
                 android:summary="user_id"
                 android:inputType="textCapWords"
                 android:key="example_text"
