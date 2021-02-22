@@ -18,8 +18,10 @@ public class TaskVO {
     private Integer group_leader;
     private String comments;
     private statuses status;
-    private String finish_time;
-    private String finish_exam_time;
+    @JsonFormat(locale="zh", timezone="GMT+8", pattern="yyyy-MM-dd HH:mm:ss")
+    private Date finish_time;
+    @JsonFormat(locale="zh", timezone="GMT+8", pattern="yyyy-MM-dd HH:mm:ss")
+    private Date finish_exam_time;
 
     public Integer getTask_id() {
         return task_id;
@@ -93,19 +95,19 @@ public class TaskVO {
         this.status = status;
     }
 
-    public String getFinish_time() {
+    public Date getFinish_time() {
         return finish_time;
     }
 
-    public void setFinish_time(String finish_time) {
+    public void setFinish_time(Date finish_time) {
         this.finish_time = finish_time;
     }
 
-    public String getFinish_exam_time() {
+    public Date getFinish_exam_time() {
         return finish_exam_time;
     }
 
-    public void setFinish_exam_time(String finish_exam_time) {
+    public void setFinish_exam_time(Date finish_exam_time) {
         this.finish_exam_time = finish_exam_time;
     }
 }

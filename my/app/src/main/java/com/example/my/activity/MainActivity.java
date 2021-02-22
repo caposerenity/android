@@ -28,7 +28,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.chapter3.demo.R;
 
+import com.xuexiang.xui.widget.dialog.materialdialog.MaterialDialog;
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import org.jetbrains.annotations.NotNull;
+import org.json.JSONObject;
+import rxhttp.RxHttp;
 
 import java.util.ArrayList;
 
@@ -72,8 +76,25 @@ public class MainActivity extends AppCompatActivity implements ManagerFragment.O
             @NotNull
             @Override
             public Fragment getItem(int i) {
-                //TODO:获取全部任务
                 ArrayList<Task> tasks=Task.getItems();
+                tasks.clear();
+                RxHttp.get("http://10.0.2.2:8000/api/task/getAllTasks")
+                        .asList(String.class)
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(s -> {
+                            Log.d("TAG", s.get(0).toString());
+                            for (String value : s) {
+                                JSONObject js = new JSONObject(value);
+                                Task t=new Task(js.getString("task_id"),js.getString("task_name"),js.getString("group_leader"),
+                                        js.getString("quality_inspector"),js.getString("expected_time"),
+                                        js.getString("expected_exam_time"),js.getString("create_time"),js.getString("status"),
+                                        js.getString("comments"),js.getString("finish_time"),js.getString("finish_exam_time"));
+                                tasks.add(t);
+                            }
+                        }, throwable -> {
+                            showSimpleWarningDialog("获取任务列表失败");
+                        });
+
                 switch (role){
                     case 0:
                         return ManagerFragment.newInstance(tasks);
@@ -145,5 +166,21 @@ public class MainActivity extends AppCompatActivity implements ManagerFragment.O
     private void jump(){
         Intent i=new Intent(this,SettingAcitivity.class);
         startActivity(i);
+    }
+    private void showSimpleWarningDialog(String message) {
+        new MaterialDialog.Builder(this)
+                .iconRes(R.drawable.icon_warning)
+                .title("提示")
+                .content(message)
+                .positiveText("确定")
+                .show();
+    }
+    private void showSimpleTipDialog(String message) {
+        new MaterialDialog.Builder(this)
+                .iconRes(R.drawable.icon_tip)
+                .title("提示")
+                .content(message)
+                .positiveText("确定")
+                .show();
     }
 }

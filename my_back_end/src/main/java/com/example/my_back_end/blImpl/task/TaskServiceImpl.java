@@ -82,9 +82,10 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public ResponseVO getAllTasks() {
+    public List<Task> getAllTasks() {
         List<Task> tasks = taskMapper.getAllTasks();
-        return ResponseVO.buildSuccess(tasks);
+        System.out.print(tasks);
+        return tasks;
     }
 
     @Override
