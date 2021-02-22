@@ -20,4 +20,12 @@
         <item>未提交任务</item>
         <item>已提交任务</item>
     </string-array>
+    <string-array name="role">
+        <item>系统管理员</item>
+        <item>生产部经理</item>
+        <item>组长</item>
+        <item>质检部经理</item>
+        <item>质检员</item>
+        <item>行政综合部</item>
+    </string-array>
 </resources>
