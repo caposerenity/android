@@ -65,7 +65,7 @@ public class CheckmanDetailFragment extends Fragment {
                         .setTitleText("检查结果")
                         .setSelectOptions(resultSelectOption)
                         .build();
-                //TODO：将检查结果保存并修改任务状态
+                //TODO：将审批结果保存并修改角色状态：包括姓名和角色.
                 pvOptions.setPicker(Result);
                 pvOptions.show();
             }

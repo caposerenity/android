@@ -106,9 +106,10 @@ public class MainActivity extends AppCompatActivity implements ManagerFragment.O
                         return CheckManagerFragment.newInstance("张东南",tasks);
                     case 4:
                         return CheckmanFragment.newInstance("张东南",tasks);
-                    default:
+                    case 5:
                         return ExecutorFragment.newInstance(tasks);
                 }
+                return new Fragment();
             }
 
             @Override
