@@ -16,7 +16,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:gravity="center_vertical"
-            android:orientation="vertical">
+            android:orientation="horizontal">
 
         <com.xuexiang.xui.widget.spinner.materialspinner.MaterialSpinner
                 android:id="@+id/spinner"
@@ -25,11 +25,56 @@
                 android:layout_marginTop="?attr/xui_config_content_spacing_vertical"
                 app:ms_entries="@array/managerSpinner"
         />
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <com.xuexiang.xui.widget.button.ButtonView
+                android:id="@+id/btn_verify"
+                style="@style/TextStyle.Explain"
+                android:layout_marginTop="?attr/xui_config_content_spacing_vertical"
+                android:layout_gravity="end|bottom"
+                android:textSize="20sp"
+                android:paddingStart="10dp"
+                android:paddingTop="5dp"
+                android:paddingEnd="10dp"
+                android:paddingBottom="5dp"
+                android:background="@drawable/tag"
+                android:textColor="?attr/colorAccent"
+                android:text="审核用户" />
+        </FrameLayout>
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:layout_marginTop="80dp"
+        android:background="@drawable/ic_widget_banner"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="20dp"
+            android:shadowRadius="@android:integer/config_longAnimTime"
+            android:text="    待审核用户数:   "
+            android:textColor="@color/app_color_theme_1"
+            android:textSize="25sp"
+            android:fontFamily="@string/app_name"
+            />
+        <TextView
+            android:id="@+id/num"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:shadowRadius="@android:integer/config_longAnimTime"
+            android:text="3"
+            android:textSize="25sp"
+            android:fontFamily="@string/app_name"
+            />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_marginTop="180dp"
         android:background="@drawable/ic_widget_banner"
         android:orientation="horizontal">
         <TextView
@@ -58,7 +103,7 @@
         android:id="@+id/mlist"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="200dp"
+        android:layout_marginTop="300dp"
         android:dividerHeight="10dp"
         tools:listitem="@layout/list_item"/>
 </FrameLayout>

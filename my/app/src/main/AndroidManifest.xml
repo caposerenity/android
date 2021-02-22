@@ -36,5 +36,7 @@
         <activity android:name="com.example.my.activity.CheckManagerDetail2Activity"/>
         <activity android:name="com.example.my.activity.RegisterActivity"/>
         <activity android:name="com.example.my.activity.MainActivity"/>
+        <activity android:name="com.example.my.activity.VerifyDetailActivity"/>
+        <activity android:name="com.example.my.activity.VerifyActivity"/>
     </application>
 </manifest>

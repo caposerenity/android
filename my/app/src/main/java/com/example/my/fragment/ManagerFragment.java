@@ -2,6 +2,7 @@ package com.example.my.fragment;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
@@ -21,9 +22,13 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.chapter3.demo.R;
+import com.example.my.activity.VerifyActivity;
+import com.example.my.adapter.UserAdapter;
+import com.example.my.listview.User;
 import com.example.my.requests.requests;
 import com.example.my.adapter.TaskAdapter;
 import com.example.my.listview.Task;
+import com.xuexiang.xui.widget.button.ButtonView;
 import com.xuexiang.xui.widget.spinner.materialspinner.MaterialSpinner;
 
 import java.util.ArrayList;
@@ -33,6 +38,7 @@ public class ManagerFragment extends Fragment {
     private ArrayList<Task> showTasks;
     private ArrayAdapter<Task> adapterItems;
     private OnItemSelectedListener listener;
+    private ButtonView verifyButton;
 
     public interface OnItemSelectedListener {
         public void onItemSelected(Task i);
@@ -72,6 +78,7 @@ public class ManagerFragment extends Fragment {
         View view=inflater.inflate(R.layout.fragment_manager, container, false);
         MaterialSpinner mMaterialSpinner=view.findViewById(R.id.spinner);
         TextView text=view.findViewById(R.id.mnum);
+        verifyButton=view.findViewById(R.id.btn_verify);
 
 
         mMaterialSpinner.setOnItemSelectedListener((spinner, position, id, item) ->
@@ -122,6 +129,13 @@ public class ManagerFragment extends Fragment {
 
             }
         });
+        verifyButton=view.findViewById(R.id.btn_verify);
+        verifyButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                verify();
+            }
+        });
         return view;
     }
     private void update(String s){
@@ -137,5 +151,9 @@ public class ManagerFragment extends Fragment {
                 showTasks.remove(tasks.get(i));
             }
         }
+    }
+    private void verify(){
+        Intent i=new Intent(getActivity(), VerifyActivity.class);
+        startActivity(i);
     }
 }
