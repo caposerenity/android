@@ -117,7 +117,7 @@ public class requests {
 
     //@interface 根据类别筛选用户
     public static void filterPosition(String position){
-        testconnect.getRequest("http://10.0.2.2:8000/api/user"+position+"/filterPosition");
+        //testconnect.getRequest("http://10.0.2.2:8000/api/user"+position+"/filterPosition");
         RxHttp.get("http://10.0.2.2:8000/api/user"+position+"/filterPosition")
                 .asList(String.class)
                 .subscribe(res->{
