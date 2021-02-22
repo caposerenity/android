@@ -6,6 +6,7 @@ import java.util.ArrayList;
 //此类用于存放所有任务的具体数据
 public class Task implements Serializable {
     private static final long serialVersionUID = -6099312954099962806L;
+    //TODO 改属性类型
     //id
     private String task_id;
     //任务名称

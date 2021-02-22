@@ -19,20 +19,20 @@ public class requests {
     static MediaType JSON = MediaType.parse("application/json; charset=utf-8");
 
     public static void showSimpleWarningDialog(String message) {
-        new MaterialDialog.Builder(this)
-                .iconRes(R.drawable.icon_warning)
-                .title("提示")
-                .content(message)
-                .positiveText("确定")
-                .show();
+//        new MaterialDialog.Builder(this)
+//                .iconRes(R.drawable.icon_warning)
+//                .title("提示")
+//                .content(message)
+//                .positiveText("确定")
+//                .show();
     }
     public static void showSimpleTipDialog(String message) {
-        new MaterialDialog.Builder(this)
-                .iconRes(R.drawable.icon_tip)
-                .title("提示")
-                .content(message)
-                .positiveText("确定")
-                .show();
+//        new MaterialDialog.Builder(this)
+//                .iconRes(R.drawable.icon_tip)
+//                .title("提示")
+//                .content(message)
+//                .positiveText("确定")
+//                .show();
     }
     //@interface 注册
     public static void register(String name,String phone,String password){
@@ -191,7 +191,7 @@ public class requests {
     }
 
     //@interface 添加新任务
-    public static String addtask(String task_name,String expected_time,String expected_exam_time,
+    public static void addtask(String task_name,String expected_time,String expected_exam_time,
                                  String group_leader,String comments){
         JSONObject json = new JSONObject();
         try {
@@ -203,13 +203,28 @@ public class requests {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        RequestBody requestBody =RequestBody.create(JSON, String.valueOf(json));
-        return testconnect.postRequest("http://10.0.2.2:8000/api/task/addtask",requestBody);
+        //RequestBody requestBody =RequestBody.create(JSON, String.valueOf(json));
+        //testconnect.postRequest("http://10.0.2.2:8000/api/task/addtask",requestBody);
+        RxHttp.postJson("http://10.0.2.2:8000/api/task/addtask")
+                .addAll(String.valueOf(json))
+                .asString()
+                .observeOn(AndroidSchedulers.mainThread()) //指定在主线程回调
+                .subscribe(res -> {
+                    JSONObject j= new JSONObject(res);
+                    String message =j.getString("message");
+                    if(message!=null){
+                        Log.d("TAG", message);
+                        showSimpleWarningDialog(message);
+                    }
+                }, throwable -> {
+                    showSimpleWarningDialog("网络不良,请重试");
+                });
+
     }
 
     //@interface 质检员或小组长获取对应的任务
-    public static String getTasks(String user_id){
-        return testconnect.getRequest("http://10.0.2.2:8000/api/task"+user_id+"/getTasks");
+    public static void getTasks(String user_id){
+        testconnect.getRequest("http://10.0.2.2:8000/api/task"+user_id+"/getTasks");
     }
 
     //@interface 获取全部接口
