@@ -85,6 +85,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start|center_vertical"
+                android:layout_marginStart="36dp"
                 android:hint="请输入密码"
                 android:inputType="textPassword"
                 app:met_clearButton="false"

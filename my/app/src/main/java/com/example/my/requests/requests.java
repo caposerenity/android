@@ -19,20 +19,20 @@ public class requests {
     static MediaType JSON = MediaType.parse("application/json; charset=utf-8");
 
     public static void showSimpleWarningDialog(String message) {
-        new MaterialDialog.Builder(this)
-                .iconRes(R.drawable.icon_warning)
-                .title("提示")
-                .content(message)
-                .positiveText("确定")
-                .show();
+//        new MaterialDialog.Builder(this)
+//                .iconRes(R.drawable.icon_warning)
+//                .title("提示")
+//                .content(message)
+//                .positiveText("确定")
+//                .show();
     }
     public static void showSimpleTipDialog(String message) {
-        new MaterialDialog.Builder(this)
-                .iconRes(R.drawable.icon_tip)
-                .title("提示")
-                .content(message)
-                .positiveText("确定")
-                .show();
+//        new MaterialDialog.Builder(this)
+//                .iconRes(R.drawable.icon_tip)
+//                .title("提示")
+//                .content(message)
+//                .positiveText("确定")
+//                .show();
     }
     //@interface 注册
     public static void register(String name,String phone,String password){

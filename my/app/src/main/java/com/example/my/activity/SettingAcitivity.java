@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import com.example.chapter3.demo.R;
-import com.example.my.utils.XToastUtils;
 import com.xuexiang.xui.widget.dialog.materialdialog.MaterialDialog;
 
 public class SettingAcitivity extends PreferenceActivity {

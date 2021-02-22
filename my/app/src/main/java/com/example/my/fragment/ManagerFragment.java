@@ -24,10 +24,7 @@ import com.example.chapter3.demo.R;
 import com.example.my.requests.requests;
 import com.example.my.adapter.TaskAdapter;
 import com.example.my.listview.Task;
-import com.xuexiang.xui.utils.SnackbarUtils;
 import com.xuexiang.xui.widget.spinner.materialspinner.MaterialSpinner;
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
-import rxhttp.RxHttp;
 
 import java.util.ArrayList;
 

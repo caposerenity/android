@@ -4,7 +4,10 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.view.MenuItem;
+import android.view.View;
 
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import com.example.my.fragment.CheckManagerFragment;
@@ -15,6 +18,7 @@ import com.example.my.fragment.ManagerFragment;
 import com.example.my.fragment.ProductorFragment;
 import com.example.my.fragment.TeamLeaderFragment;
 import com.example.my.listview.Task;
+import com.example.my.utils.XToastUtils;
 import com.google.android.material.tabs.TabLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentPagerAdapter;
@@ -22,7 +26,8 @@ import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.chapter3.demo.R;
-import com.xuexiang.xui.widget.dialog.materialdialog.MaterialDialog;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
@@ -54,8 +59,15 @@ public class MainActivity extends AppCompatActivity implements ManagerFragment.O
         name=getIntent().getStringExtra("name");
         setContentView(R.layout.manager);
         ViewPager pager=findViewById(R.id.view_pager);
-        TabLayout tabLayout=findViewById(R.id.tabs);
+        Toolbar toolbar=findViewById(R.id.tool_bar);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                jump();
+            }
+        });
         pager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
+            @NotNull
             @Override
             public Fragment getItem(int i) {
                 //TODO:获取全部任务
@@ -81,17 +93,8 @@ public class MainActivity extends AppCompatActivity implements ManagerFragment.O
                 return PAGE_COUNT;
             }
 
-            @Override
-            public CharSequence getPageTitle(int position) {
-                if(position==0){
-                    return "任务";
-                }
-                else{
-                    return "我的";
-                }
-            }
         });
-        tabLayout.setupWithViewPager(pager);
+
     }
 
     @Override
@@ -135,5 +138,10 @@ public class MainActivity extends AppCompatActivity implements ManagerFragment.O
             i.putExtra("task", task);
             startActivity(i);
         }
+    }
+
+    private void jump(){
+        Intent i=new Intent(this,SettingAcitivity.class);
+        startActivity(i);
     }
 }
