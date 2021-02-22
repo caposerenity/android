@@ -5,6 +5,13 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.my.activity.MainActivity">
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/tool_bar"
+        style="@style/ToolbarStyle"
+        android:layout_marginTop="10dp"
+        android:background="@color/app_color_theme_7"
+        app:navigationIcon="@drawable/ic_action_menu"
+        app:title="软件名称"/>
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/view_pager"
         android:layout_width="match_parent"
@@ -12,16 +19,5 @@
         android:layout_weight="1">
 
     </androidx.viewpager.widget.ViewPager>
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/tabs"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        app:tabGravity="fill"
-        app:tabIndicatorColor="@android:color/transparent"
-        app:tabMinWidth="300dp"
-        app:tabMode="fixed"
-        app:tabPaddingTop="2dp">
-    </com.google.android.material.tabs.TabLayout>
-
 
 </LinearLayout>
