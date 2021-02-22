@@ -30,12 +30,12 @@ public class roleConvert {
     }
     public static int roleStrToNum(String role){
         int res=6;
-        if(role.equals("Admin"))res=0;
-        else if(role.equals("Produce_manager"))res=1;
-        else if(role.equals("GroupLeader"))res=2;
-        else if(role.equals("Quality_manager"))res=3;
-        else if(role.equals("Quality_inspector"))res=4;
-        else if(role.equals("Comprehensive_depart"))res=5;
+        if(role.equals("Admin")||role.equals("系统管理员"))res=0;
+        else if(role.equals("Produce_manager")||role.equals("生产部经理"))res=1;
+        else if(role.equals("GroupLeader")||role.equals("组长"))res=2;
+        else if(role.equals("Quality_manager")||role.equals("质检部经理"))res=3;
+        else if(role.equals("Quality_inspector")||role.equals("质检员"))res=4;
+        else if(role.equals("Comprehensive_depart")||role.equals("行政综合部"))res=5;
         return res;
     }
 

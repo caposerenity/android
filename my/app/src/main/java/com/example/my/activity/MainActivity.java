@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -57,6 +58,7 @@ public class MainActivity extends AppCompatActivity implements ManagerFragment.O
         role=getIntent().getIntExtra("role",4);
         //获取用户姓名
         name=getIntent().getStringExtra("name");
+        Log.d(role+"+", name);
         setContentView(R.layout.manager);
         ViewPager pager=findViewById(R.id.view_pager);
         Toolbar toolbar=findViewById(R.id.tool_bar);

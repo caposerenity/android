@@ -22,88 +22,84 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class RegisterActivity extends AppCompatActivity {
     private String name;
+    private String phone;
+    private String pwd;
+    private String ValidPwd;
+    private SuperButton submit;
+    private MaterialSpinner mMaterialSpinner;
 
     @Override
     protected void onCreate(Bundle savedInstance) {
         super.onCreate(savedInstance);
         setContentView(R.layout.activity_register);
-        SuperButton button=findViewById(R.id.btn_register);
-        button.setOnClickListener(new View.OnClickListener() {
+        MaterialEditText phoneText=findViewById(R.id.et_phone_number);
+        MaterialEditText nameText=findViewById(R.id.et_user_id);
+        MaterialEditText pwdText=findViewById(R.id.et_new_code);
+        MaterialEditText ValidPwdText=findViewById(R.id.et_confirm_code);
+        mMaterialSpinner=findViewById(R.id.spinner);
+        submit=findViewById(R.id.btn_register);
+        submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MaterialEditText phoneText=findViewById(R.id.et_phone_number);
-                String phone=phoneText.getText().toString();
-                MaterialEditText nameText=findViewById(R.id.et_user_id);
+                phone=phoneText.getText().toString();
                 name=nameText.getText().toString();
-                MaterialEditText pwdText=findViewById(R.id.et_new_code);
-                String pwd=pwdText.getText().toString();
-                MaterialEditText ValidPwdText=findViewById(R.id.et_confirm_code);
-                String ValidPwd=ValidPwdText.getText().toString();
-                MaterialSpinner mMaterialSpinner=findViewById(R.id.spinner);
+                pwd=pwdText.getText().toString();
+                ValidPwd=ValidPwdText.getText().toString();
+                int role=mMaterialSpinner.getSelectedIndex();
                 //获取用户角色。0：系统管理员 1：生产部经理 2：组长 3：质检部经理 4：质检员 5：行政综合部
-                mMaterialSpinner.setOnItemSelectedListener((spinner, position, id, item) ->
-                {
-                    //此处根据position设置角色
-                    switch (position) {
-                        case 0:
-                            name+="-Admin";
-                            break;
-                        case 1:
-                            name+="-Produce_manager";
-                            break;
-                        case 2:
-                            name+="-GroupLeader";
-                            break;
-                        case 3:
-                            name+="-Quality_manager";
-                            break;
-                        case 4:
-                            name+="-Quality_inspector";
-                            break;
-                        case 5:
-                            name+="-Comprehensive_depart";
-                            break;
+                switch (role) {
+                    case 0:
+                        name+="-Admin";
+                        break;
+                    case 1:
+                        name+="-Produce_manager";
+                        break;
+                    case 2:
+                        name+="-GroupLeader";
+                        break;
+                    case 3:
+                        name+="-Quality_manager";
+                        break;
+                    case 4:
+                        name+="-Quality_inspector";
+                        break;
+                    case 5:
+                        name+="-Comprehensive_depart";
+                        break;
+                }
+                //TODO:提交申请信息到数据库，并弹出弹框提示待审核，管理员要申请
+                if(!pwd.equals(ValidPwd)){
+                    showSimpleWarningDialog("两次密码不一致");
+                }
+                else{
+                    JSONObject json = new JSONObject();
+                    try {
+                        json.put("name", name);
+                        json.put("phone", phone);
+                        json.put("password", pwd);
+                        Log.d(phone, "? ");
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
-
-                });
-                SuperButton submit=findViewById(R.id.btn_register);
-                submit.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        //TODO:提交申请信息到数据库，并弹出弹框提示待审核，管理员要申请
-                        if(!pwd.equals(ValidPwd)){
-                            showSimpleWarningDialog("两次密码不一致");
-                        }
-                        JSONObject json = new JSONObject();
-                        try {
-                            json.put("name", name);
-                            json.put("phone", phone);
-                            json.put("password", pwd);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                        RxHttp.postJson("http://10.0.2.2:8000/api/user/register")
-                                .addAll(String.valueOf(json))
-                                .asString()
-                                .observeOn(AndroidSchedulers.mainThread())
-                                .subscribe(res -> {
-                                    JSONObject j= new JSONObject(res);
-                                    String message =j.getString("message");
-                                    if(!message.equals("null")){
-                                        Log.d("TAG", message);
-                                        showSimpleWarningDialog(message);
-                                    }else{
-                                        showSimpleTipDialog("请等待管理员审核");
-                                        finish();
-                                    }
-                                }, throwable -> {
-                                    //失败回调
-                                    showSimpleWarningDialog("注册失败，请重试");
-                                });
-
-
-                    }
-                });
+                    RxHttp.postJson("http://10.0.2.2:8000/api/user/register")
+                            .addAll(String.valueOf(json))
+                            .asString()
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(res -> {
+                                JSONObject j= new JSONObject(res);
+                                String message =j.getString("message");
+                                if(!message.equals("null")){
+                                    Log.d("TAG", message);
+                                    showSimpleWarningDialog(message);
+                                }else{
+                                    showSimpleTipDialog("请等待管理员审核");
+                                    finish();
+                                }
+                            }, throwable -> {
+                                //失败回调
+                                showSimpleWarningDialog("注册失败，请重试");
+                            });
+                }
             }
         });
     }

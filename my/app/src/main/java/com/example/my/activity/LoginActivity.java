@@ -83,9 +83,9 @@ public class LoginActivity extends AppCompatActivity{
         });
     }
     private void login(int role,String name){
-        Intent i=new Intent(this,SettingAcitivity.class);
-        //i.putExtra("role",role);
-        //i.putExtra("name",name);
+        Intent i=new Intent(this,MainActivity.class);
+        i.putExtra("role",role);
+        i.putExtra("name",name);
 
         startActivity(i);
     }

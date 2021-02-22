@@ -1,0 +1,196 @@
+Index: app/src/main/java/com/example/my/activity/RegisterActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.my.activity;\r\n\r\nimport android.content.Context;\r\nimport android.os.Bundle;\r\nimport android.util.Log;\r\nimport android.view.View;\r\nimport android.widget.Button;\r\n\r\nimport androidx.appcompat.app.AppCompatActivity;\r\n\r\nimport com.example.chapter3.demo.R;\r\nimport com.xuexiang.xui.widget.dialog.materialdialog.MaterialDialog;\r\nimport com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText;\r\nimport com.xuexiang.xui.widget.spinner.materialspinner.MaterialSpinner;\r\nimport com.xuexiang.xui.widget.textview.supertextview.SuperButton;\r\nimport io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;\r\nimport org.json.JSONException;\r\nimport org.json.JSONObject;\r\nimport rxhttp.RxHttp;\r\n\r\nimport java.util.concurrent.atomic.AtomicInteger;\r\n\r\npublic class RegisterActivity extends AppCompatActivity {\r\n    private String name;\r\n\r\n    @Override\r\n    protected void onCreate(Bundle savedInstance) {\r\n        super.onCreate(savedInstance);\r\n        setContentView(R.layout.activity_register);\r\n        SuperButton button=findViewById(R.id.btn_register);\r\n        button.setOnClickListener(new View.OnClickListener() {\r\n            @Override\r\n            public void onClick(View v) {\r\n                MaterialEditText phoneText=findViewById(R.id.et_phone_number);\r\n                String phone=phoneText.getText().toString();\r\n                MaterialEditText nameText=findViewById(R.id.et_user_id);\r\n                name=nameText.getText().toString();\r\n                MaterialEditText pwdText=findViewById(R.id.et_new_code);\r\n                String pwd=pwdText.getText().toString();\r\n                MaterialEditText ValidPwdText=findViewById(R.id.et_confirm_code);\r\n                String ValidPwd=ValidPwdText.getText().toString();\r\n                MaterialSpinner mMaterialSpinner=findViewById(R.id.spinner);\r\n                //获取用户角色。0：系统管理员 1：生产部经理 2：组长 3：质检部经理 4：质检员 5：行政综合部\r\n                mMaterialSpinner.setOnItemSelectedListener((spinner, position, id, item) ->\r\n                {\r\n                    //此处根据position设置角色\r\n                    switch (position) {\r\n                        case 0:\r\n                            name+=\"-Admin\";\r\n                            break;\r\n                        case 1:\r\n                            name+=\"-Produce_manager\";\r\n                            break;\r\n                        case 2:\r\n                            name+=\"-GroupLeader\";\r\n                            break;\r\n                        case 3:\r\n                            name+=\"-Quality_manager\";\r\n                            break;\r\n                        case 4:\r\n                            name+=\"-Quality_inspector\";\r\n                            break;\r\n                        case 5:\r\n                            name+=\"-Comprehensive_depart\";\r\n                            break;\r\n                    }\r\n\r\n                });\r\n                SuperButton submit=findViewById(R.id.btn_register);\r\n                submit.setOnClickListener(new View.OnClickListener() {\r\n                    @Override\r\n                    public void onClick(View v) {\r\n                        //TODO:提交申请信息到数据库，并弹出弹框提示待审核，管理员要申请\r\n                        if(!pwd.equals(ValidPwd)){\r\n                            showSimpleWarningDialog(\"两次密码不一致\");\r\n                        }\r\n                        JSONObject json = new JSONObject();\r\n                        try {\r\n                            json.put(\"name\", name);\r\n                            json.put(\"phone\", phone);\r\n                            json.put(\"password\", pwd);\r\n                        } catch (JSONException e) {\r\n                            e.printStackTrace();\r\n                        }\r\n                        RxHttp.postJson(\"http://10.0.2.2:8000/api/user/register\")\r\n                                .addAll(String.valueOf(json))\r\n                                .asString()\r\n                                .subscribe(res -> {\r\n                                    JSONObject j= new JSONObject(res);\r\n                                    String message =j.getString(\"message\");\r\n                                    if(!message.equals(\"null\")){\r\n                                        Log.d(\"TAG\", message);\r\n                                        showSimpleWarningDialog(message);\r\n                                    }else{\r\n                                        showSimpleTipDialog(\"请等待管理员审核\");\r\n                                        finish();\r\n                                    }\r\n                                }, throwable -> {\r\n                                    //失败回调\r\n                                    showSimpleWarningDialog(\"注册失败，请重试\");\r\n                                });\r\n\r\n\r\n                    }\r\n                });\r\n            }\r\n        });\r\n    }\r\n    public void showSimpleWarningDialog(String message) {\r\n        new MaterialDialog.Builder(this)\r\n                .iconRes(R.drawable.icon_warning)\r\n                .title(\"提示\")\r\n                .content(message)\r\n                .positiveText(\"确定\")\r\n                .show();\r\n    }\r\n    public void showSimpleTipDialog(String message) {\r\n        new MaterialDialog.Builder(this)\r\n                .iconRes(R.drawable.icon_tip)\r\n                .title(\"提示\")\r\n                .content(message)\r\n                .positiveText(\"确定\")\r\n                .show();\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/my/activity/RegisterActivity.java	(revision 6be671ff3d94f2e147314bfa47fbbfe1d3467a45)
++++ app/src/main/java/com/example/my/activity/RegisterActivity.java	(date 1613974749314)
+@@ -27,82 +27,76 @@
+     protected void onCreate(Bundle savedInstance) {
+         super.onCreate(savedInstance);
+         setContentView(R.layout.activity_register);
+-        SuperButton button=findViewById(R.id.btn_register);
+-        button.setOnClickListener(new View.OnClickListener() {
+-            @Override
+-            public void onClick(View v) {
+-                MaterialEditText phoneText=findViewById(R.id.et_phone_number);
+-                String phone=phoneText.getText().toString();
+-                MaterialEditText nameText=findViewById(R.id.et_user_id);
+-                name=nameText.getText().toString();
+-                MaterialEditText pwdText=findViewById(R.id.et_new_code);
+-                String pwd=pwdText.getText().toString();
+-                MaterialEditText ValidPwdText=findViewById(R.id.et_confirm_code);
+-                String ValidPwd=ValidPwdText.getText().toString();
+-                MaterialSpinner mMaterialSpinner=findViewById(R.id.spinner);
+-                //获取用户角色。0：系统管理员 1：生产部经理 2：组长 3：质检部经理 4：质检员 5：行政综合部
+-                mMaterialSpinner.setOnItemSelectedListener((spinner, position, id, item) ->
+-                {
+-                    //此处根据position设置角色
+-                    switch (position) {
+-                        case 0:
+-                            name+="-Admin";
+-                            break;
+-                        case 1:
+-                            name+="-Produce_manager";
+-                            break;
+-                        case 2:
+-                            name+="-GroupLeader";
+-                            break;
+-                        case 3:
+-                            name+="-Quality_manager";
+-                            break;
+-                        case 4:
+-                            name+="-Quality_inspector";
+-                            break;
+-                        case 5:
+-                            name+="-Comprehensive_depart";
+-                            break;
+-                    }
+-
+-                });
+-                SuperButton submit=findViewById(R.id.btn_register);
+-                submit.setOnClickListener(new View.OnClickListener() {
+-                    @Override
+-                    public void onClick(View v) {
+-                        //TODO:提交申请信息到数据库，并弹出弹框提示待审核，管理员要申请
+-                        if(!pwd.equals(ValidPwd)){
+-                            showSimpleWarningDialog("两次密码不一致");
+-                        }
+-                        JSONObject json = new JSONObject();
+-                        try {
+-                            json.put("name", name);
+-                            json.put("phone", phone);
+-                            json.put("password", pwd);
+-                        } catch (JSONException e) {
+-                            e.printStackTrace();
+-                        }
+-                        RxHttp.postJson("http://10.0.2.2:8000/api/user/register")
+-                                .addAll(String.valueOf(json))
+-                                .asString()
+-                                .subscribe(res -> {
+-                                    JSONObject j= new JSONObject(res);
+-                                    String message =j.getString("message");
+-                                    if(!message.equals("null")){
+-                                        Log.d("TAG", message);
+-                                        showSimpleWarningDialog(message);
+-                                    }else{
+-                                        showSimpleTipDialog("请等待管理员审核");
+-                                        finish();
+-                                    }
+-                                }, throwable -> {
+-                                    //失败回调
+-                                    showSimpleWarningDialog("注册失败，请重试");
+-                                });
++        MaterialEditText phoneText=findViewById(R.id.et_phone_number);
++        String phone=phoneText.getText().toString();
++        MaterialEditText nameText=findViewById(R.id.et_user_id);
++        name=nameText.getText().toString();
++        MaterialEditText pwdText=findViewById(R.id.et_new_code);
++        String pwd=pwdText.getText().toString();
++        MaterialEditText ValidPwdText=findViewById(R.id.et_confirm_code);
++        String ValidPwd=ValidPwdText.getText().toString();
++        MaterialSpinner mMaterialSpinner=findViewById(R.id.spinner);
++        //获取用户角色。0：系统管理员 1：生产部经理 2：组长 3：质检部经理 4：质检员 5：行政综合部
++        mMaterialSpinner.setOnItemSelectedListener((spinner, position, id, item) ->
++        {
++            //此处根据position设置角色
++            switch (position) {
++                case 0:
++                    name+="-Admin";
++                    break;
++                case 1:
++                    name+="-Produce_manager";
++                    break;
++                case 2:
++                    name+="-GroupLeader";
++                    break;
++                case 3:
++                    name+="-Quality_manager";
++                    break;
++                case 4:
++                    name+="-Quality_inspector";
++                    break;
++                case 5:
++                    name+="-Comprehensive_depart";
++                    break;
++            }
++            Log.d(name, "onClick: ");
++        });
++        SuperButton submit=findViewById(R.id.btn_register);
++        submit.setOnClickListener(new View.OnClickListener() {
++            @Override
++            public void onClick(View v) {
++                //TODO:提交申请信息到数据库，并弹出弹框提示待审核，管理员要申请
++                if(!pwd.equals(ValidPwd)){
++                    showSimpleWarningDialog("两次密码不一致");
++                }
++                JSONObject json = new JSONObject();
++                try {
++                    json.put("name", name);
++                    json.put("phone", phone);
++                    json.put("password", pwd);
++                } catch (JSONException e) {
++                    e.printStackTrace();
++                }
++                RxHttp.postJson("http://10.0.2.2:8000/api/user/register")
++                        .addAll(String.valueOf(json))
++                        .asString()
++                        .subscribe(res -> {
++                            JSONObject j= new JSONObject(res);
++                            String message =j.getString("message");
++                            if(!message.equals("null")){
++                                Log.d("TAG", message);
++                                showSimpleWarningDialog(message);
++                            }else{
++                                showSimpleTipDialog("请等待管理员审核");
++                                finish();
++                            }
++                        }, throwable -> {
++                            //失败回调
++                            showSimpleWarningDialog("注册失败，请重试");
++                        });
+ 
+ 
+-                    }
+-                });
+             }
+         });
+     }
+Index: ../my_back_end/src/main/resources/application.yml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>server:\r\n  port: 8000\r\nspring:\r\n  datasource:\r\n    url: jdbc:mysql://localhost:3306/myapp?serverTimezone=CTT&characterEncoding=UTF-8\r\n    username: root\r\n    password: 200009120015\r\n    driver-class-name: com.mysql.cj.jdbc.Driver\r\n    max-active: 200\r\n    max-idle: 20\r\n    min-idle: 10\r\n  thymeleaf:\r\n    cache: false\r\n  jackson:\r\n    time-zone: GMT+8\r\n\r\nmybatis:\r\n  mapper-locations: classpath:dataImpl/*/*Mapper.xml\r\n\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- ../my_back_end/src/main/resources/application.yml	(revision 6be671ff3d94f2e147314bfa47fbbfe1d3467a45)
++++ ../my_back_end/src/main/resources/application.yml	(date 1613973209312)
+@@ -4,7 +4,7 @@
+   datasource:
+     url: jdbc:mysql://localhost:3306/myapp?serverTimezone=CTT&characterEncoding=UTF-8
+     username: root
+-    password: 200009120015
++    password: 123456
+     driver-class-name: com.mysql.cj.jdbc.Driver
+     max-active: 200
+     max-idle: 20
+Index: app/src/main/java/com/example/my/activity/LoginActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.my.activity;\r\n\r\nimport android.content.Context;\r\nimport android.content.Intent;\r\nimport android.content.SharedPreferences;\r\nimport android.os.Bundle;\r\nimport android.util.Log;\r\nimport android.view.View;\r\nimport androidx.appcompat.app.AppCompatActivity;\r\n\r\nimport com.example.chapter3.demo.R;\r\nimport com.xuexiang.xui.widget.button.ButtonView;\r\nimport com.xuexiang.xui.widget.dialog.materialdialog.MaterialDialog;\r\nimport com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText;\r\nimport com.xuexiang.xui.widget.textview.supertextview.SuperButton;\r\nimport io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;\r\nimport org.json.JSONObject;\r\nimport rxhttp.RxHttp;\r\nimport com.example.my.utils.roleConvert;\r\npublic class LoginActivity extends AppCompatActivity{\r\n    @Override\r\n    protected void onCreate(Bundle savedInstance) {\r\n        super.onCreate(savedInstance);\r\n        setContentView(R.layout.activity_login);\r\n        SuperButton button=findViewById(R.id.btn_login);\r\n        button.setOnClickListener(new View.OnClickListener() {\r\n            @Override\r\n            public void onClick(View v) {\r\n                //TODO:进行账户信息认证，保存到临时存储当中，获取用户角色和姓名，然后进行登录。\r\n                //模拟用户角色0：系统管理员 1：生产部经理 2：组长 3：质检部经理 4：质检员 5：行政综合部\r\n                MaterialEditText phoneText=findViewById(R.id.et_phone_number);\r\n                String phone=phoneText.getText().toString();\r\n                MaterialEditText pwdText=findViewById(R.id.et_password);\r\n                String pwd=pwdText.getText().toString();\r\n\r\n                RxHttp.postJson(\"http://10.0.2.2:8000/api/user/login\")\r\n                        .add(\"phone\",phone)\r\n                        .add(\"password\",pwd)\r\n                        .asString()\r\n                        .subscribe(res -> {\r\n                            JSONObject j= new JSONObject(res);\r\n                            String message =j.getString(\"message\");\r\n\r\n                            if(!message.equals(\"null\")){\r\n                                Log.d(\"TAG\", message);\r\n                                showSimpleWarningDialog(message);\r\n                            }else{\r\n                                String content=j.getString(\"content\");\r\n                                JSONObject c= new JSONObject(content);\r\n                                String user_name=c.getString(\"name\");\r\n                                String position=c.getString(\"position\");\r\n                                int user_id=c.getInt(\"user_id\");\r\n\r\n                                SharedPreferences sharedPre=getSharedPreferences(\"config\", MODE_PRIVATE);\r\n                                //获取Editor对象\r\n                                SharedPreferences.Editor edit = sharedPre.edit();\r\n                                //设置参数\r\n                                edit.putInt(\"user_id\",user_id);\r\n                                edit.putString(\"position\",position);\r\n                                edit.putString(\"phone\",phone);\r\n                                edit.putString(\"password\",pwd);\r\n                                edit.putString(\"name\",user_name);\r\n                                edit.putString(\"position\",position);\r\n                                //提交\r\n                                edit.commit();\r\n                                login(roleConvert.roleStrToNum(position),user_name);\r\n                            }\r\n                        }, throwable -> {\r\n                            //失败回调\r\n                            showSimpleWarningDialog(\"登录失败，请重试\");\r\n                        });\r\n\r\n            }\r\n        });\r\n        ButtonView button2=findViewById(R.id.btn_register);\r\n        button2.setOnClickListener(new View.OnClickListener() {\r\n            @Override\r\n            public void onClick(View v) {\r\n                //跳转到注册界面\r\n                register();\r\n            }\r\n        });\r\n    }\r\n    private void login(int role,String name){\r\n        Intent i=new Intent(this,SettingAcitivity.class);\r\n        //i.putExtra(\"role\",role);\r\n        //i.putExtra(\"name\",name);\r\n\r\n        startActivity(i);\r\n    }\r\n    private void register(){\r\n        Intent i=new Intent(this,RegisterActivity.class);\r\n        startActivity(i);\r\n    }\r\n    private void showSimpleWarningDialog(String message) {\r\n        new MaterialDialog.Builder(LoginActivity.this)\r\n                .iconRes(R.drawable.icon_warning)\r\n                .title(\"提示\")\r\n                .content(message)\r\n                .positiveText(\"确定\")\r\n                .show();\r\n    }\r\n\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/my/activity/LoginActivity.java	(revision 6be671ff3d94f2e147314bfa47fbbfe1d3467a45)
++++ app/src/main/java/com/example/my/activity/LoginActivity.java	(date 1613972541530)
+@@ -93,7 +93,7 @@
+         startActivity(i);
+     }
+     private void showSimpleWarningDialog(String message) {
+-        new MaterialDialog.Builder(LoginActivity.this)
++        new MaterialDialog.Builder(this)
+                 .iconRes(R.drawable.icon_warning)
+                 .title("提示")
+                 .content(message)
