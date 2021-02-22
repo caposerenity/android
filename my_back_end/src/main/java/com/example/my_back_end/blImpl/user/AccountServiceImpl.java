@@ -80,7 +80,7 @@ public class AccountServiceImpl implements AccountService {
         }
         //验证原密码
         if (!user.getPassword().equals(DigestUtils.md5DigestAsHex((userInfoVO.getPassword()+MD5_STR).getBytes()))) {
-            return ResponseVO.buildFailure(PASSWORD_ERROR);
+            return ResponseVO.buildFailure("原密码错误");
         }
         //新密码不得为空
         else if(userInfoVO.getNewPassword()==null){

@@ -1,10 +1,13 @@
 package com.example.my.activity;
 
+import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.EditTextPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.util.Log;
+import android.widget.LinearLayout;
 import androidx.annotation.NonNull;
 import com.example.chapter3.demo.R;
 import com.example.my.utils.XToastUtils;
@@ -20,8 +23,13 @@ public class SettingAcitivity extends PreferenceActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.preference_setting);
         addPreferencesFromResource(R.xml.preference_setting);
+        SharedPreferences sharedPre=getSharedPreferences("config",MODE_PRIVATE);
+
+        EditTextPreference name_pref=(EditTextPreference)findPreference("example_text");
+        name_pref.setSummary(sharedPre.getString("name",""));
+        name_pref.setText(sharedPre.getString("name",""));
+        name_pref.setPositiveButtonText("确定");name_pref.setNegativeButtonText("取消");
 
         Preference pref = findPreference("modify_password");
         pref.setOnPreferenceClickListener(preference -> {
@@ -41,24 +49,28 @@ public class SettingAcitivity extends PreferenceActivity {
                     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
                         SharedPreferences sharedPre=getSharedPreferences("config",MODE_PRIVATE);
 
-                        MaterialEditText oldPwdText=findViewById(R.id.et_now_code);
+                        MaterialEditText oldPwdText=dialog.getCustomView().findViewById(R.id.et_now_code);
                         String nowPwd=oldPwdText.getText().toString();
-                        MaterialEditText pwdText=findViewById(R.id.et_new_code_modify);
+                        MaterialEditText pwdText=dialog.getCustomView().findViewById(R.id.et_new_code_modify);
                         String pwd=pwdText.getText().toString();
-                        MaterialEditText confirmPwdText=findViewById(R.id.et_new_code_modify);
+                        MaterialEditText confirmPwdText=dialog.getCustomView().findViewById(R.id.et_confirm_code_modify);
                         String confirmPwd=confirmPwdText.getText().toString();
 
                         int user_id = sharedPre.getInt("user_id",-1);
 
+                        if(!pwd.equals(confirmPwd)){
+                            showSimpleWarningDialog("两次密码不一致");
+                        }else{
                         RxHttp.postJson("http://10.0.2.2:8000/api/user/changePassword")
                                 .add("user_id",user_id)
                                 .add("password",nowPwd)
                                 .add("newPassword",pwd)
                                 .asString()
+                                .observeOn(AndroidSchedulers.mainThread())
                                 .subscribe(res -> {
                                     JSONObject j= new JSONObject(res);
                                     String message =j.getString("message");
-                                    if(message!=null&&!message.equals("修改成功")){
+                                    if(!message.equals("null") &&!message.equals("修改成功")){
                                         Log.d("TAG", message);
                                         showSimpleWarningDialog(message);
                                     }else{
@@ -67,6 +79,7 @@ public class SettingAcitivity extends PreferenceActivity {
                                 }, throwable -> {
                                     showSimpleWarningDialog("请重试");
                                 });
+                        }
                     }
                 })
                 .show();
