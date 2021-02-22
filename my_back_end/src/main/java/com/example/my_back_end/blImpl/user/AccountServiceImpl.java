@@ -69,7 +69,7 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public ResponseVO changePassword(UserInfoVO userInfoVO) {
         User user;
-        if(userInfoVO.getUser_id()!=null){
+        if(userInfoVO.getUser_id()!=null&&userInfoVO.getUser_id()!=-1){
             user=accountMapper.getAccountById(userInfoVO.getUser_id());
         }
         else if(userInfoVO.getPhone()!=null){

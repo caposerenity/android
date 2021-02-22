@@ -30,6 +30,10 @@ public class SettingAcitivity extends PreferenceActivity {
         name_pref.setSummary(sharedPre.getString("name",""));
         name_pref.setText(sharedPre.getString("name",""));
         name_pref.setPositiveButtonText("确定");name_pref.setNegativeButtonText("取消");
+        name_pref.setOnPreferenceClickListener(preference -> {
+
+            return false;
+        });
 
         Preference pref = findPreference("modify_password");
         pref.setOnPreferenceClickListener(preference -> {
