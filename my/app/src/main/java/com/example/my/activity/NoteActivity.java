@@ -25,8 +25,11 @@ public class NoteActivity extends AppCompatActivity {
         setTitle("修改备注");
 
         editText = findViewById(R.id.edit_text);
+        String current=getIntent().getStringExtra("note");
+        String id=getIntent().getStringExtra("id");
         editText.setFocusable(true);
         editText.requestFocus();
+        editText.setText(current);
         InputMethodManager inputManager = (InputMethodManager)
                 getSystemService(Context.INPUT_METHOD_SERVICE);
         if (inputManager != null) {
@@ -44,7 +47,7 @@ public class NoteActivity extends AppCompatActivity {
                             "No content to add", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                boolean succeed = saveNote2Database(content.toString().trim());
+                boolean succeed = saveNote2Database(content.toString().trim(),id);
                 if (succeed) {
                     Toast.makeText(NoteActivity.this,
                             "Note added", Toast.LENGTH_SHORT).show();
@@ -63,8 +66,9 @@ public class NoteActivity extends AppCompatActivity {
         super.onDestroy();
     }
 
-    private boolean saveNote2Database(String content) {
-        // TODO:实现修改备注的逻辑
+    private boolean saveNote2Database(String content,String id) {
+        // TODO:实现修改备注的逻辑.content:备注内容。id:该任务的id号
+
         return true;
     }
 }

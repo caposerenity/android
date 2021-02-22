@@ -47,9 +47,7 @@ public class CheckManagerDetailFragment_2 extends Fragment {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivityForResult(
-                        new Intent(getActivity(), NoteActivity.class),
-                        REQUEST_CODE_ADD);
+                add();
             }
         });
         return view;
@@ -60,5 +58,13 @@ public class CheckManagerDetailFragment_2 extends Fragment {
         args.putSerializable("task", item);
         fragmentDemo.setArguments(args);
         return fragmentDemo;
+    }
+    private void add(){
+        String note=item.getComments();
+        String id=item.getTask_id();
+        Intent i=new Intent(getActivity(),NoteActivity.class);
+        i.putExtra("note",note);
+        i.putExtra("id",id);
+        startActivity(i);
     }
 }

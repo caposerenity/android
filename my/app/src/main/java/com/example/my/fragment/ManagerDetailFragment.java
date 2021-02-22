@@ -63,9 +63,7 @@ public class ManagerDetailFragment extends Fragment {
 		button.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				startActivityForResult(
-						new Intent(getActivity(), NoteActivity.class),
-						REQUEST_CODE_ADD);
+				add();
 			}
 		});
 		Button button1=view.findViewById(R.id.edit_button1);
@@ -128,4 +126,12 @@ public class ManagerDetailFragment extends Fragment {
         fragmentDemo.setArguments(args);
         return fragmentDemo;
     }
+	private void add(){
+		String note=item.getComments();
+		String id=item.getTask_id();
+		Intent i=new Intent(getActivity(),NoteActivity.class);
+		i.putExtra("note",note);
+		i.putExtra("id",id);
+		startActivity(i);
+	}
 }
