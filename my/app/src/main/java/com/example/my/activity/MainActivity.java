@@ -140,7 +140,6 @@ public class MainActivity extends AppCompatActivity implements ManagerFragment.O
                 i.putExtra("task", task);
                 startActivity(i);
             }
-            //TODO：
             else if(task.getQuality_inspector().equals(name)){
                 Intent i = new Intent(this, CheckmanDetailActivity.class);
                 i.putExtra("task", task);

@@ -26,7 +26,6 @@ public class LoginActivity extends AppCompatActivity{
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO:进行账户信息认证，保存到临时存储当中，获取用户角色和姓名，然后进行登录。
                 //模拟用户角色0：系统管理员 1：生产部经理 2：组长 3：质检部经理 4：质检员 5：行政综合部
                 MaterialEditText phoneText=findViewById(R.id.et_phone_number);
                 String phone=phoneText.getText().toString();

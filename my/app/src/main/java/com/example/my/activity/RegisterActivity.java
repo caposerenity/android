@@ -67,7 +67,6 @@ public class RegisterActivity extends AppCompatActivity {
                         name+="-Comprehensive_depart";
                         break;
                 }
-                //TODO:提交申请信息到数据库，并弹出弹框提示待审核，管理员要申请
                 if(!pwd.equals(ValidPwd)){
                     showSimpleWarningDialog("两次密码不一致");
                 }
