@@ -79,8 +79,7 @@
                     app:met_clearButton="false"
                     app:met_errorMessage="请输入6位以上的密码"
                     app:met_floatingLabel="normal"
-                    app:met_maxCharacters="4"
-                    app:met_regexp="@string/regex_verify_code" />
+                    app:met_regexp="@string/regex_password" />
 
         </FrameLayout>
 

@@ -1,5 +1,6 @@
 package com.example.my.activity;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -37,7 +38,7 @@ public class RegisterActivity extends AppCompatActivity {
                 MaterialEditText pwdText=findViewById(R.id.et_new_code);
                 String pwd=pwdText.getText().toString();
                 MaterialEditText ValidPwdText=findViewById(R.id.et_confirm_code);
-                String ValidPwd=pwdText.getText().toString();
+                String ValidPwd=ValidPwdText.getText().toString();
                 MaterialSpinner mMaterialSpinner=findViewById(R.id.spinner);
                 //获取用户角色。0：系统管理员 1：生产部经理 2：组长 3：质检部经理 4：质检员 5：行政综合部
                 mMaterialSpinner.setOnItemSelectedListener((spinner, position, id, item) ->
@@ -72,7 +73,6 @@ public class RegisterActivity extends AppCompatActivity {
                         //TODO:提交申请信息到数据库，并弹出弹框提示待审核，管理员要申请
                         if(!pwd.equals(ValidPwd)){
                             showSimpleWarningDialog("两次密码不一致");
-                            finish();
                         }
                         JSONObject json = new JSONObject();
                         try {
@@ -85,22 +85,22 @@ public class RegisterActivity extends AppCompatActivity {
                         RxHttp.postJson("http://10.0.2.2:8000/api/user/register")
                                 .addAll(String.valueOf(json))
                                 .asString()
-                                .observeOn(AndroidSchedulers.mainThread()) //指定在主线程回调
                                 .subscribe(res -> {
                                     JSONObject j= new JSONObject(res);
                                     String message =j.getString("message");
-                                    if(message!=null){
+                                    if(!message.equals("null")){
                                         Log.d("TAG", message);
                                         showSimpleWarningDialog(message);
                                     }else{
                                         showSimpleTipDialog("请等待管理员审核");
+                                        finish();
                                     }
                                 }, throwable -> {
                                     //失败回调
                                     showSimpleWarningDialog("注册失败，请重试");
                                 });
 
-                        finish();
+
                     }
                 });
             }

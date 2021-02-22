@@ -131,11 +131,12 @@ public class requests {
     }
 
     //@interface 修改密码
-    public static void changePassword(String user_id,String phone,String newPassword){
+    public static void changePassword(String user_id,String phone,String password,String newPassword){
         JSONObject json = new JSONObject();
         try {
             json.put("user_id",user_id);
             json.put("phone", phone);
+            json.put("password",password);
             json.put("newPassword", newPassword);
         } catch (JSONException e) {
             e.printStackTrace();

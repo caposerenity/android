@@ -49,7 +49,7 @@
     </FrameLayout>
 
     <FrameLayout
-            android:id="@+id/fl_new_code"
+            android:id="@+id/fl_new_code_modify"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp">
@@ -61,7 +61,7 @@
                 app:srcCompat="@drawable/ic_password"/>
 
         <com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText
-                android:id="@+id/et_new_code"
+                android:id="@+id/et_new_code_modify"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="36dp"
@@ -75,7 +75,7 @@
     </FrameLayout>
 
     <FrameLayout
-            android:id="@+id/fl_confirm_code"
+            android:id="@+id/fl_confirm_code_modify"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp">
@@ -87,7 +87,7 @@
                 app:srcCompat="@drawable/ic_password"/>
 
         <com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText
-                android:id="@+id/et_confirm_code"
+                android:id="@+id/et_confirm_code_modify"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="36dp"
