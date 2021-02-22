@@ -98,7 +98,7 @@ public class AccountServiceImpl implements AccountService {
     public ResponseVO changeInfo(UserInfoVO userInfoVO) {
         //貌似只有name能在这改……
         User user;
-        if(userInfoVO.getUser_id()!=null){
+        if(userInfoVO.getUser_id()!=null&&userInfoVO.getUser_id()!=-1){
             user=accountMapper.getAccountById(userInfoVO.getUser_id());
         }
         else if(userInfoVO.getPhone()!=null){

@@ -85,7 +85,7 @@ public class ManagerFragment extends Fragment {
                         }
                         break;
                     case 1:
-                        requests.register("lyxxn1","13712345678","1234");
+                        //requests.register("lyxxn1","13712345678","1234");
                         //requests.getAllTasks();
                         update("待完成");
                         break;

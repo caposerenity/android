@@ -57,7 +57,6 @@ public class LoginActivity extends AppCompatActivity{
                                 SharedPreferences.Editor edit = sharedPre.edit();
                                 //设置参数
                                 edit.putInt("user_id",user_id);
-                                edit.putString("position",position);
                                 edit.putString("phone",phone);
                                 edit.putString("password",pwd);
                                 edit.putString("name",user_name);

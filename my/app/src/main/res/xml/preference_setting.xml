@@ -8,15 +8,10 @@
                 android:key="example_switch"
                 android:summary="Switch Preference描述"
                 android:title="Switch Preference" />
-        <EditTextPreference
-                android:capitalize="words"
+        <Preference
                 android:summary="user_id"
-                android:inputType="textCapWords"
                 android:key="example_text"
-                android:maxLines="1"
-                android:selectAllOnFocus="true"
-                android:singleLine="true"
-                android:title="修改id" />
+                android:title="修改名称" />
 
         <SwitchPreference
                 android:defaultValue="true"

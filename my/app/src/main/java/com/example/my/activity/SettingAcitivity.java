@@ -26,14 +26,13 @@ public class SettingAcitivity extends PreferenceActivity {
         addPreferencesFromResource(R.xml.preference_setting);
         SharedPreferences sharedPre=getSharedPreferences("config",MODE_PRIVATE);
 
-        EditTextPreference name_pref=(EditTextPreference)findPreference("example_text");
+        Preference name_pref=findPreference("example_text");
         name_pref.setSummary(sharedPre.getString("name",""));
-        name_pref.setText(sharedPre.getString("name",""));
-        name_pref.setPositiveButtonText("确定");name_pref.setNegativeButtonText("取消");
         name_pref.setOnPreferenceClickListener(preference -> {
-
+            showNameDialog();
             return false;
         });
+
 
         Preference pref = findPreference("modify_password");
         pref.setOnPreferenceClickListener(preference -> {
@@ -41,7 +40,43 @@ public class SettingAcitivity extends PreferenceActivity {
             return false;
         });
     }
+    private void showNameDialog() {
+        new MaterialDialog.Builder(this)
+                .customView(R.layout.dialog_name, true)
+                .title("修改名称")
+                .positiveText("确定")
+                .negativeText("取消")
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        SharedPreferences sharedPre=getSharedPreferences("config",MODE_PRIVATE);
+                        MaterialEditText newNameText=dialog.getCustomView().findViewById(R.id.et_new_name);
+                        String newName=newNameText.getText().toString();
 
+                        int user_id = sharedPre.getInt("user_id",-1);
+                        RxHttp.postJson("http://10.0.2.2:8000/api/user/changeInfo")
+                                .add("user_id",user_id)
+                                .add("name",newName)
+                                .asString()
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe(res -> {
+                                    JSONObject j= new JSONObject(res);
+                                    String message =j.getString("message");
+                                    if(!message.equals("null") &&!message.equals("修改成功")){
+                                        Log.d("TAG", message);
+                                        showSimpleWarningDialog(message);
+                                    }else{
+                                        showSimpleTipDialog("修改成功");
+                                        SharedPreferences.Editor edit = sharedPre.edit();
+                                        edit.putString("name",newName);
+                                        edit.commit();
+                                    }
+                                }, throwable -> {
+                                    showSimpleWarningDialog("请重试");
+                                });
+                    }
+        }).show();
+    }
     private void showCustomDialog() {
         new MaterialDialog.Builder(this)
                 .customView(R.layout.dialog_custom, true)
@@ -79,6 +114,9 @@ public class SettingAcitivity extends PreferenceActivity {
                                         showSimpleWarningDialog(message);
                                     }else{
                                         showSimpleTipDialog("修改成功");
+                                        SharedPreferences.Editor edit = sharedPre.edit();
+                                        edit.putString("password",pwd);
+                                        edit.commit();
                                     }
                                 }, throwable -> {
                                     showSimpleWarningDialog("请重试");
