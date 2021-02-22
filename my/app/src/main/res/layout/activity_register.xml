@@ -6,7 +6,7 @@
               android:layout_height="match_parent"
               android:focusable="true"
               android:focusableInTouchMode="true"
-              android:orientation="vertical">
+              android:orientation="vertical" tools:ignore="MissingDefaultResource">
     <androidx.appcompat.widget.AppCompatImageView
             android:layout_width="120dp"
             android:layout_height="120dp"
@@ -63,7 +63,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="36dp"
                     android:hint="请输入用户名"
-                    android:inputType="number"
+                    android:inputType="text"
                     app:met_clearButton="true"
                     app:met_errorMessage="用户名不符合规范"
                     app:met_floatingLabel="normal"
@@ -74,11 +74,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <androidx.appcompat.widget.AppCompatImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="start|center_vertical"
-                android:tint="?attr/colorAccent"
-                app:srcCompat="@drawable/ic_password"/>
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start|center_vertical"
+                    android:tint="?attr/colorAccent"
+                    app:srcCompat="@drawable/ic_password"/>
 
             <com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText
                 android:id="@+id/et_new_code"
@@ -116,6 +116,7 @@
                 app:met_errorMessage="两次输入密码不同"
                 app:met_floatingLabel="normal"
                 app:met_floatingLabelText="再次确认密码"
+                app:met_autoValidate="@android:"
                 app:met_regexp="@string/regex_password" />
         </FrameLayout>
         <FrameLayout
