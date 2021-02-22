@@ -85,6 +85,7 @@ public class RegisterActivity extends AppCompatActivity {
                         RxHttp.postJson("http://10.0.2.2:8000/api/user/register")
                                 .addAll(String.valueOf(json))
                                 .asString()
+                                .observeOn(AndroidSchedulers.mainThread())
                                 .subscribe(res -> {
                                     JSONObject j= new JSONObject(res);
                                     String message =j.getString("message");

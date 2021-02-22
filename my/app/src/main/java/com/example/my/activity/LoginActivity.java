@@ -37,6 +37,7 @@ public class LoginActivity extends AppCompatActivity{
                         .add("phone",phone)
                         .add("password",pwd)
                         .asString()
+                        .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(res -> {
                             JSONObject j= new JSONObject(res);
                             String message =j.getString("message");
@@ -93,7 +94,7 @@ public class LoginActivity extends AppCompatActivity{
         startActivity(i);
     }
     private void showSimpleWarningDialog(String message) {
-        new MaterialDialog.Builder(LoginActivity.this)
+        new MaterialDialog.Builder(this)
                 .iconRes(R.drawable.icon_warning)
                 .title("提示")
                 .content(message)
