@@ -4,15 +4,22 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.chapter3.demo.R;
+import com.xuexiang.xui.widget.dialog.materialdialog.DialogAction;
+import com.xuexiang.xui.widget.dialog.materialdialog.MaterialDialog;
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import org.json.JSONObject;
+import rxhttp.RxHttp;
 
 public class NoteActivity extends AppCompatActivity {
 
@@ -47,16 +54,21 @@ public class NoteActivity extends AppCompatActivity {
                             "No content to add", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                boolean succeed = saveNote2Database(content.toString().trim(),id);
-                if (succeed) {
-                    Toast.makeText(NoteActivity.this,
-                            "Note added", Toast.LENGTH_SHORT).show();
-                    setResult(Activity.RESULT_OK);
-                } else {
-                    Toast.makeText(NoteActivity.this,
-                            "Error", Toast.LENGTH_SHORT).show();
+                try {
+                    saveNote2Database(content.toString().trim(),id);
+                }catch (Exception e){
+                    Log.d("TAG", e.toString());
                 }
-                finish();
+
+//                if (succeed) {
+//                    Toast.makeText(NoteActivity.this,
+//                            "Note added", Toast.LENGTH_SHORT).show();
+//                    setResult(Activity.RESULT_OK);
+//                } else {
+//                    Toast.makeText(NoteActivity.this,
+//                            "Error", Toast.LENGTH_SHORT).show();
+//                }
+
             }
         });
     }
@@ -66,9 +78,48 @@ public class NoteActivity extends AppCompatActivity {
         super.onDestroy();
     }
 
-    private boolean saveNote2Database(String content,String id) {
+    private void saveNote2Database(String content,String id) {
         // TODO:实现修改备注的逻辑.content:备注内容。id:该任务的id号
 
-        return true;
+        RxHttp.postJson("http://10.0.2.2:8000/api/task/modifytask")
+                .add("task_id",id).add("comments",content)
+                .asString()
+                .observeOn(AndroidSchedulers.mainThread()) //指定在主线程回调
+                .subscribe(res -> {
+                    JSONObject j= new JSONObject(res);
+                    String message =j.getString("message");
+                    if(!message.equals("null")){
+                        Log.d("TAG", message);
+                        showSimpleWarningDialog(message);
+                    }else{
+                        showSimpleTipDialog("修改成功");
+                        
+                    }
+                }, throwable -> {
+                    showSimpleWarningDialog("网络不良,请重试");
+                });
+    }
+
+    public void showSimpleWarningDialog(String message) {
+        new MaterialDialog.Builder(this)
+                .iconRes(R.drawable.icon_warning)
+                .title("提示")
+                .content(message)
+                .positiveText("确定")
+                .show();
+    }
+    public void showSimpleTipDialog(String message) {
+        new MaterialDialog.Builder(this)
+                .iconRes(R.drawable.icon_tip)
+                .title("提示")
+                .content(message)
+                .positiveText("确定")
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        finish();
+                    }
+                })
+                .show();
     }
 }

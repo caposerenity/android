@@ -84,7 +84,6 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public List<Task> getAllTasks() {
         List<Task> tasks = taskMapper.getAllTasks();
-        System.out.print(tasks);
         return tasks;
     }
 
