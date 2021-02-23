@@ -8,12 +8,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.chapter3.demo.R;
 import com.example.my.utils.XToastUtils;
 import com.xuexiang.xui.widget.button.ButtonView;
+import com.xuexiang.xui.widget.dialog.materialdialog.DialogAction;
 import com.xuexiang.xui.widget.dialog.materialdialog.MaterialDialog;
 import com.xuexiang.xui.widget.picker.widget.OptionsPickerView;
 import com.xuexiang.xui.widget.picker.widget.TimePickerView;
@@ -178,11 +180,14 @@ public class AddTaskActivity extends AppCompatActivity {
                                 Log.d("TAG", message);
                                 showSimpleWarningDialog(message);
                             }
+                            else{
+                                showSimpleTipDialog("添加成功");
+                            }
                         }, throwable -> {
                             showSimpleWarningDialog("网络不良,请重试");
                         });
 
-                finish();
+
             }
         });
     }
@@ -201,6 +206,12 @@ public class AddTaskActivity extends AppCompatActivity {
                 .title("提示")
                 .content(message)
                 .positiveText("确定")
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        finish();
+                    }
+                })
                 .show();
     }
 }
