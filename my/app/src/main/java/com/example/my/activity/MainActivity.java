@@ -30,11 +30,17 @@ import com.example.chapter3.demo.R;
 
 import com.xuexiang.xui.widget.dialog.materialdialog.MaterialDialog;
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 import org.jetbrains.annotations.NotNull;
+import org.json.JSONException;
 import org.json.JSONObject;
 import rxhttp.RxHttp;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements ManagerFragment.OnItemSelectedListener,ProductorFragment.OnItemSelectedListener,TeamLeaderFragment.OnItemSelectedListener,CheckmanFragment.OnItemSelectedListener,ExecutorFragment.OnItemSelectedListener, CheckManagerFragment_1.OnItemSelectedListener {
     private static final int PAGE_COUNT = 2;
@@ -53,6 +59,8 @@ public class MainActivity extends AppCompatActivity implements ManagerFragment.O
             }, 1);
         }
     }
+
+
 
     @Override
     protected void onCreate(Bundle savedInstance) {
@@ -76,8 +84,9 @@ public class MainActivity extends AppCompatActivity implements ManagerFragment.O
             @NotNull
             @Override
             public Fragment getItem(int i) {
-                ArrayList<Task> tasks=Task.getItems();
+                ArrayList<Task> tasks = Task.getItems();
                 tasks.clear();
+
                 RxHttp.get("http://10.0.2.2:8000/api/task/getAllTasks")
                         .asList(String.class)
                         .observeOn(AndroidSchedulers.mainThread())
@@ -85,32 +94,34 @@ public class MainActivity extends AppCompatActivity implements ManagerFragment.O
                             Log.d("TAG", s.get(0).toString());
                             for (String value : s) {
                                 JSONObject js = new JSONObject(value);
-                                Task t=new Task(js.getString("task_id"),js.getString("task_name"),js.getString("group_leader"),
-                                        js.getString("quality_inspector"),js.getString("expected_time"),
-                                        js.getString("expected_exam_time"),js.getString("create_time"),js.getString("status"),
-                                        js.getString("comments"),js.getString("finish_time"),js.getString("finish_exam_time"));
+                                Task t = new Task(js.getString("task_id"), js.getString("task_name"), js.getString("group_leader"),
+                                        js.getString("quality_inspector"), js.getString("expected_time"),
+                                        js.getString("expected_exam_time"), js.getString("create_time"), js.getString("status"),
+                                        js.getString("comments"), js.getString("finish_time"), js.getString("finish_exam_time"));
                                 tasks.add(t);
                             }
                         }, throwable -> {
                             showSimpleWarningDialog("获取任务列表失败");
                         });
 
-                switch (role){
+
+                switch (role) {
                     case 0:
                         return ManagerFragment.newInstance(tasks);
                     case 1:
                         return ProductorFragment.newInstance(tasks);
                     case 2:
-                        return TeamLeaderFragment.newInstance(tasks,"张西秀");
+                        return TeamLeaderFragment.newInstance(tasks, "张西秀");
                     case 3:
-                        return CheckManagerFragment.newInstance("张东南",tasks);
+                        return CheckManagerFragment.newInstance("张东南", tasks);
                     case 4:
-                        return CheckmanFragment.newInstance("张东南",tasks);
+                        return CheckmanFragment.newInstance("张东南", tasks);
                     case 5:
                         return ExecutorFragment.newInstance(tasks);
                 }
-                return new Fragment();
-            }
+
+                    return new Fragment();
+                }
 
             @Override
             public int getCount() {

@@ -174,7 +174,7 @@ public class AddTaskActivity extends AppCompatActivity {
                         .subscribe(res -> {
                             JSONObject j= new JSONObject(res);
                             String message =j.getString("message");
-                            if(message!=null){
+                            if(!message.equals("null")){
                                 Log.d("TAG", message);
                                 showSimpleWarningDialog(message);
                             }
