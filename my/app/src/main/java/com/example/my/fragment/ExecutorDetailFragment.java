@@ -101,7 +101,7 @@ public class ExecutorDetailFragment extends Fragment {
         startActivity(i);
     }
 
-    public (String message) {
+    public void showSimpleWarningDialog(String message) {
         new MaterialDialog.Builder(getContext())
                 .iconRes(R.drawable.icon_warning)
                 .title("提示")
