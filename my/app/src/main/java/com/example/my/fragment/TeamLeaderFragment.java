@@ -159,7 +159,7 @@ public class TeamLeaderFragment extends Fragment {
     //TODO:tasks中仅包含该组长负责的任务
     private void refresh(){
         ArrayList<Task> temp=new ArrayList<Task>();
-        RxHttp.get("http://192.168.1.106:8000/api/task/getAllTasks")
+        RxHttp.get("http://10.0.2.2:8000/api/task/getAllTasks")
                 .asList(String.class)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(s -> {

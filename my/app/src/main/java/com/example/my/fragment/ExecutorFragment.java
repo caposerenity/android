@@ -34,12 +34,13 @@ public class ExecutorFragment extends Fragment {
 
     public static ExecutorFragment newInstance(ArrayList<Task> all) {
         ExecutorFragment mf = new ExecutorFragment();
-        mf.tasks=new ArrayList<Task>();
-        for(int i=0;i<all.size();i++){
-            if(all.get(i).getStatus().equals("待提交客户") ||all.get(i).getStatus().equals("已提交客户")){
-                mf.tasks.add(all.get(i));
-            }
-        }
+        mf.tasks=all;
+//        for(int i=0;i<all.size();i++){
+//            if(all.get(i).getStatus().equals("待提交客户") ||all.get(i).getStatus().equals("已提交客户")){
+//                mf.tasks.add(all.get(i));
+//            }
+//        }
+
         Bundle args = new Bundle();
         mf.setArguments(args);
         return mf;

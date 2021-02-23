@@ -2,17 +2,24 @@ package com.example.my.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.example.chapter3.demo.R;
 import com.example.my.activity.NoteActivity;
 import com.example.my.listview.Task;
+import com.xuexiang.xui.widget.dialog.materialdialog.DialogAction;
+import com.xuexiang.xui.widget.dialog.materialdialog.MaterialDialog;
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import org.json.JSONObject;
+import rxhttp.RxHttp;
 
 public class ExecutorDetailFragment extends Fragment {
     private Task item;
@@ -57,6 +64,22 @@ public class ExecutorDetailFragment extends Fragment {
         button1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                RxHttp.postJson("http://10.0.2.2:8000/api/task/modifytask")
+                        .add("task_id",item.getTask_id()).add("status","submitted")
+                        .asString()
+                        .observeOn(AndroidSchedulers.mainThread()) //指定在主线程回调
+                        .subscribe(res -> {
+                            JSONObject j= new JSONObject(res);
+                            String message =j.getString("message");
+                            if(!message.equals("null")){
+                                Log.d("TAG", message);
+                                showSimpleWarningDialog(message);
+                            }else{
+                                showSimpleTipDialog("提交成功");
+                            }
+                        }, throwable -> {
+                            showSimpleWarningDialog("网络不良,请重试");
+                        });
                 getActivity().finish();
             }
         });
@@ -76,5 +99,22 @@ public class ExecutorDetailFragment extends Fragment {
         i.putExtra("note",note);
         i.putExtra("id",id);
         startActivity(i);
+    }
+
+    public void showSimpleWarningDialog(String message) {
+        new MaterialDialog.Builder(getContext())
+                .iconRes(R.drawable.icon_warning)
+                .title("提示")
+                .content(message)
+                .positiveText("确定")
+                .show();
+    }
+    public void showSimpleTipDialog(String message) {
+        new MaterialDialog.Builder(getContext())
+                .iconRes(R.drawable.icon_tip)
+                .title("提示")
+                .content(message)
+                .positiveText("确定")
+                .show();
     }
 }
