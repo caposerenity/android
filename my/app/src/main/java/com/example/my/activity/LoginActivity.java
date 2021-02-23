@@ -32,7 +32,7 @@ public class LoginActivity extends AppCompatActivity{
                 MaterialEditText pwdText=findViewById(R.id.et_password);
                 String pwd=pwdText.getText().toString();
 
-                RxHttp.postJson("http://10.0.2.2:8000/api/user/login")
+                RxHttp.postJson("http://192.168.1.106:8000/api/user/login")
                         .add("phone",phone)
                         .add("password",pwd)
                         .asString()

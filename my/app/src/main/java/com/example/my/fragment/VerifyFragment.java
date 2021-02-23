@@ -46,12 +46,13 @@ public class VerifyFragment extends Fragment {
             public void onClick(View view) {
                 OptionsPickerView pvOptions = new OptionsPickerBuilder(getActivity(), (v, options1, options2, options3) -> {
                     resultSelectOption = options1;
+                    //TODO：将结果保存并修改角色状态.0:合格。1：不合格
+                    getActivity().finish();
                     return false;
                 })
                         .setTitleText("检查结果")
                         .setSelectOptions(resultSelectOption)
                         .build();
-                //TODO：将检查结果保存并修改任务状态.0:合格。1：不合格
                 pvOptions.setPicker(Result);
                 pvOptions.show();
             }

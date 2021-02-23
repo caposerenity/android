@@ -54,7 +54,7 @@ public class CheckManagerFragment extends Fragment {
                                 args.add(tasks.get(j));
                             }
                         }
-                        return CheckManagerFragment_1.newInstance(args);
+                        return CheckManagerFragment_1.newInstance(args,"待质检");
                     case 1:
                         ArrayList<Task> args2=new ArrayList<Task>();
                         for(int j=0;j<tasks.size();j++){
@@ -62,7 +62,7 @@ public class CheckManagerFragment extends Fragment {
                                 args2.add(tasks.get(j));
                             }
                         }
-                        return CheckManagerFragment_1.newInstance(args2);
+                        return CheckManagerFragment_1.newInstance(args2,"质检中");
                     default:
                         Log.d("？", "hahaha ");
                         return CheckmanFragment.newInstance(myName,tasks);

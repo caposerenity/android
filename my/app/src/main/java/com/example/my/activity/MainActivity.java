@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity implements ManagerFragment.O
         //checkNeedPermissions();
         //获取用户角色。0：系统管理员 1：生产部经理 2：组长 3：质检部经理 4：质检员 5：行政综合部
         role=getIntent().getIntExtra("role",4);
-        //获取用户姓名
+        //获取用户Id
         name=getIntent().getStringExtra("name");
         Log.d(role+"+", name);
         setContentView(R.layout.manager);
@@ -87,7 +87,7 @@ public class MainActivity extends AppCompatActivity implements ManagerFragment.O
                 ArrayList<Task> tasks = Task.getItems();
                 tasks.clear();
 
-                RxHttp.get("http://10.0.2.2:8000/api/task/getAllTasks")
+                RxHttp.get("http://192.168.1.106:8000/api/task/getAllTasks")
                         .asList(String.class)
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(s -> {
@@ -111,7 +111,7 @@ public class MainActivity extends AppCompatActivity implements ManagerFragment.O
                     case 1:
                         return ProductorFragment.newInstance(tasks);
                     case 2:
-                        return TeamLeaderFragment.newInstance(tasks, "张西秀");
+                        return TeamLeaderFragment.newInstance(tasks, name);
                     case 3:
                         return CheckManagerFragment.newInstance("张东南", tasks);
                     case 4:

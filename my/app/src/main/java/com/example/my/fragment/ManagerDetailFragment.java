@@ -69,16 +69,16 @@ public class ManagerDetailFragment extends Fragment {
 		Button button1=view.findViewById(R.id.edit_button1);
 		Button button2=view.findViewById(R.id.edit_button2);
 		button1.setOnClickListener(new View.OnClickListener() {
-			//在此编辑修改完成截止时间的操作
+			//TODO:在此编辑修改完成截止时间的操作
 			@Override
 			public void onClick(View view) {
 					if (mTimePickerDialog == null) {
 						Calendar calendar = Calendar.getInstance();
-						calendar.setTime(DateUtils.string2Date("2013-07-08 12:32:46", DateUtils.yyyyMMddHHmmss.get()));
+						calendar.setTime(DateUtils.getNowDate());
 						mTimePickerDialog = new TimePickerBuilder(getContext(), new OnTimeSelectListener() {
 							@Override
 							public void onTimeSelected(Date date, View v) {
-								XToastUtils.toast(DateUtils.date2String(date, DateUtils.yyyyMMddHHmmss.get()));
+								finish1.setText("预计完成时间："+DateUtils.date2String(date, DateUtils.yyyyMMddHHmmss.get()));
 							}
 						})
 								.setTimeSelectChangeListener(date -> Log.i("pvTime", "onTimeSelectChanged"))
@@ -93,16 +93,16 @@ public class ManagerDetailFragment extends Fragment {
 			}
 		});
 		button2.setOnClickListener(new View.OnClickListener() {
-			//在此编辑修改质检截止时间的操作
+			//TODO:在此编辑修改质检截止时间的操作
 			@Override
 			public void onClick(View view) {
 				if (mTimePickerDialog == null) {
 					Calendar calendar = Calendar.getInstance();
-					calendar.setTime(DateUtils.string2Date("2013-07-08 12:32:46", DateUtils.yyyyMMddHHmmss.get()));
+					calendar.setTime(DateUtils.getNowDate());
 					mTimePickerDialog = new TimePickerBuilder(getContext(), new OnTimeSelectListener() {
 						@Override
 						public void onTimeSelected(Date date, View v) {
-							XToastUtils.toast(DateUtils.date2String(date, DateUtils.yyyyMMddHHmmss.get()));
+							finish1.setText("预计质检完成时间："+DateUtils.date2String(date, DateUtils.yyyyMMddHHmmss.get()));
 						}
 					})
 							.setTimeSelectChangeListener(date -> Log.i("pvTime", "onTimeSelectChanged"))
