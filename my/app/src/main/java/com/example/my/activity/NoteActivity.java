@@ -79,7 +79,6 @@ public class NoteActivity extends AppCompatActivity {
     }
 
     private void saveNote2Database(String content,String id) {
-        // TODO:实现修改备注的逻辑.content:备注内容。id:该任务的id号
 
         RxHttp.postJson("http://10.0.2.2:8000/api/task/modifytask")
                 .add("task_id",id).add("comments",content)
@@ -93,7 +92,7 @@ public class NoteActivity extends AppCompatActivity {
                         showSimpleWarningDialog(message);
                     }else{
                         showSimpleTipDialog("修改成功");
-                        
+
                     }
                 }, throwable -> {
                     showSimpleWarningDialog("网络不良,请重试");
