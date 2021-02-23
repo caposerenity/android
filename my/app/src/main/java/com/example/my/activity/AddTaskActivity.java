@@ -198,6 +198,12 @@ public class AddTaskActivity extends AppCompatActivity {
                 .title("提示")
                 .content(message)
                 .positiveText("确定")
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        dialog.dismiss();
+                    }
+                })
                 .show();
     }
     public void showSimpleTipDialog(String message) {
@@ -209,6 +215,7 @@ public class AddTaskActivity extends AppCompatActivity {
                 .onPositive(new MaterialDialog.SingleButtonCallback() {
                     @Override
                     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        dialog.dismiss();
                         finish();
                     }
                 })

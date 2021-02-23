@@ -6,9 +6,11 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.chapter3.demo.R;
+import com.xuexiang.xui.widget.dialog.materialdialog.DialogAction;
 import com.xuexiang.xui.widget.dialog.materialdialog.MaterialDialog;
 import com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText;
 import com.xuexiang.xui.widget.spinner.materialspinner.MaterialSpinner;
@@ -108,6 +110,12 @@ public class RegisterActivity extends AppCompatActivity {
                 .title("提示")
                 .content(message)
                 .positiveText("确定")
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        dialog.dismiss();
+                    }
+                })
                 .show();
     }
     public void showSimpleTipDialog(String message) {
@@ -116,6 +124,12 @@ public class RegisterActivity extends AppCompatActivity {
                 .title("提示")
                 .content(message)
                 .positiveText("确定")
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        dialog.dismiss();
+                    }
+                })
                 .show();
     }
 }

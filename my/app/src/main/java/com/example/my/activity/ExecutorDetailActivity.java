@@ -8,6 +8,7 @@ import androidx.fragment.app.FragmentTransaction;
 import com.example.chapter3.demo.R;
 import com.example.my.fragment.ExecutorDetailFragment;
 import com.example.my.listview.Task;
+import com.xuexiang.xui.widget.dialog.materialdialog.MaterialDialog;
 
 public class ExecutorDetailActivity extends FragmentActivity {
     ExecutorDetailFragment fragmentItemDetail;
@@ -24,4 +25,5 @@ public class ExecutorDetailActivity extends FragmentActivity {
             ft.commit();
         }
     }
+
 }

@@ -31,6 +31,7 @@ import com.example.my.listview.Task;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.xuexiang.xui.widget.button.ButtonView;
+import com.xuexiang.xui.widget.dialog.materialdialog.DialogAction;
 import com.xuexiang.xui.widget.dialog.materialdialog.MaterialDialog;
 import com.xuexiang.xui.widget.spinner.materialspinner.MaterialSpinner;
 
@@ -220,6 +221,12 @@ public class ManagerFragment extends Fragment {
                 .title("提示")
                 .content(message)
                 .positiveText("确定")
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        dialog.dismiss();
+                    }
+                })
                 .show();
     }
     private boolean isIn(String Id){

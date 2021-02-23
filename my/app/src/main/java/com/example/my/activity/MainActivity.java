@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -28,6 +29,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.chapter3.demo.R;
 
+import com.xuexiang.xui.widget.dialog.materialdialog.DialogAction;
 import com.xuexiang.xui.widget.dialog.materialdialog.MaterialDialog;
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import okhttp3.OkHttpClient;
@@ -184,6 +186,12 @@ public class MainActivity extends AppCompatActivity implements ManagerFragment.O
                 .title("提示")
                 .content(message)
                 .positiveText("确定")
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        dialog.dismiss();
+                    }
+                })
                 .show();
     }
     private void showSimpleTipDialog(String message) {
@@ -192,6 +200,12 @@ public class MainActivity extends AppCompatActivity implements ManagerFragment.O
                 .title("提示")
                 .content(message)
                 .positiveText("确定")
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        dialog.dismiss();
+                    }
+                })
                 .show();
     }
 }

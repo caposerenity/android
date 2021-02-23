@@ -80,7 +80,7 @@ public class ExecutorDetailFragment extends Fragment {
                         }, throwable -> {
                             showSimpleWarningDialog("网络不良,请重试");
                         });
-                getActivity().finish();
+                //getActivity().finish();
             }
         });
         return view;
@@ -101,12 +101,18 @@ public class ExecutorDetailFragment extends Fragment {
         startActivity(i);
     }
 
-    public void showSimpleWarningDialog(String message) {
+    public (String message) {
         new MaterialDialog.Builder(getContext())
                 .iconRes(R.drawable.icon_warning)
                 .title("提示")
                 .content(message)
                 .positiveText("确定")
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        dialog.dismiss();
+                    }
+                })
                 .show();
     }
     public void showSimpleTipDialog(String message) {
@@ -115,6 +121,13 @@ public class ExecutorDetailFragment extends Fragment {
                 .title("提示")
                 .content(message)
                 .positiveText("确定")
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        dialog.dismiss();
+                        getActivity().finish();
+                    }
+                })
                 .show();
     }
 }
