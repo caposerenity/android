@@ -23,6 +23,7 @@ import com.example.my.activity.AddTaskActivity;
 import com.example.my.activity.NoteActivity;
 import com.example.my.adapter.TaskAdapter;
 import com.example.my.listview.Task;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.xuexiang.xui.widget.spinner.materialspinner.MaterialSpinner;
 
 import java.util.ArrayList;
@@ -32,6 +33,7 @@ public class ProductorFragment extends Fragment {
     private ArrayList<Task> showTasks;
     private ArrayAdapter<Task> adapterItems;
     private OnItemSelectedListener listener;
+    private RefreshLayout refreshLayout;
     private static final int REQUEST_CODE_ADD_TASK = 1003;
 
     public interface OnItemSelectedListener {
@@ -74,6 +76,7 @@ public class ProductorFragment extends Fragment {
         TextView text1=view.findViewById(R.id.pnum1);
         TextView text2=view.findViewById(R.id.pnum2);
         Button addbutton=view.findViewById(R.id.add_button);
+        refreshLayout=view.findViewById(R.id.refreshlayout);
         mMaterialSpinner.setOnItemSelectedListener((spinner, position, id, item) ->
         {
             switch(position){
@@ -130,6 +133,14 @@ public class ProductorFragment extends Fragment {
 
             }
         });
+        refreshLayout.setEnableAutoLoadMore(true);
+        refreshLayout.autoRefresh();
+        refreshLayout.setOnRefreshListener(refreshLayout12 -> refreshLayout12.getLayout().postDelayed(() -> {
+            getall();
+            adapterItems.notifyDataSetChanged();
+            refreshLayout12.finishRefresh();
+            refreshLayout12.resetNoMoreData();//setNoMoreData(false);
+        }, 2000));
         return view;
     }
     private void update(String s){
@@ -143,6 +154,14 @@ public class ProductorFragment extends Fragment {
             }
             if(!tasks.get(i).getStatus().equals(s)){
                 showTasks.remove(tasks.get(i));
+            }
+        }
+    }
+    private void getall(){
+        Log.d("???", "getall: ");
+        for(int i=0;i<tasks.size();i++){
+            if(!showTasks.contains(tasks.get(i))){
+                showTasks.add(tasks.get(i));
             }
         }
     }
