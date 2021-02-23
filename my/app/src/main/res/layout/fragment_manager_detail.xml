@@ -83,7 +83,7 @@
         android:layout_marginTop="19dp"
         android:background="@drawable/tag"
         android:textColor="@color/blue_start"
-        android:text="添加备注">
+        android:text="修改备注">
     </Button>
     <Button
         android:layout_width="wrap_content"

@@ -76,7 +76,7 @@ public class AddTaskActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if (ddl1TimePickerDialog == null) {
                     Calendar calendar = Calendar.getInstance();
-                    calendar.setTime(DateUtils.string2Date("2013-07-08 12:32:46", DateUtils.yyyyMMddHHmmss.get()));
+                    calendar.setTime(DateUtils.getNowDate());
                     ddl1TimePickerDialog = new TimePickerBuilder(AddTaskActivity.this, new OnTimeSelectListener() {
                         @Override
                         public void onTimeSelected(Date date, View v) {
@@ -100,7 +100,7 @@ public class AddTaskActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if (ddl2TimePickerDialog == null) {
                     Calendar calendar = Calendar.getInstance();
-                    calendar.setTime(DateUtils.string2Date("2013-07-08 12:32:46", DateUtils.yyyyMMddHHmmss.get()));
+                    calendar.setTime(DateUtils.getNowDate());
                     ddl2TimePickerDialog = new TimePickerBuilder(AddTaskActivity.this, new OnTimeSelectListener() {
                         @Override
                         public void onTimeSelected(Date date, View v) {
@@ -124,7 +124,7 @@ public class AddTaskActivity extends AppCompatActivity {
         teamLeader.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                RxHttp.get("http://10.0.2.2:8000/api/user/GroupLeader/filterPosition")
+                RxHttp.get("http://192.168.1.106:8000/api/user/GroupLeader/filterPosition")
                         .asList(String.class)
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(res->{
@@ -168,7 +168,7 @@ public class AddTaskActivity extends AppCompatActivity {
                 String time2=ddl2.getText().toString();
                 String notes=note.getText().toString();
 
-                RxHttp.postJson("http://10.0.2.2:8000/api/task/addtask")
+                RxHttp.postJson("http://192.168.1.106:8000/api/task/addtask")
                         .add("task_name",name).add("expected_time",time1).add("expected_exam_time",time2)
                         .add("group_leader",leader).add("comments",notes)
                         .asString()

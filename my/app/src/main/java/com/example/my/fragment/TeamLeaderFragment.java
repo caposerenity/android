@@ -18,16 +18,24 @@ import androidx.fragment.app.Fragment;
 import com.example.chapter3.demo.R;
 import com.example.my.adapter.TaskAdapter;
 import com.example.my.listview.Task;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
+import com.xuexiang.xui.widget.dialog.materialdialog.MaterialDialog;
 import com.xuexiang.xui.widget.spinner.materialspinner.MaterialSpinner;
 
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import rxhttp.RxHttp;
 
 public class TeamLeaderFragment extends Fragment {
     private ArrayList<Task> tasks;
     private ArrayList<Task> showTasks;
     private ArrayAdapter<Task> adapterItems;
     private TeamLeaderFragment.OnItemSelectedListener listener;
-    //这里是组长名称
+    //这里是组长Id
     private String leaderName;
 
     public interface OnItemSelectedListener {
@@ -37,12 +45,7 @@ public class TeamLeaderFragment extends Fragment {
     //MainActivity需要传入组长名称
     public static TeamLeaderFragment newInstance(ArrayList<Task> all,String leaderName) {
         TeamLeaderFragment mf = new TeamLeaderFragment();
-        mf.tasks=new ArrayList<Task>();
-        for(int i=0;i<all.size();i++){
-            if((all.get(i).getGroup_leader().equals(leaderName))&&(all.get(i).getStatus().equals("待完成")||all.get(i).getStatus().equals("不合格"))){
-                mf.tasks.add(all.get(i));
-            }
-        }
+        mf.tasks=new ArrayList<Task>(all);
         mf.leaderName=leaderName;
         Bundle args = new Bundle();
         mf.setArguments(args);
@@ -78,18 +81,10 @@ public class TeamLeaderFragment extends Fragment {
         mMaterialSpinner.setOnItemSelectedListener((spinner, position, id, item) ->
         {
             switch(position){
-                //很奇怪。。这么写之后调试的时候没有问题，打包成apk使用就显示不了了
                 case 0:
-                    for(int i=0;i<tasks.size();i++){
-                        if(!showTasks.contains(tasks.get(i))){
-                            showTasks.add(tasks.get(i));
-                        }
-                    }
-                    break;
-                case 1:
                     update("待完成");
                     break;
-                case 2:
+                case 1:
                     update("不合格");
                     break;
             }
@@ -111,6 +106,21 @@ public class TeamLeaderFragment extends Fragment {
                 listener.onItemSelected(i);
             }
         });
+        RefreshLayout refreshLayout=view.findViewById(R.id.refreshlayout);
+        refreshLayout.setEnableAutoLoadMore(true);
+        refreshLayout.autoRefresh();
+        refreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+                refresh();
+                refreshLayout.getLayout().postDelayed(() -> {
+                    getall();
+                    adapterItems.notifyDataSetChanged();
+                    refreshLayout.finishRefresh();
+                    refreshLayout.resetNoMoreData();//setNoMoreData(false);
+                }, 2000);
+            }
+        });
         return view;
     }
     private void update(String s){
@@ -118,7 +128,7 @@ public class TeamLeaderFragment extends Fragment {
         for(int i=0;i<tasks.size();i++){
             if(tasks.get(i).getStatus().equals(s)){
                 Log.d(tasks.get(i).getStatus(), s);
-                if(!showTasks.contains(tasks.get(i))){
+                if(!isIn(tasks.get(i).getTask_id())){
                     showTasks.add(tasks.get(i));
                 }
             }
@@ -127,4 +137,69 @@ public class TeamLeaderFragment extends Fragment {
             }
         }
     }
+    private void getall(){
+        int size=showTasks.size();
+        int t=0;
+        while(t<size){
+            if(!isIn2(showTasks.get(t).getTask_id())){
+                showTasks.remove(t);
+                size--;
+            }
+            else{
+                t++;
+            }
+        }
+        for(int i=0;i<tasks.size();i++){
+            if(!isIn(tasks.get(i).getTask_id())){
+                showTasks.add(tasks.get(i));
+            }
+        }
+        update("待完成");
+    }
+    //TODO:tasks中仅包含该组长负责的任务
+    private void refresh(){
+        ArrayList<Task> temp=new ArrayList<Task>();
+        RxHttp.get("http://192.168.1.106:8000/api/task/getAllTasks")
+                .asList(String.class)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(s -> {
+                    Log.d("TAG", s.get(0).toString());
+                    for (String value : s) {
+                        JSONObject js = new JSONObject(value);
+                        Task t = new Task(js.getString("task_id"), js.getString("task_name"), js.getString("group_leader"),
+                                js.getString("quality_inspector"), js.getString("expected_time"),
+                                js.getString("expected_exam_time"), js.getString("create_time"), js.getString("status"),
+                                js.getString("comments"), js.getString("finish_time"), js.getString("finish_exam_time"));
+                        temp.add(t);
+                    }
+                }, throwable -> {
+                    showSimpleWarningDialog("获取任务列表失败");
+                });
+        tasks=temp;
+    }
+    private void showSimpleWarningDialog(String message) {
+        new MaterialDialog.Builder(getActivity())
+                .iconRes(R.drawable.icon_warning)
+                .title("提示")
+                .content(message)
+                .positiveText("确定")
+                .show();
+    }
+    private boolean isIn(String Id){
+        for(int i=0;i<showTasks.size();i++){
+            if (showTasks.get(i).getTask_id().equals(Id)){
+                return true;
+            }
+        }
+        return false;
+    }
+    private boolean isIn2(String Id){
+        for(int i=0;i<tasks.size();i++){
+            if (tasks.get(i).getTask_id().equals(Id)){
+                return true;
+            }
+        }
+        return false;
+    }
+
 }

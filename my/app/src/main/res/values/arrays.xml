@@ -11,7 +11,6 @@
     </string-array>
 
     <string-array name="teamLeaderSpinner">
-        <item>全部</item>
         <item>待完成</item>
         <item>不合格</item>
     </string-array>
