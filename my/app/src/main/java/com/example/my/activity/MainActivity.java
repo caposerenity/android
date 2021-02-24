@@ -47,7 +47,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity implements ManagerFragment.OnItemSelectedListener,ProductorFragment.OnItemSelectedListener,TeamLeaderFragment.OnItemSelectedListener,CheckmanFragment.OnItemSelectedListener,ExecutorFragment.OnItemSelectedListener, CheckManagerFragment_1.OnItemSelectedListener {
     private static final int PAGE_COUNT = 2;
     private int role;
-    private String name;
+    private String id;
 
     private void checkNeedPermissions(){
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
@@ -71,8 +71,7 @@ public class MainActivity extends AppCompatActivity implements ManagerFragment.O
         //获取用户角色。0：系统管理员 1：生产部经理 2：组长 3：质检部经理 4：质检员 5：行政综合部
         role=getIntent().getIntExtra("role",4);
         //获取用户Id
-        name=getIntent().getStringExtra("name");
-        Log.d(role+"+", name);
+        id=getIntent().getStringExtra("id");
         setContentView(R.layout.manager);
         ViewPager pager=findViewById(R.id.view_pager);
         Toolbar toolbar=findViewById(R.id.tool_bar);
@@ -113,11 +112,11 @@ public class MainActivity extends AppCompatActivity implements ManagerFragment.O
                     case 1:
                         return ProductorFragment.newInstance(tasks);
                     case 2:
-                        return TeamLeaderFragment.newInstance(tasks, name);
+                        return TeamLeaderFragment.newInstance(tasks, id);
                     case 3:
-                        return CheckManagerFragment.newInstance("张东南", tasks);
+                        return CheckManagerFragment.newInstance(id, tasks);
                     case 4:
-                        return CheckmanFragment.newInstance("张东南", tasks);
+                        return CheckmanFragment.newInstance(id, tasks);
                     case 5:
                         return ExecutorFragment.newInstance(tasks);
                 }
@@ -153,7 +152,7 @@ public class MainActivity extends AppCompatActivity implements ManagerFragment.O
                 i.putExtra("task", task);
                 startActivity(i);
             }
-            else if(task.getQuality_inspector().equals(name)){
+            else if(task.getQuality_inspector().equals(id)){
                 Intent i = new Intent(this, CheckmanDetailActivity.class);
                 i.putExtra("task", task);
                 startActivity(i);
@@ -161,6 +160,7 @@ public class MainActivity extends AppCompatActivity implements ManagerFragment.O
             else{
                 Intent i = new Intent(this, CheckManagerDetail2Activity.class);
                 i.putExtra("task", task);
+                i.putExtra("id",id);
                 startActivity(i);
             }
         }

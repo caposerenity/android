@@ -64,7 +64,7 @@ public class LoginActivity extends AppCompatActivity{
                                 edit.putString("position",position);
                                 //提交
                                 edit.commit();
-                                login(roleConvert.roleStrToNum(position),user_name);
+                                login(roleConvert.roleStrToNum(position),user_id+"");
                             }
                         }, throwable -> {
                             //失败回调
@@ -82,10 +82,10 @@ public class LoginActivity extends AppCompatActivity{
             }
         });
     }
-    private void login(int role,String name){
+    private void login(int role,String id){
         Intent i=new Intent(this,MainActivity.class);
         i.putExtra("role",role);
-        i.putExtra("name",name);
+        i.putExtra("id",id);
 
         startActivity(i);
     }

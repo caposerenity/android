@@ -1,6 +1,7 @@
 package com.example.my.fragment;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,17 +17,20 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.chapter3.demo.R;
+import com.example.my.activity.VerifyActivity;
 import com.example.my.adapter.TaskAdapter;
 import com.example.my.listview.Task;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.xuexiang.xui.widget.dialog.materialdialog.DialogAction;
 import com.xuexiang.xui.widget.dialog.materialdialog.MaterialDialog;
+import com.xuexiang.xutil.data.DateUtils;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import rxhttp.RxHttp;
@@ -37,6 +41,7 @@ public class CheckManagerFragment_1 extends Fragment {
     private ArrayAdapter<Task> adapterItems;
     private OnItemSelectedListener listener;
     private String s;
+    TextView text;
 
     public interface OnItemSelectedListener {
         public void onItemSelected(Task i);
@@ -70,10 +75,7 @@ public class CheckManagerFragment_1 extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view=inflater.inflate(R.layout.fragment_checkmanager1, container, false);
-        TextView text=view.findViewById(R.id.mnum);
-
-        //TODO:编辑超期任务数.此处是质检超期
-        text.setText("1");
+        text=view.findViewById(R.id.mnum);
         ListView lvItems = (ListView) view.findViewById(R.id.mlist);
         lvItems.setAdapter(adapterItems);
         lvItems.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -122,13 +124,8 @@ public class CheckManagerFragment_1 extends Fragment {
         int size=showTasks.size();
         int t=0;
         while(t<size){
-            if(!isIn2(showTasks.get(t).getTask_id())){
-                showTasks.remove(t);
-                size--;
-            }
-            else{
-                t++;
-            }
+            showTasks.remove(t);
+            size--;
         }
         for(int i=0;i<tasks.size();i++){
             if(!isIn(tasks.get(i).getTask_id())){
@@ -136,6 +133,7 @@ public class CheckManagerFragment_1 extends Fragment {
             }
         }
         update(s);
+        text.setText(""+overdue());
     }
     private void refresh(){
         ArrayList<Task> temp=new ArrayList<Task>();
@@ -179,12 +177,17 @@ public class CheckManagerFragment_1 extends Fragment {
         }
         return false;
     }
-    private boolean isIn2(String Id){
+    private int overdue(){
+        int res=0;
         for(int i=0;i<tasks.size();i++){
-            if (tasks.get(i).getTask_id().equals(Id)){
-                return true;
+            if(tasks.get(i).getStatus().equals("待质检")||tasks.get(i).getStatus().equals("质检中")){
+                Date beginTime= DateUtils.string2Date(tasks.get(i).getExpected_exam_time(),DateUtils.yyyyMMddHHmmss.get());
+                Date endTime= DateUtils.getNowDate();
+                if (DateUtils.date2Millis(beginTime) <DateUtils.date2Millis( endTime)) {
+                    res++;
+                }
             }
         }
-        return false;
+        return res;
     }
 }

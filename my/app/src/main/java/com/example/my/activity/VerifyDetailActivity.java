@@ -17,7 +17,6 @@ public class VerifyDetailActivity extends FragmentActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.d("here!!", "onCreate: ");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item_detail);
         User item= (User) getIntent().getSerializableExtra("user");

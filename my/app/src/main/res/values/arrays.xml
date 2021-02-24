@@ -15,9 +15,8 @@
         <item>不合格</item>
     </string-array>
     <string-array name="executorSpinner">
-        <item>全部</item>
-        <item>未提交任务</item>
-        <item>已提交任务</item>
+        <item>待提交客户</item>
+        <item>已提交客户</item>
     </string-array>
     <string-array name="role">
         <item>系统管理员</item>

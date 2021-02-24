@@ -34,10 +34,12 @@ import com.xuexiang.xui.widget.button.ButtonView;
 import com.xuexiang.xui.widget.dialog.materialdialog.DialogAction;
 import com.xuexiang.xui.widget.dialog.materialdialog.MaterialDialog;
 import com.xuexiang.xui.widget.spinner.materialspinner.MaterialSpinner;
+import com.xuexiang.xutil.data.DateUtils;
 
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
@@ -49,6 +51,9 @@ public class ManagerFragment extends Fragment {
     private ArrayAdapter<Task> adapterItems;
     private OnItemSelectedListener listener;
     private ButtonView verifyButton;
+    private MaterialSpinner mMaterialSpinner;
+    private TextView text;
+    private TextView text2;
 
     public interface OnItemSelectedListener {
         public void onItemSelected(Task i);
@@ -86,8 +91,9 @@ public class ManagerFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view=inflater.inflate(R.layout.fragment_manager, container, false);
-        MaterialSpinner mMaterialSpinner=view.findViewById(R.id.spinner);
-        TextView text=view.findViewById(R.id.mnum);
+        mMaterialSpinner=view.findViewById(R.id.spinner);
+        text=view.findViewById(R.id.mnum);
+        text2=view.findViewById(R.id.num);
         verifyButton=view.findViewById(R.id.btn_verify);
 
 
@@ -120,8 +126,6 @@ public class ManagerFragment extends Fragment {
                 }
             adapterItems.notifyDataSetChanged();
         });
-        //TODO:编辑超期任务数
-        text.setText("1");
         ListView lvItems = (ListView) view.findViewById(R.id.mlist);
         lvItems.setAdapter(adapterItems);
         lvItems.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -181,19 +185,17 @@ public class ManagerFragment extends Fragment {
         int size=showTasks.size();
         int t=0;
         while(t<size){
-            if(!isIn2(showTasks.get(t).getTask_id())){
-                showTasks.remove(t);
-                size--;
-            }
-            else{
-                t++;
-            }
+            showTasks.remove(t);
+            size--;
         }
         for(int i=0;i<tasks.size();i++){
             if(!isIn(tasks.get(i).getTask_id())){
                 showTasks.add(tasks.get(i));
             }
         }
+        text.setText(""+overdue());
+        //TODO:在text2设置需要审核的人员数
+        text2.setText("3");
     }
     private void refresh(){
         ArrayList<Task> temp=new ArrayList<Task>();
@@ -213,6 +215,7 @@ public class ManagerFragment extends Fragment {
                 }, throwable -> {
                     showSimpleWarningDialog("获取任务列表失败");
                 });
+        mMaterialSpinner.setSelectedIndex(0);
         tasks=temp;
     }
     private void showSimpleWarningDialog(String message) {
@@ -237,12 +240,24 @@ public class ManagerFragment extends Fragment {
         }
         return false;
     }
-    private boolean isIn2(String Id){
+    private int overdue(){
+        int res=0;
         for(int i=0;i<tasks.size();i++){
-            if (tasks.get(i).getTask_id().equals(Id)){
-                return true;
+            if(tasks.get(i).getStatus().equals("待完成")){
+                Date beginTime= DateUtils.string2Date(tasks.get(i).getExpected_time(),DateUtils.yyyyMMddHHmmss.get());
+                Date endTime= DateUtils.getNowDate();
+                if (DateUtils.date2Millis(beginTime) <DateUtils.date2Millis( endTime)) {
+                    res++;
+                }
+            }
+            if(tasks.get(i).getStatus().equals("待质检")||tasks.get(i).getStatus().equals("质检中")){
+                Date beginTime= DateUtils.string2Date(tasks.get(i).getExpected_exam_time(),DateUtils.yyyyMMddHHmmss.get());
+                Date endTime= DateUtils.getNowDate();
+                if (DateUtils.date2Millis(beginTime) <DateUtils.date2Millis( endTime)) {
+                    res++;
+                }
             }
         }
-        return false;
+        return res;
     }
 }

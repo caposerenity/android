@@ -29,10 +29,12 @@ import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.xuexiang.xui.widget.dialog.materialdialog.DialogAction;
 import com.xuexiang.xui.widget.dialog.materialdialog.MaterialDialog;
 import com.xuexiang.xui.widget.spinner.materialspinner.MaterialSpinner;
+import com.xuexiang.xutil.data.DateUtils;
 
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import rxhttp.RxHttp;
@@ -42,6 +44,9 @@ public class ProductorFragment extends Fragment {
     private ArrayList<Task> showTasks;
     private ArrayAdapter<Task> adapterItems;
     private OnItemSelectedListener listener;
+    private MaterialSpinner mMaterialSpinner;
+    private TextView text1;
+    private TextView text2;
     private static final int REQUEST_CODE_ADD_TASK = 1003;
 
     public interface OnItemSelectedListener {
@@ -80,9 +85,9 @@ public class ProductorFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         Log.d("producer", "onCreateView: ");
         View view=inflater.inflate(R.layout.fragment_producer, container, false);
-        MaterialSpinner mMaterialSpinner=view.findViewById(R.id.spinner);
-        TextView text1=view.findViewById(R.id.pnum1);
-        TextView text2=view.findViewById(R.id.pnum2);
+        mMaterialSpinner=view.findViewById(R.id.spinner);
+        text1=view.findViewById(R.id.pnum1);
+        text2=view.findViewById(R.id.pnum2);
         Button addbutton=view.findViewById(R.id.add_button);
         mMaterialSpinner.setOnItemSelectedListener((spinner, position, id, item) ->
         {
@@ -116,9 +121,6 @@ public class ProductorFragment extends Fragment {
             }
             adapterItems.notifyDataSetChanged();
         });
-        //后续在此传入超期任务数和待完成任务数
-        text1.setText("1");
-        text2.setText("2");
         addbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -171,19 +173,16 @@ public class ProductorFragment extends Fragment {
         int size=showTasks.size();
         int t=0;
         while(t<size){
-            if(!isIn2(showTasks.get(t).getTask_id())){
-                showTasks.remove(t);
-                size--;
-            }
-            else{
-                t++;
-            }
+            showTasks.remove(t);
+            size--;
         }
         for(int i=0;i<tasks.size();i++){
             if(!isIn(tasks.get(i).getTask_id())){
                 showTasks.add(tasks.get(i));
             }
         }
+        text1.setText(""+overdue());
+        text2.setText(""+needToDo());
     }
     private void refresh(){
         ArrayList<Task> temp=new ArrayList<Task>();
@@ -203,6 +202,7 @@ public class ProductorFragment extends Fragment {
                 }, throwable -> {
                     showSimpleWarningDialog("获取任务列表失败");
                 });
+        mMaterialSpinner.setSelectedIndex(0);
         tasks=temp;
     }
     private void showSimpleWarningDialog(String message) {
@@ -227,12 +227,33 @@ public class ProductorFragment extends Fragment {
         }
         return false;
     }
-    private boolean isIn2(String Id){
+    private int overdue(){
+        int res=0;
         for(int i=0;i<tasks.size();i++){
-            if (tasks.get(i).getTask_id().equals(Id)){
-                return true;
+            if(tasks.get(i).getStatus().equals("待完成")){
+                Date beginTime= DateUtils.string2Date(tasks.get(i).getExpected_time(),DateUtils.yyyyMMddHHmmss.get());
+                Date endTime= DateUtils.getNowDate();
+                if (DateUtils.date2Millis(beginTime) <DateUtils.date2Millis( endTime)) {
+                    res++;
+                }
+            }
+            if(tasks.get(i).getStatus().equals("待质检")||tasks.get(i).getStatus().equals("质检中")){
+                Date beginTime= DateUtils.string2Date(tasks.get(i).getExpected_exam_time(),DateUtils.yyyyMMddHHmmss.get());
+                Date endTime= DateUtils.getNowDate();
+                if (DateUtils.date2Millis(beginTime) <DateUtils.date2Millis( endTime)) {
+                    res++;
+                }
             }
         }
-        return false;
+        return res;
+    }
+    private int needToDo(){
+        int res=0;
+        for(int i=0;i<tasks.size();i++){
+            if(tasks.get(i).getStatus().equals("待完成")){
+                res++;
+            }
+        }
+        return res;
     }
 }

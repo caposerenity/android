@@ -54,7 +54,7 @@ public class TeamLeaderDetailFragment extends Fragment {
             }
         });
         Button submit=view.findViewById(R.id.submit);
-        //Todo:提交到质检部，将任务状态改为待质检
+        //Todo:提交到质检部，将任务状态改为待质检,编辑任务完成时间
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

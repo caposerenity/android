@@ -22,14 +22,14 @@
             android:id="@+id/mlist"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="200dp"
+            android:layout_marginTop="170dp"
             android:dividerHeight="10dp"
             tools:listitem="@layout/list_item"/>
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="50dp"
         android:background="@drawable/ic_widget_banner"
         android:orientation="horizontal">
 

@@ -1,6 +1,7 @@
 package com.example.my.fragment;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,17 +17,31 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.chapter3.demo.R;
+import com.example.my.activity.VerifyActivity;
 import com.example.my.adapter.TaskAdapter;
 import com.example.my.listview.Task;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
+import com.xuexiang.xui.widget.dialog.materialdialog.DialogAction;
+import com.xuexiang.xui.widget.dialog.materialdialog.MaterialDialog;
 import com.xuexiang.xui.widget.spinner.materialspinner.MaterialSpinner;
+import com.xuexiang.xutil.data.DateUtils;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Date;
+
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import rxhttp.RxHttp;
 
 public class ExecutorFragment extends Fragment {
     private ArrayList<Task> tasks;
     private ArrayList<Task> showTasks;
     private ArrayAdapter<Task> adapterItems;
     private OnItemSelectedListener listener;
+    private MaterialSpinner mMaterialSpinner;
+    private TextView text;
 
     public interface OnItemSelectedListener {
         public void onItemSelected(Task i);
@@ -67,30 +82,21 @@ public class ExecutorFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view=inflater.inflate(R.layout.fragment_executor, container, false);
-        MaterialSpinner mMaterialSpinner=view.findViewById(R.id.spinner);
-        TextView text=view.findViewById(R.id.mnum);
+        mMaterialSpinner=view.findViewById(R.id.spinner);
+        text=view.findViewById(R.id.mnum);
 
         mMaterialSpinner.setOnItemSelectedListener((spinner, position, id, item) ->
         {
             switch(position){
                 case 0:
-                    for(int i=0;i<tasks.size();i++){
-                        if(!showTasks.contains(tasks.get(i))){
-                            showTasks.add(tasks.get(i));
-                        }
-                    }
-                    break;
-                case 1:
                     update("待提交客户");
                     break;
-                case 2:
+                case 1:
                     update("已提交客户");
                     break;
             }
             adapterItems.notifyDataSetChanged();
         });
-        //TODO:编辑待提交任务数
-        text.setText("1");
         ListView lvItems = (ListView) view.findViewById(R.id.mlist);
         lvItems.setAdapter(adapterItems);
         lvItems.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -104,6 +110,21 @@ public class ExecutorFragment extends Fragment {
 
             }
         });
+        RefreshLayout refreshLayout=view.findViewById(R.id.refreshlayout);
+        refreshLayout.setEnableAutoLoadMore(true);
+        refreshLayout.autoRefresh();
+        refreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+                refresh();
+                refreshLayout.getLayout().postDelayed(() -> {
+                    getall();
+                    adapterItems.notifyDataSetChanged();
+                    refreshLayout.finishRefresh();
+                    refreshLayout.resetNoMoreData();//setNoMoreData(false);
+                }, 2000);
+            }
+        });
         return view;
     }
     private void update(String s){
@@ -111,7 +132,7 @@ public class ExecutorFragment extends Fragment {
         for(int i=0;i<tasks.size();i++){
             if(tasks.get(i).getStatus().equals(s)){
                 Log.d(tasks.get(i).getStatus(), s);
-                if(!showTasks.contains(tasks.get(i))){
+                if(!isIn(tasks.get(i).getTask_id())){
                     showTasks.add(tasks.get(i));
                 }
             }
@@ -119,5 +140,72 @@ public class ExecutorFragment extends Fragment {
                 showTasks.remove(tasks.get(i));
             }
         }
+    }
+    private void getall(){
+        int size=showTasks.size();
+        int t=0;
+        while(t<size){
+            showTasks.remove(t);
+            size--;
+        }
+        for(int i=0;i<tasks.size();i++){
+            if(!isIn(tasks.get(i).getTask_id())){
+                showTasks.add(tasks.get(i));
+            }
+        }
+        update("待提交客户");
+        text.setText(""+needToSubmit());
+    }
+    private void refresh(){
+        ArrayList<Task> temp=new ArrayList<Task>();
+        RxHttp.get("http://10.0.2.2:8000/api/task/getAllTasks")
+                .asList(String.class)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(s -> {
+                    Log.d("TAG", s.get(0).toString());
+                    for (String value : s) {
+                        JSONObject js = new JSONObject(value);
+                        Task t = new Task(js.getString("task_id"), js.getString("task_name"), js.getString("group_leader"),
+                                js.getString("quality_inspector"), js.getString("expected_time"),
+                                js.getString("expected_exam_time"), js.getString("create_time"), js.getString("status"),
+                                js.getString("comments"), js.getString("finish_time"), js.getString("finish_exam_time"));
+                        temp.add(t);
+                    }
+                }, throwable -> {
+                    showSimpleWarningDialog("获取任务列表失败");
+                });
+        mMaterialSpinner.setSelectedIndex(0);
+        tasks=temp;
+    }
+    private void showSimpleWarningDialog(String message) {
+        new MaterialDialog.Builder(getActivity())
+                .iconRes(R.drawable.icon_warning)
+                .title("提示")
+                .content(message)
+                .positiveText("确定")
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        dialog.dismiss();
+                    }
+                })
+                .show();
+    }
+    private boolean isIn(String Id){
+        for(int i=0;i<showTasks.size();i++){
+            if (showTasks.get(i).getTask_id().equals(Id)){
+                return true;
+            }
+        }
+        return false;
+    }
+    private int needToSubmit(){
+        int res=0;
+        for(int i=0;i<tasks.size();i++){
+            if(tasks.get(i).getStatus().equals("待提交客户")){
+                res++;
+            }
+        }
+        return res;
     }
 }
