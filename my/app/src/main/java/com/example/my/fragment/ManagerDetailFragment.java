@@ -9,19 +9,27 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.example.chapter3.demo.R;
 import com.example.my.activity.NoteActivity;
 import com.example.my.listview.Task;
+import com.xuexiang.xui.widget.dialog.materialdialog.DialogAction;
+import com.xuexiang.xui.widget.dialog.materialdialog.MaterialDialog;
 import com.xuexiang.xui.widget.picker.widget.TimePickerView;
 import com.xuexiang.xui.widget.picker.widget.builder.TimePickerBuilder;
 import com.xuexiang.xui.widget.picker.widget.configure.TimePickerType;
 import com.xuexiang.xui.widget.picker.widget.listener.OnTimeSelectListener;
 import com.xuexiang.xutil.data.DateUtils;
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import org.json.JSONObject;
+import rxhttp.RxHttp;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.TimeZone;
 
 public class ManagerDetailFragment extends Fragment {
 	private Task item;
@@ -78,7 +86,25 @@ public class ManagerDetailFragment extends Fragment {
 						mTimePickerDialog = new TimePickerBuilder(getContext(), new OnTimeSelectListener() {
 							@Override
 							public void onTimeSelected(Date date, View v) {
-								finish1.setText("预计完成时间："+DateUtils.date2String(date, DateUtils.yyyyMMddHHmmss.get()));
+								SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+								df.setTimeZone(TimeZone.getTimeZone("GMT+8:00"));
+								String expected_time=df.format(date);
+								RxHttp.postJson("http://10.0.2.2:8000/api/task/modifytask")
+										.add("task_id",item.getTask_id()).add("expected_time",expected_time)
+										.asString()
+										.observeOn(AndroidSchedulers.mainThread()) //指定在主线程回调
+										.subscribe(res -> {
+											JSONObject j= new JSONObject(res);
+											String message =j.getString("message");
+											if(!message.equals("null")){
+												Log.d("TAG", message);
+												showSimpleWarningDialog(message);
+											}else{
+												showSimpleTipDialog("修改成功");
+											}
+										}, throwable -> {
+											showSimpleWarningDialog("网络不良,请重试");
+										});
 							}
 						})
 								.setTimeSelectChangeListener(date -> Log.i("pvTime", "onTimeSelectChanged"))
@@ -93,7 +119,6 @@ public class ManagerDetailFragment extends Fragment {
 			}
 		});
 		button2.setOnClickListener(new View.OnClickListener() {
-			//TODO:在此编辑修改质检截止时间的操作
 			@Override
 			public void onClick(View view) {
 				if (mTimePickerDialog == null) {
@@ -102,7 +127,25 @@ public class ManagerDetailFragment extends Fragment {
 					mTimePickerDialog = new TimePickerBuilder(getContext(), new OnTimeSelectListener() {
 						@Override
 						public void onTimeSelected(Date date, View v) {
-							finish1.setText("预计质检完成时间："+DateUtils.date2String(date, DateUtils.yyyyMMddHHmmss.get()));
+							SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+							df.setTimeZone(TimeZone.getTimeZone("GMT+8:00"));
+							String expected_exam_time=df.format(date);
+							RxHttp.postJson("http://10.0.2.2:8000/api/task/modifytask")
+									.add("task_id",item.getTask_id()).add("expected_exam_time",expected_exam_time)
+									.asString()
+									.observeOn(AndroidSchedulers.mainThread()) //指定在主线程回调
+									.subscribe(res -> {
+										JSONObject j= new JSONObject(res);
+										String message =j.getString("message");
+										if(!message.equals("null")){
+											Log.d("TAG", message);
+											showSimpleWarningDialog(message);
+										}else{
+											showSimpleTipDialog("修改成功");
+										}
+									}, throwable -> {
+										showSimpleWarningDialog("网络不良,请重试");
+									});
 						}
 					})
 							.setTimeSelectChangeListener(date -> Log.i("pvTime", "onTimeSelectChanged"))
@@ -133,5 +176,35 @@ public class ManagerDetailFragment extends Fragment {
 		i.putExtra("note",s);
 		i.putExtra("id",id);
 		startActivity(i);
+	}
+	public void showSimpleWarningDialog(String message) {
+		new MaterialDialog.Builder(getContext())
+				.iconRes(R.drawable.icon_warning)
+				.title("提示")
+				.content(message)
+				.positiveText("确定")
+				.onPositive(new MaterialDialog.SingleButtonCallback() {
+					@Override
+					public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+						dialog.dismiss();
+						getActivity().finish();
+					}
+				})
+				.show();
+	}
+	public void showSimpleTipDialog(String message) {
+		new MaterialDialog.Builder(getContext())
+				.iconRes(R.drawable.icon_tip)
+				.title("提示")
+				.content(message)
+				.positiveText("确定")
+				.onPositive(new MaterialDialog.SingleButtonCallback() {
+					@Override
+					public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+						dialog.dismiss();
+						getActivity().finish();
+					}
+				})
+				.show();
 	}
 }
