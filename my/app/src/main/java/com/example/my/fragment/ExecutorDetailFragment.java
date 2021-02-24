@@ -49,7 +49,7 @@ public class ExecutorDetailFragment extends Fragment {
         TextView maketime=view.findViewById(R.id.makeTime);
         TextView finish1=view.findViewById(R.id.finish1);
         TextView finish2=view.findViewById(R.id.finish2);
-        if(item.getQuality_inspector()!=null&& !item.getQuality_inspector().equals("null")) {
+        if(item.getQuality_inspector()!=null&& !item.getQuality_inspector().equals("null")&& !item.getQuality_inspector().equals("")) {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
@@ -65,7 +65,7 @@ public class ExecutorDetailFragment extends Fragment {
                 }
             }).start();
         }
-        if(item.getGroup_leader()!=null&& !item.getGroup_leader().equals("null")) {
+        if(item.getGroup_leader()!=null&& !item.getGroup_leader().equals("null")&& !item.getGroup_leader().equals("")) {
             new Thread(new Runnable() {
                 @Override
                 public void run() {

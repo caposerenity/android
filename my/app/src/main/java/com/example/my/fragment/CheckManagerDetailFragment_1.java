@@ -54,7 +54,8 @@ public class CheckManagerDetailFragment_1 extends Fragment {
         TextView tl=view.findViewById(R.id.Teamleader);
         TextView maketime=view.findViewById(R.id.makeTime);
         TextView finish1=view.findViewById(R.id.finish1);
-        if(item.getGroup_leader()!=null&& !item.getGroup_leader().equals("null")) {
+        note=view.findViewById(R.id.note);
+        if(item.getGroup_leader()!=null&& !item.getGroup_leader().equals("null")&& !item.getGroup_leader().equals("")) {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
