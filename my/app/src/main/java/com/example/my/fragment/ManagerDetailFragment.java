@@ -14,7 +14,6 @@ import androidx.fragment.app.Fragment;
 import com.example.chapter3.demo.R;
 import com.example.my.activity.NoteActivity;
 import com.example.my.listview.Task;
-import com.example.my.utils.XToastUtils;
 import com.xuexiang.xui.widget.picker.widget.TimePickerView;
 import com.xuexiang.xui.widget.picker.widget.builder.TimePickerBuilder;
 import com.xuexiang.xui.widget.picker.widget.configure.TimePickerType;
@@ -28,6 +27,7 @@ public class ManagerDetailFragment extends Fragment {
 	private Task item;
 	private static final int REQUEST_CODE_ADD = 1002;
 	private TimePickerView mTimePickerDialog;
+	public static TextView note;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -45,7 +45,7 @@ public class ManagerDetailFragment extends Fragment {
 		TextView ddl2=view.findViewById(R.id.ddl2);
 		TextView tl=view.findViewById(R.id.Teamleader);
 		TextView checkman=view.findViewById(R.id.Checkman);
-		TextView note=view.findViewById(R.id.note);
+		note=view.findViewById(R.id.note);
 		TextView maketime=view.findViewById(R.id.makeTime);
 		TextView finish1=view.findViewById(R.id.finish1);
 		TextView finish2=view.findViewById(R.id.finish2);
@@ -127,10 +127,10 @@ public class ManagerDetailFragment extends Fragment {
         return fragmentDemo;
     }
 	private void add(){
-		String note=item.getComments();
+		String s=item.getComments();
 		String id=item.getTask_id();
 		Intent i=new Intent(getActivity(),NoteActivity.class);
-		i.putExtra("note",note);
+		i.putExtra("note",s);
 		i.putExtra("id",id);
 		startActivity(i);
 	}

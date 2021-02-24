@@ -24,6 +24,7 @@ import rxhttp.RxHttp;
 public class ExecutorDetailFragment extends Fragment {
     private Task item;
     private static final int REQUEST_CODE_ADD = 1002;
+    public static TextView note;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -39,7 +40,7 @@ public class ExecutorDetailFragment extends Fragment {
         TextView ddl2=view.findViewById(R.id.ddl2);
         TextView tl=view.findViewById(R.id.Teamleader);
         TextView checkman=view.findViewById(R.id.Checkman);
-        TextView note=view.findViewById(R.id.note);
+        note=view.findViewById(R.id.note);
         TextView maketime=view.findViewById(R.id.makeTime);
         TextView finish1=view.findViewById(R.id.finish1);
         TextView finish2=view.findViewById(R.id.finish2);

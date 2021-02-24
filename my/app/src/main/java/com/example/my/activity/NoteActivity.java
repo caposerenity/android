@@ -1,6 +1,5 @@
 package com.example.my.activity;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -15,6 +14,12 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.chapter3.demo.R;
+import com.example.my.fragment.CheckManagerDetailFragment_1;
+import com.example.my.fragment.CheckManagerDetailFragment_2;
+import com.example.my.fragment.CheckmanDetailFragment;
+import com.example.my.fragment.ExecutorDetailFragment;
+import com.example.my.fragment.ManagerDetailFragment;
+import com.example.my.fragment.TeamLeaderDetailFragment;
 import com.xuexiang.xui.widget.dialog.materialdialog.DialogAction;
 import com.xuexiang.xui.widget.dialog.materialdialog.MaterialDialog;
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
@@ -91,6 +96,7 @@ public class NoteActivity extends AppCompatActivity {
                         Log.d("TAG", message);
                         showSimpleWarningDialog(message);
                     }else{
+                        global.addNote=editText.getText().toString();
                         showSimpleTipDialog("修改成功");
 
                     }
@@ -123,6 +129,13 @@ public class NoteActivity extends AppCompatActivity {
                     @Override
                     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
                         dialog.dismiss();
+                        String setText="备注："+editText.getText();
+                        ManagerDetailFragment.note.setText(setText);
+                        CheckManagerDetailFragment_1.note.setText(setText);
+                        CheckManagerDetailFragment_2.note.setText(setText);
+                        CheckmanDetailFragment.note.setText(setText);
+                        ExecutorDetailFragment.note.setText(setText);
+                        TeamLeaderDetailFragment.note.setText(setText);
                         finish();
                     }
                 })

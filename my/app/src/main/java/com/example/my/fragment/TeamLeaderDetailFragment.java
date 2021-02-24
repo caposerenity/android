@@ -21,12 +21,15 @@ import com.xuexiang.xui.widget.picker.widget.configure.TimePickerType;
 import com.xuexiang.xui.widget.picker.widget.listener.OnTimeSelectListener;
 import com.xuexiang.xutil.data.DateUtils;
 
+import org.w3c.dom.Text;
+
 import java.util.Calendar;
 import java.util.Date;
 
 public class TeamLeaderDetailFragment extends Fragment {
     private Task item;
     private static final int REQUEST_CODE_ADD = 1002;
+    public static TextView note;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -39,7 +42,7 @@ public class TeamLeaderDetailFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_teamleader_detail, container, false);
         TextView name = view.findViewById(R.id.TaskName);
-        TextView note=view.findViewById(R.id.note);
+        note=view.findViewById(R.id.note);
         TextView maketime=view.findViewById(R.id.makeTime);
         TextView ddl1=view.findViewById(R.id.ddl1);
         name.append(item.getTask_name());
