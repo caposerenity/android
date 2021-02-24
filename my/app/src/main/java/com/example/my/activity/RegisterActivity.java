@@ -82,7 +82,7 @@ public class RegisterActivity extends AppCompatActivity {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                    RxHttp.postJson("http://10.0.2.2:8000/api/user/register")
+                    RxHttp.postJson("http://192.168.1.106:8000/api/user/register")
                             .addAll(String.valueOf(json))
                             .asString()
                             .observeOn(AndroidSchedulers.mainThread())

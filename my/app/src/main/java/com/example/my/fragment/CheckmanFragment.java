@@ -71,7 +71,7 @@ public class CheckmanFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // Create arraylist from item fixtures
-        showTasks=new ArrayList<Task>(tasks);
+        showTasks=new ArrayList<Task>();
         adapterItems = new TaskAdapter(getActivity(),
                 R.layout.list_item, showTasks);
         id=getActivity().getIntent().getStringExtra("id");
@@ -133,7 +133,7 @@ public class CheckmanFragment extends Fragment {
     }
     private void refresh(){
         ArrayList<Task> temp=new ArrayList<Task>();
-        RxHttp.get("http://10.0.2.2:8000/api/task/getAllTasks")
+        RxHttp.get("http://192.168.1.106:8000/api/task/getAllTasks")
                 .asList(String.class)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(s -> {

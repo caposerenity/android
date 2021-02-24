@@ -13,7 +13,7 @@ public class testconnect {
 
 
     public static String getRequest(String url) {
-        //url ="http://10.0.2.2:8000/api/user/hello"
+        //url ="http://192.168.1.106:8000/api/user/hello"
         String finalUrl = url;
 
 
@@ -37,7 +37,7 @@ public class testconnect {
 
     public static String postRequest(String url, RequestBody requestBody) {
         //RequestBody构造格式:RequestBody requestBody = new FormBody.Builder().add("param1", "value1").add("param2", "value2").build();
-        //url ="http://10.0.2.2:8000/api/user/hello"
+        //url ="http://192.168.1.106:8000/api/user/hello"
         String finalUrl = url;
 
         new Thread(new Runnable() {

@@ -54,7 +54,7 @@ public class SettingAcitivity extends PreferenceActivity {
                         String newName=newNameText.getText().toString();
 
                         int user_id = sharedPre.getInt("user_id",-1);
-                        RxHttp.postJson("http://10.0.2.2:8000/api/user/changeInfo")
+                        RxHttp.postJson("http://192.168.1.106:8000/api/user/changeInfo")
                                 .add("user_id",user_id)
                                 .add("name",newName)
                                 .asString()
@@ -100,7 +100,7 @@ public class SettingAcitivity extends PreferenceActivity {
                         if(!pwd.equals(confirmPwd)){
                             showSimpleWarningDialog("两次密码不一致");
                         }else{
-                        RxHttp.postJson("http://10.0.2.2:8000/api/user/changePassword")
+                        RxHttp.postJson("http://192.168.1.106:8000/api/user/changePassword")
                                 .add("user_id",user_id)
                                 .add("password",nowPwd)
                                 .add("newPassword",pwd)

@@ -64,7 +64,7 @@ public class ExecutorDetailFragment extends Fragment {
         button1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                RxHttp.postJson("http://10.0.2.2:8000/api/task/modifytask")
+                RxHttp.postJson("http://192.168.1.106:8000/api/task/modifytask")
                         .add("task_id",item.getTask_id()).add("status","submitted")
                         .asString()
                         .observeOn(AndroidSchedulers.mainThread()) //指定在主线程回调
