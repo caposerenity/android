@@ -9,14 +9,24 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.example.chapter3.demo.R;
 import com.example.my.activity.AddTaskActivity;
 import com.example.my.activity.NoteActivity;
 import com.example.my.listview.Task;
+import com.xuexiang.xui.widget.dialog.materialdialog.DialogAction;
+import com.xuexiang.xui.widget.dialog.materialdialog.MaterialDialog;
 import com.xuexiang.xui.widget.picker.widget.OptionsPickerView;
 import com.xuexiang.xui.widget.picker.widget.builder.OptionsPickerBuilder;
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import org.json.JSONObject;
+import rxhttp.RxHttp;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.TimeZone;
 
 public class CheckmanDetailFragment extends Fragment {
     private Task item;
@@ -59,12 +69,33 @@ public class CheckmanDetailFragment extends Fragment {
             public void onClick(View view) {
                 OptionsPickerView pvOptions = new OptionsPickerBuilder(getActivity(), (v, options1, options2, options3) -> {
                     resultSelectOption = options1;
+                    String status="wait_submit";
+                    if(resultSelectOption==1) status="fail";
+                    Date time=new Date();
+                    SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                    df.setTimeZone(TimeZone.getTimeZone("GMT+8:00"));
+                    String finish_exam_time=df.format(time);
+                    RxHttp.postJson("http://10.0.2.2:8000/api/task/modifytask")
+                            .add("task_id",item.getTask_id()).add("status",status).add("finish_exam_time",finish_exam_time)
+                            .asString()
+                            .observeOn(AndroidSchedulers.mainThread()) //指定在主线程回调
+                            .subscribe(res -> {
+                                JSONObject j= new JSONObject(res);
+                                String message =j.getString("message");
+                                if(!message.equals("null")){
+                                    Log.d("TAG", message);
+                                    showSimpleWarningDialog(message);
+                                }else{
+                                    showSimpleTipDialog("提交成功");
+                                }
+                            }, throwable -> {
+                                showSimpleWarningDialog("网络不良,请重试");
+                            });
                     return false;
                 })
                         .setTitleText("检查结果")
                         .setSelectOptions(resultSelectOption)
                         .build();
-                //TODO：修改任务状态：不合格或待提交客户。修改任务质检完成时间
                 pvOptions.setPicker(Result);
                 pvOptions.show();
             }
@@ -86,5 +117,34 @@ public class CheckmanDetailFragment extends Fragment {
         i.putExtra("note",note);
         i.putExtra("id",id);
         startActivity(i);
+    }
+    public void showSimpleWarningDialog(String message) {
+        new MaterialDialog.Builder(getContext())
+                .iconRes(R.drawable.icon_warning)
+                .title("提示")
+                .content(message)
+                .positiveText("确定")
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        dialog.dismiss();
+                    }
+                })
+                .show();
+    }
+    public void showSimpleTipDialog(String message) {
+        new MaterialDialog.Builder(getContext())
+                .iconRes(R.drawable.icon_tip)
+                .title("提示")
+                .content(message)
+                .positiveText("确定")
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        dialog.dismiss();
+                        getActivity().finish();
+                    }
+                })
+                .show();
     }
 }
