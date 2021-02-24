@@ -85,7 +85,7 @@ public class NoteActivity extends AppCompatActivity {
 
     private void saveNote2Database(String content,String id) {
 
-        RxHttp.postJson("http://192.168.1.106:8000/api/task/modifytask")
+        RxHttp.postJson("http://10.0.2.2:8000/api/task/modifytask")
                 .add("task_id",id).add("comments",content)
                 .asString()
                 .observeOn(AndroidSchedulers.mainThread()) //指定在主线程回调

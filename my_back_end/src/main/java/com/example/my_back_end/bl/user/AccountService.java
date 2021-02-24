@@ -20,4 +20,6 @@ public interface AccountService {
     public ResponseVO changeInfo(UserInfoVO userInfoVO);
 
     public ResponseVO dropUser(String phone);
+
+    public String getNameById(int user_id);
 }

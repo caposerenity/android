@@ -23,9 +23,13 @@ import com.xuexiang.xui.widget.picker.widget.configure.TimePickerType;
 import com.xuexiang.xui.widget.picker.widget.listener.OnTimeSelectListener;
 import com.xuexiang.xutil.data.DateUtils;
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 import org.json.JSONObject;
 import rxhttp.RxHttp;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -51,19 +55,50 @@ public class ManagerDetailFragment extends Fragment {
 		TextView name = view.findViewById(R.id.TaskName);
 		TextView ddl1=view.findViewById(R.id.ddl1);
 		TextView ddl2=view.findViewById(R.id.ddl2);
-		//TODO:获取组长和质检人员名字
 		TextView tl=view.findViewById(R.id.Teamleader);
 		TextView checkman=view.findViewById(R.id.Checkman);
 		note=view.findViewById(R.id.note);
 		TextView maketime=view.findViewById(R.id.makeTime);
 		TextView finish1=view.findViewById(R.id.finish1);
 		TextView finish2=view.findViewById(R.id.finish2);
+		if(item.getQuality_inspector()!=null&& !item.getQuality_inspector().equals("null")) {
+			new Thread(new Runnable() {
+				@Override
+				public void run() {
+					OkHttpClient client = new OkHttpClient();
+					Request request = new Request.Builder().url("http://10.0.2.2:8000/api/user/" + item.getQuality_inspector() + "/getNameById").build();
+					try {
+						Response response = client.newCall(request).execute();//发送请求
+						String result = response.body().string();
+						checkman.append(result);
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
+			}).start();
+		}
+		if(item.getGroup_leader()!=null&& !item.getGroup_leader().equals("null")) {
+			new Thread(new Runnable() {
+				@Override
+				public void run() {
+					OkHttpClient client = new OkHttpClient();
+					Request request = new Request.Builder().url("http://10.0.2.2:8000/api/user/" + item.getGroup_leader() + "/getNameById").build();
+					try {
+						Response response = client.newCall(request).execute();//发送请求
+						String result = response.body().string();
+						tl.append(result);
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
+			}).start();
+		}
 		name.append(item.getTask_name());
 		tag.append(item.getStatus());
 		ddl1.append(item.getExpected_time());
 		ddl2.append(item.getExpected_exam_time());
-		tl.append(item.getGroup_leader());
-		checkman.append(item.getQuality_inspector());
+		//tl.append(item.getGroup_leader());
+		//checkman.append(item.getQuality_inspector());
 		note.append(item.getComments());
 		maketime.append(item.getCreate_time());
 		finish1.append(item.getFinish_time());
@@ -90,7 +125,7 @@ public class ManagerDetailFragment extends Fragment {
 								SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 								df.setTimeZone(TimeZone.getTimeZone("GMT+8:00"));
 								String expected_time=df.format(date);
-								RxHttp.postJson("http://192.168.1.106:8000/api/task/modifytask")
+								RxHttp.postJson("http://10.0.2.2:8000/api/task/modifytask")
 										.add("task_id",item.getTask_id()).add("expected_time",expected_time)
 										.asString()
 										.observeOn(AndroidSchedulers.mainThread()) //指定在主线程回调
@@ -132,7 +167,7 @@ public class ManagerDetailFragment extends Fragment {
 							SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 							df.setTimeZone(TimeZone.getTimeZone("GMT+8:00"));
 							String expected_exam_time=df.format(date);
-							RxHttp.postJson("http://192.168.1.106:8000/api/task/modifytask")
+							RxHttp.postJson("http://10.0.2.2:8000/api/task/modifytask")
 									.add("task_id",item.getTask_id()).add("expected_exam_time",expected_exam_time)
 									.asString()
 									.observeOn(AndroidSchedulers.mainThread()) //指定在主线程回调

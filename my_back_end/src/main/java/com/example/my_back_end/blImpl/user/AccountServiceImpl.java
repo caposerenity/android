@@ -121,4 +121,10 @@ public class AccountServiceImpl implements AccountService {
         return ResponseVO.buildSuccess("删除成功");
     }
 
+    @Override
+    public String getNameById(int user_id) {
+        String name=accountMapper.getAccountById(user_id).getName();
+        return name;
+    }
+
 }

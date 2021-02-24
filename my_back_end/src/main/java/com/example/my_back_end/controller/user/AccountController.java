@@ -46,6 +46,11 @@ public class AccountController  {
        return accountService.filterPosition(position);
     }
 
+    @GetMapping("/{user_id}/getNameById")
+    public String getNameById(@PathVariable int user_id) {
+        return accountService.getNameById(user_id);
+    }
+
     @PostMapping("/changePassword")
     public ResponseVO changePassword(@RequestBody UserInfoVO userInfoVO) {
         return accountService.changePassword(userInfoVO);

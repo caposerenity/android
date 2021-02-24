@@ -18,8 +18,13 @@ import com.example.my.listview.Task;
 import com.xuexiang.xui.widget.dialog.materialdialog.DialogAction;
 import com.xuexiang.xui.widget.dialog.materialdialog.MaterialDialog;
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 import org.json.JSONObject;
 import rxhttp.RxHttp;
+
+import java.io.IOException;
 
 public class ExecutorDetailFragment extends Fragment {
     private Task item;
@@ -38,18 +43,49 @@ public class ExecutorDetailFragment extends Fragment {
         TextView name = view.findViewById(R.id.TaskName);
         TextView ddl1=view.findViewById(R.id.ddl1);
         TextView ddl2=view.findViewById(R.id.ddl2);
-        //TODO:获取组长和质检人员名字
         TextView tl=view.findViewById(R.id.Teamleader);
         TextView checkman=view.findViewById(R.id.Checkman);
         note=view.findViewById(R.id.note);
         TextView maketime=view.findViewById(R.id.makeTime);
         TextView finish1=view.findViewById(R.id.finish1);
         TextView finish2=view.findViewById(R.id.finish2);
+        if(item.getQuality_inspector()!=null&& !item.getQuality_inspector().equals("null")) {
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    OkHttpClient client = new OkHttpClient();
+                    Request request = new Request.Builder().url("http://10.0.2.2:8000/api/user/" + item.getQuality_inspector() + "/getNameById").build();
+                    try {
+                        Response response = client.newCall(request).execute();//发送请求
+                        String result = response.body().string();
+                        checkman.append(result);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }).start();
+        }
+        if(item.getGroup_leader()!=null&& !item.getGroup_leader().equals("null")) {
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    OkHttpClient client = new OkHttpClient();
+                    Request request = new Request.Builder().url("http://10.0.2.2:8000/api/user/" + item.getGroup_leader() + "/getNameById").build();
+                    try {
+                        Response response = client.newCall(request).execute();//发送请求
+                        String result = response.body().string();
+                        tl.append(result);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }).start();
+        }
         name.append(item.getTask_name());
         ddl1.append(item.getExpected_time());
         ddl2.append(item.getExpected_exam_time());
-        tl.append(item.getGroup_leader());
-        checkman.append(item.getQuality_inspector());
+        //tl.append(item.getGroup_leader());
+        //checkman.append(item.getQuality_inspector());
         note.append(item.getComments());
         maketime.append(item.getCreate_time());
         finish1.append(item.getFinish_time());
@@ -65,7 +101,7 @@ public class ExecutorDetailFragment extends Fragment {
         button1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                RxHttp.postJson("http://192.168.1.106:8000/api/task/modifytask")
+                RxHttp.postJson("http://10.0.2.2:8000/api/task/modifytask")
                         .add("task_id",item.getTask_id()).add("status","submitted")
                         .asString()
                         .observeOn(AndroidSchedulers.mainThread()) //指定在主线程回调
