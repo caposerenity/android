@@ -111,4 +111,14 @@ public class AccountServiceImpl implements AccountService {
         return ResponseVO.buildSuccess("修改成功");
     }
 
+    @Override
+    public ResponseVO dropUser(String phone) {
+        try{
+        accountMapper.dropUser(phone);
+        }catch (Exception e){
+            System.out.print(e);
+        }
+        return ResponseVO.buildSuccess("删除成功");
+    }
+
 }

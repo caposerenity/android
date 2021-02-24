@@ -96,7 +96,7 @@ public class NoteActivity extends AppCompatActivity {
                         Log.d("TAG", message);
                         showSimpleWarningDialog(message);
                     }else{
-                        global.addNote=editText.getText().toString();
+                        //global.addNote=editText.getText().toString();
                         showSimpleTipDialog("修改成功");
 
                     }

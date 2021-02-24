@@ -25,4 +25,6 @@ public interface AccountMapper {
     void changePassword(@Param("user_id")int user_id, @Param("newPassword")String newPassword);
 
     void changeName(@Param("user_id")int user_id, @Param("name")String name);
+
+    void dropUser(@Param("phone")String phone);
 }

@@ -38,5 +38,25 @@ public class roleConvert {
         else if(role.equals("Comprehensive_depart")||role.equals("行政综合部"))res=5;
         return res;
     }
+    public static String roleEngToCN(String role){
+        String res="游客";
+        if(role.equals("Admin"))res="系统管理员";
+        else if(role.equals("Produce_manager"))res="生产部经理";
+        else if(role.equals("GroupLeader"))res="组长";
+        else if(role.equals("Quality_manager"))res="质检部经理";
+        else if(role.equals("Quality_inspector"))res="质检员";
+        else if(role.equals("Comprehensive_depart"))res="行政综合部";
+        return res;
+    }
+    public static String roleCNToEng(String role){
+        String res="Visitor";
+        if(role.equals("系统管理员"))res="Admin";
+        else if(role.equals("生产部经理"))res="Produce_manager";
+        else if(role.equals("组长"))res="GroupLeader";
+        else if(role.equals("质检部经理"))res="Quality_manager";
+        else if(role.equals("质检员"))res="Quality_inspector";
+        else if(role.equals("行政综合部"))res="Comprehensive_depart";
+        return res;
+    }
 
 }

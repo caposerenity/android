@@ -26,6 +26,10 @@
         update tb_user set name=#{name}
         where user_id=#{user_id}
     </update>
+    <delete id="dropUser">
+        delete from tb_user
+        where phone=#{phone}
+    </delete>
 
 
 

@@ -94,7 +94,7 @@ public class RegisterActivity extends AppCompatActivity {
                                     showSimpleWarningDialog(message);
                                 }else{
                                     showSimpleTipDialog("请等待管理员审核");
-                                    finish();
+
                                 }
                             }, throwable -> {
                                 //失败回调
@@ -128,6 +128,7 @@ public class RegisterActivity extends AppCompatActivity {
                     @Override
                     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
                         dialog.dismiss();
+                        finish();
                     }
                 })
                 .show();

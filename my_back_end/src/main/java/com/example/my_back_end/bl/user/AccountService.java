@@ -18,4 +18,6 @@ public interface AccountService {
     public ResponseVO changePassword(UserInfoVO userInfoVO);
 
     public ResponseVO changeInfo(UserInfoVO userInfoVO);
+
+    public ResponseVO dropUser(String phone);
 }

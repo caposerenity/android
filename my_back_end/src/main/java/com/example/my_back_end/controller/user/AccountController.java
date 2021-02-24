@@ -32,6 +32,10 @@ public class AccountController  {
         return accountService.login(userForm);
     }
 
+    @GetMapping("/{phone}/drop")
+    public ResponseVO dropUser(@PathVariable String phone) {
+        return accountService.dropUser(phone);
+    }
     @PostMapping("/changePos")
     public ResponseVO changePos(@RequestBody PosChangeVO posChangeVO) {
         return accountService.changePos(posChangeVO);
