@@ -23,6 +23,7 @@ public class CheckmanDetailFragment extends Fragment {
     private String[] Result;
     private int resultSelectOption = 0;
     private static final int REQUEST_CODE_ADD = 1002;
+    public static TextView note;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,7 +36,7 @@ public class CheckmanDetailFragment extends Fragment {
         TextView name = view.findViewById(R.id.TaskName);
         TextView ddl2=view.findViewById(R.id.ddl2);
         TextView tl=view.findViewById(R.id.Teamleader);
-        TextView note=view.findViewById(R.id.note);
+        note=view.findViewById(R.id.note);
         TextView maketime=view.findViewById(R.id.makeTime);
         TextView finish1=view.findViewById(R.id.finish1);
         name.append(item.getTask_name());
