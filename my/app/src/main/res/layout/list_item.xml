@@ -27,26 +27,49 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/tv_tag"
-        style="@style/TextStyle.Title"
-        android:layout_marginStart="5dp"
-        android:background="@drawable/tag"
-        android:paddingBottom="5dp"
-        android:paddingStart="15dp"
-        android:paddingEnd="15dp"
-        android:paddingTop="5dp"
-        android:textColor="@color/xui_config_color_black"
-        android:text="已完成"
-        >
-    </TextView>
         <TextView
-        android:id="@+id/tv_title"
+            android:id="@+id/tv_title"
             android:layout_marginStart="5dp"
-        style="@style/TextStyle.Title"
-        tools:text="主标题" />
+            style="@style/TextStyle.Title"
+            android:textSize="20sp"
+            tools:text="主标题" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="5dp">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_tag"
+            style="@style/TextStyle.Title"
+            android:background="@drawable/tag"
+            android:paddingBottom="5dp"
+            android:paddingStart="15dp"
+            android:paddingEnd="15dp"
+            android:paddingTop="5dp"
+            android:textColor="@color/xui_config_color_black"
+            android:text="已完成"
+            android:textSize="12sp"
+            >
+        </TextView>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_overdue"
+            style="@style/TextStyle.Title"
+            android:background="@drawable/bg_rect_round_tag_btn"
+            android:layout_marginStart="10dp"
+            android:paddingBottom="5dp"
+            android:paddingStart="15dp"
+            android:paddingEnd="15dp"
+            android:paddingTop="5dp"
+            android:textColor="@color/xui_config_color_black"
+            android:text="已逾期"
+            android:textSize="12sp"
+            >
+        </TextView>
     </LinearLayout>
     <TextView
         android:id="@+id/tv_sub_title"

@@ -20,6 +20,7 @@ import com.example.chapter3.demo.R;
 import com.example.my.activity.VerifyActivity;
 import com.example.my.adapter.TaskAdapter;
 import com.example.my.listview.Task;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.xuexiang.xui.widget.dialog.materialdialog.DialogAction;
@@ -41,6 +42,7 @@ public class CheckManagerFragment_1 extends Fragment {
     private ArrayAdapter<Task> adapterItems;
     private OnItemSelectedListener listener;
     private String s;
+    private RefreshLayout refreshLayout;
     TextView text;
 
     public interface OnItemSelectedListener {
@@ -64,11 +66,31 @@ public class CheckManagerFragment_1 extends Fragment {
                     + " must implement ItemsListFragment.OnItemSelectedListener");
         }
     }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        refreshLayout.setEnableAutoLoadMore(true);
+        refreshLayout.autoRefresh();
+        refreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+                refresh();
+                refreshLayout.getLayout().postDelayed(() -> {
+                    getall();
+                    adapterItems.notifyDataSetChanged();
+                    refreshLayout.finishRefresh();
+                    refreshLayout.resetNoMoreData();//setNoMoreData(false);
+                }, 2000);
+            }
+        });
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // Create arraylist from item fixtures
-        showTasks=new ArrayList<Task>(tasks);
+        showTasks=new ArrayList<Task>();
         adapterItems = new TaskAdapter(getActivity(),
                 R.layout.list_item, showTasks);
     }
@@ -89,21 +111,7 @@ public class CheckManagerFragment_1 extends Fragment {
 
             }
         });
-        RefreshLayout refreshLayout=view.findViewById(R.id.refreshlayout);
-        refreshLayout.setEnableAutoLoadMore(true);
-        refreshLayout.autoRefresh();
-        refreshLayout.setOnRefreshListener(new OnRefreshListener() {
-            @Override
-            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-                refresh();
-                refreshLayout.getLayout().postDelayed(() -> {
-                    getall();
-                    adapterItems.notifyDataSetChanged();
-                    refreshLayout.finishRefresh();
-                    refreshLayout.resetNoMoreData();//setNoMoreData(false);
-                }, 2000);
-            }
-        });
+        refreshLayout=view.findViewById(R.id.refreshlayout);
         return view;
     }
     private void update(String s){
