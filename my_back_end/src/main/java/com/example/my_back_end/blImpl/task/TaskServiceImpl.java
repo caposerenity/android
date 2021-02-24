@@ -76,9 +76,9 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public ResponseVO getTasks(int user_id) {
-        List<Task> tasks = taskMapper.getTasks(user_id);
-        return ResponseVO.buildSuccess(tasks);
+    public List<Task> getTasks(int user_id) {
+         List<Task> tasks = taskMapper.getTasks(user_id);
+        return tasks;
     }
 
     @Override

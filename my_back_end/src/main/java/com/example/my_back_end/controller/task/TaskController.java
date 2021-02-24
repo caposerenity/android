@@ -31,7 +31,7 @@ public class TaskController {
     }
     //质检员或小组长获取对应的task
     @GetMapping("/{user_id}/getTasks")
-    public ResponseVO getTasks(@PathVariable int user_id) {
+    public List<Task> getTasks(@PathVariable int user_id) {
         return taskService.getTasks(user_id);
     }
 

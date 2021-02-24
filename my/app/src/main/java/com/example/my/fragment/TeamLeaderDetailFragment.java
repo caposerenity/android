@@ -9,22 +9,30 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.example.chapter3.demo.R;
 import com.example.my.activity.NoteActivity;
 import com.example.my.listview.Task;
 import com.example.my.utils.XToastUtils;
+import com.xuexiang.xui.widget.dialog.materialdialog.DialogAction;
+import com.xuexiang.xui.widget.dialog.materialdialog.MaterialDialog;
 import com.xuexiang.xui.widget.picker.widget.TimePickerView;
 import com.xuexiang.xui.widget.picker.widget.builder.TimePickerBuilder;
 import com.xuexiang.xui.widget.picker.widget.configure.TimePickerType;
 import com.xuexiang.xui.widget.picker.widget.listener.OnTimeSelectListener;
 import com.xuexiang.xutil.data.DateUtils;
 
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import org.json.JSONObject;
 import org.w3c.dom.Text;
+import rxhttp.RxHttp;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.TimeZone;
 
 public class TeamLeaderDetailFragment extends Fragment {
     private Task item;
@@ -57,12 +65,30 @@ public class TeamLeaderDetailFragment extends Fragment {
             }
         });
         Button submit=view.findViewById(R.id.submit);
-        //Todo:提交到质检部，将任务状态改为待质检,编辑任务完成时间
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v)
             {
-                getActivity().finish();
+                Date time=new Date();
+                SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                df.setTimeZone(TimeZone.getTimeZone("GMT+8:00"));
+                String finish_time=df.format(time);
+                RxHttp.postJson("http://10.0.2.2:8000/api/task/modifytask")
+                        .add("task_id",item.getTask_id()).add("finish_time",finish_time).add("status","wait_exam")
+                        .asString()
+                        .observeOn(AndroidSchedulers.mainThread()) //指定在主线程回调
+                        .subscribe(res -> {
+                            JSONObject j= new JSONObject(res);
+                            String message =j.getString("message");
+                            if(!message.equals("null")){
+                                Log.d("TAG", message);
+                                showSimpleWarningDialog(message);
+                            }else{
+                                showSimpleTipDialog("提交成功");
+                            }
+                        }, throwable -> {
+                            showSimpleWarningDialog("网络不良,请重试");
+                        });
             }
         });
         return view;
@@ -81,5 +107,35 @@ public class TeamLeaderDetailFragment extends Fragment {
         i.putExtra("note",note);
         i.putExtra("id",id);
         startActivity(i);
+    }
+    public void showSimpleWarningDialog(String message) {
+        new MaterialDialog.Builder(getContext())
+                .iconRes(R.drawable.icon_warning)
+                .title("提示")
+                .content(message)
+                .positiveText("确定")
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        dialog.dismiss();
+                        getActivity().finish();
+                    }
+                })
+                .show();
+    }
+    public void showSimpleTipDialog(String message) {
+        new MaterialDialog.Builder(getContext())
+                .iconRes(R.drawable.icon_tip)
+                .title("提示")
+                .content(message)
+                .positiveText("确定")
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        dialog.dismiss();
+                        getActivity().finish();
+                    }
+                })
+                .show();
     }
 }

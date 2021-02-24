@@ -12,7 +12,7 @@ public interface TaskService {
 
     ResponseVO modifyTask(TaskVO taskVO);
 
-    ResponseVO getTasks(int user_id);
+    List<Task> getTasks(int user_id);
 
     List<Task> getAllTasks();
 

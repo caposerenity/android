@@ -1,6 +1,7 @@
 package com.example.my.fragment;
 
 import android.app.Activity;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -162,10 +163,10 @@ public class TeamLeaderFragment extends Fragment {
         }
         update("待完成");
     }
-    //TODO:tasks中仅包含该组长负责的任务
     private void refresh(){
         ArrayList<Task> temp=new ArrayList<Task>();
-        RxHttp.get("http://10.0.2.2:8000/api/task/getAllTasks")
+        SharedPreferences sharedPre=getActivity().getSharedPreferences("config",getActivity().MODE_PRIVATE);
+        RxHttp.get("http://10.0.2.2:8000/api/task/"+String.valueOf(sharedPre.getInt("user_id",-1))+"/getTasks")
                 .asList(String.class)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(s -> {
