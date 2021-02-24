@@ -60,7 +60,6 @@ public class ExecutorDetailFragment extends Fragment {
             }
         });
         Button button1=view.findViewById(R.id.submit);
-        //TODO:提交任务，状态变更为已提交
         button1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
