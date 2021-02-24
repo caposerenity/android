@@ -69,7 +69,7 @@ public class ManagerDetailFragment extends Fragment {
 		Button button1=view.findViewById(R.id.edit_button1);
 		Button button2=view.findViewById(R.id.edit_button2);
 		button1.setOnClickListener(new View.OnClickListener() {
-			//TODO:在此编辑修改完成截止时间的操作
+			//:在此编辑修改完成截止时间的操作
 			@Override
 			public void onClick(View view) {
 					if (mTimePickerDialog == null) {
