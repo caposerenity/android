@@ -47,6 +47,7 @@ public class ProductorFragment extends Fragment {
     private MaterialSpinner mMaterialSpinner;
     private TextView text1;
     private TextView text2;
+    private RefreshLayout refreshLayout;
     private static final int REQUEST_CODE_ADD_TASK = 1003;
 
     public interface OnItemSelectedListener {
@@ -79,6 +80,25 @@ public class ProductorFragment extends Fragment {
         showTasks=new ArrayList<Task>(tasks);
         adapterItems = new TaskAdapter(getActivity(),
                 R.layout.list_item, showTasks);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        refreshLayout.setEnableAutoLoadMore(true);
+        refreshLayout.autoRefresh();
+        refreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+                refresh();
+                refreshLayout.getLayout().postDelayed(() -> {
+                    getall();
+                    adapterItems.notifyDataSetChanged();
+                    refreshLayout.finishRefresh();
+                    refreshLayout.resetNoMoreData();//setNoMoreData(false);
+                }, 2000);
+            }
+        });
     }
 
     @Override
@@ -138,21 +158,7 @@ public class ProductorFragment extends Fragment {
             listener.onItemSelected(i);
 
         });
-        RefreshLayout refreshLayout=view.findViewById(R.id.refreshlayout);
-        refreshLayout.setEnableAutoLoadMore(true);
-        refreshLayout.autoRefresh();
-        refreshLayout.setOnRefreshListener(new OnRefreshListener() {
-            @Override
-            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-                refresh();
-                refreshLayout.getLayout().postDelayed(() -> {
-                    getall();
-                    adapterItems.notifyDataSetChanged();
-                    refreshLayout.finishRefresh();
-                    refreshLayout.resetNoMoreData();//setNoMoreData(false);
-                }, 2000);
-            }
-        });
+        refreshLayout=view.findViewById(R.id.refreshlayout);
         return view;
     }
     private void update(String s){

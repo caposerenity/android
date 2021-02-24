@@ -44,6 +44,7 @@ public class CheckmanFragment extends Fragment {
     private OnItemSelectedListener listener;
     private TextView text;
     private String id;
+    private RefreshLayout refreshLayout;
 
     public interface OnItemSelectedListener {
         public void onItemSelected(Task i);
@@ -75,6 +76,26 @@ public class CheckmanFragment extends Fragment {
                 R.layout.list_item, showTasks);
         id=getActivity().getIntent().getStringExtra("id");
     }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        refreshLayout.setEnableAutoLoadMore(true);
+        refreshLayout.autoRefresh();
+        refreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+                refresh();
+                refreshLayout.getLayout().postDelayed(() -> {
+                    getall();
+                    adapterItems.notifyDataSetChanged();
+                    refreshLayout.finishRefresh();
+                    refreshLayout.resetNoMoreData();//setNoMoreData(false);
+                }, 2000);
+            }
+        });
+    }
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view=inflater.inflate(R.layout.fragment_checkman, container, false);
@@ -92,21 +113,7 @@ public class CheckmanFragment extends Fragment {
 
             }
         });
-        RefreshLayout refreshLayout=view.findViewById(R.id.refreshlayout);
-        refreshLayout.setEnableAutoLoadMore(true);
-        refreshLayout.autoRefresh();
-        refreshLayout.setOnRefreshListener(new OnRefreshListener() {
-            @Override
-            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-                refresh();
-                refreshLayout.getLayout().postDelayed(() -> {
-                    getall();
-                    adapterItems.notifyDataSetChanged();
-                    refreshLayout.finishRefresh();
-                    refreshLayout.resetNoMoreData();//setNoMoreData(false);
-                }, 2000);
-            }
-        });
+        refreshLayout=view.findViewById(R.id.refreshlayout);
         return view;
     }
     private void getall(){
