@@ -51,6 +51,7 @@ public class ManagerDetailFragment extends Fragment {
 		TextView name = view.findViewById(R.id.TaskName);
 		TextView ddl1=view.findViewById(R.id.ddl1);
 		TextView ddl2=view.findViewById(R.id.ddl2);
+		//TODO:获取组长和质检人员名字
 		TextView tl=view.findViewById(R.id.Teamleader);
 		TextView checkman=view.findViewById(R.id.Checkman);
 		note=view.findViewById(R.id.note);
@@ -77,7 +78,6 @@ public class ManagerDetailFragment extends Fragment {
 		Button button1=view.findViewById(R.id.edit_button1);
 		Button button2=view.findViewById(R.id.edit_button2);
 		button1.setOnClickListener(new View.OnClickListener() {
-			//:在此编辑修改完成截止时间的操作
 			@Override
 			public void onClick(View view) {
 					if (mTimePickerDialog == null) {
@@ -86,10 +86,11 @@ public class ManagerDetailFragment extends Fragment {
 						mTimePickerDialog = new TimePickerBuilder(getContext(), new OnTimeSelectListener() {
 							@Override
 							public void onTimeSelected(Date date, View v) {
+								ddl1.setText("预计完成时间："+DateUtils.date2String(date, DateUtils.yyyyMMddHHmmss.get()));
 								SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 								df.setTimeZone(TimeZone.getTimeZone("GMT+8:00"));
 								String expected_time=df.format(date);
-								RxHttp.postJson("http://10.0.2.2:8000/api/task/modifytask")
+								RxHttp.postJson("http://192.168.1.106:8000/api/task/modifytask")
 										.add("task_id",item.getTask_id()).add("expected_time",expected_time)
 										.asString()
 										.observeOn(AndroidSchedulers.mainThread()) //指定在主线程回调
@@ -127,10 +128,11 @@ public class ManagerDetailFragment extends Fragment {
 					mTimePickerDialog = new TimePickerBuilder(getContext(), new OnTimeSelectListener() {
 						@Override
 						public void onTimeSelected(Date date, View v) {
+							ddl2.setText("预计质检完成时间："+DateUtils.date2String(date, DateUtils.yyyyMMddHHmmss.get()));
 							SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 							df.setTimeZone(TimeZone.getTimeZone("GMT+8:00"));
 							String expected_exam_time=df.format(date);
-							RxHttp.postJson("http://10.0.2.2:8000/api/task/modifytask")
+							RxHttp.postJson("http://192.168.1.106:8000/api/task/modifytask")
 									.add("task_id",item.getTask_id()).add("expected_exam_time",expected_exam_time)
 									.asString()
 									.observeOn(AndroidSchedulers.mainThread()) //指定在主线程回调

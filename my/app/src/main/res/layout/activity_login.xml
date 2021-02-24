@@ -75,7 +75,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="36dp"
                     android:hint="请输入密码"
-                    android:inputType="number"
+                    android:inputType="textPassword"
                     app:met_clearButton="false"
                     app:met_errorMessage="请输入6位以上的密码"
                     app:met_floatingLabel="normal"

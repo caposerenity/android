@@ -166,7 +166,7 @@ public class TeamLeaderFragment extends Fragment {
     private void refresh(){
         ArrayList<Task> temp=new ArrayList<Task>();
         SharedPreferences sharedPre=getActivity().getSharedPreferences("config",getActivity().MODE_PRIVATE);
-        RxHttp.get("http://10.0.2.2:8000/api/task/"+String.valueOf(sharedPre.getInt("user_id",-1))+"/getTasks")
+        RxHttp.get("http://192.168.1.106:8000/api/task/"+String.valueOf(sharedPre.getInt("user_id",-1))+"/getTasks")
                 .asList(String.class)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(s -> {

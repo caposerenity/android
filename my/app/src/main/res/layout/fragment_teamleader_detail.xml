@@ -16,7 +16,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/TaskName"
         android:layout_marginTop="19dp"
-        android:text="创建时间" />
+        android:text="创建时间：" />
     <TextView
         android:id="@+id/ddl1"
         android:layout_width="wrap_content"

@@ -38,6 +38,7 @@ public class ExecutorDetailFragment extends Fragment {
         TextView name = view.findViewById(R.id.TaskName);
         TextView ddl1=view.findViewById(R.id.ddl1);
         TextView ddl2=view.findViewById(R.id.ddl2);
+        //TODO:获取组长和质检人员名字
         TextView tl=view.findViewById(R.id.Teamleader);
         TextView checkman=view.findViewById(R.id.Checkman);
         note=view.findViewById(R.id.note);
@@ -64,7 +65,7 @@ public class ExecutorDetailFragment extends Fragment {
         button1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                RxHttp.postJson("http://10.0.2.2:8000/api/task/modifytask")
+                RxHttp.postJson("http://192.168.1.106:8000/api/task/modifytask")
                         .add("task_id",item.getTask_id()).add("status","submitted")
                         .asString()
                         .observeOn(AndroidSchedulers.mainThread()) //指定在主线程回调

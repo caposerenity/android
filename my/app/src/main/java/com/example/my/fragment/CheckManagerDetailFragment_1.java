@@ -47,6 +47,7 @@ public class CheckManagerDetailFragment_1 extends Fragment {
         View view = inflater.inflate(R.layout.fragment_checkmanager1_detail, container, false);
         TextView name = view.findViewById(R.id.TaskName);
         TextView ddl2=view.findViewById(R.id.ddl2);
+        //TODO:获取组长名字
         TextView tl=view.findViewById(R.id.Teamleader);
         TextView maketime=view.findViewById(R.id.makeTime);
         TextView finish1=view.findViewById(R.id.finish1);
@@ -71,7 +72,7 @@ public class CheckManagerDetailFragment_1 extends Fragment {
         ResultId= new ArrayList<Integer>();
         Result.add(user_name);
         ResultId.add(user_id);
-        RxHttp.get("http://10.0.2.2:8000/api/user/Quality_inspector/filterPosition")
+        RxHttp.get("http://192.168.1.106:8000/api/user/Quality_inspector/filterPosition")
                 .asList(String.class)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(res->{
@@ -93,7 +94,7 @@ public class CheckManagerDetailFragment_1 extends Fragment {
             public void onClick(View view) {
                 OptionsPickerView pvOptions = new OptionsPickerBuilder(getActivity(), (v, options1, options2, options3) -> {
                     resultSelectOption = options1;
-                    RxHttp.postJson("http://10.0.2.2:8000/api/task/modifytask")
+                    RxHttp.postJson("http://192.168.1.106:8000/api/task/modifytask")
                             .add("task_id",item.getTask_id()).add("status","examing").add("quality_inspector",ResultId.get(resultSelectOption))
                             .asString()
                             .observeOn(AndroidSchedulers.mainThread()) //指定在主线程回调
