@@ -35,6 +35,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
 
+import static com.xuexiang.xutil.XUtil.runOnUiThread;
+
 public class ManagerDetailFragment extends Fragment {
 	private Task item;
 	private static final int REQUEST_CODE_ADD = 1002;
@@ -61,38 +63,54 @@ public class ManagerDetailFragment extends Fragment {
 		TextView maketime=view.findViewById(R.id.makeTime);
 		TextView finish1=view.findViewById(R.id.finish1);
 		TextView finish2=view.findViewById(R.id.finish2);
+
 		if(item.getQuality_inspector()!=null&& !item.getQuality_inspector().equals("null")&& !item.getQuality_inspector().equals("")) {
 			new Thread(new Runnable() {
 				@Override
 				public void run() {
 					OkHttpClient client = new OkHttpClient();
-					Request request = new Request.Builder().url("http://10.0.2.2:8000/api/user/" + item.getQuality_inspector() + "/getNameById").build();
+					Request request = new Request.Builder().url("http://192.168.3.10:8000/api/user/" + item.getQuality_inspector() + "/getNameById").build();
 					try {
 						Response response = client.newCall(request).execute();//发送请求
 						String result = response.body().string();
-						checkman.append(result);
+						runOnUiThread(new Runnable() {
+							@Override
+							public void run() {
+								checkman.append(result);
+							}
+						});
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
 				}
 			}).start();
+
 		}
 		if(item.getGroup_leader()!=null&& !item.getGroup_leader().equals("null")&& !item.getGroup_leader().equals("")) {
 			new Thread(new Runnable() {
 				@Override
 				public void run() {
 					OkHttpClient client = new OkHttpClient();
-					Request request = new Request.Builder().url("http://10.0.2.2:8000/api/user/" + item.getGroup_leader() + "/getNameById").build();
+					Request request = new Request.Builder().url("http://192.168.3.10:8000/api/user/" + item.getGroup_leader() + "/getNameById").build();
 					try {
 						Response response = client.newCall(request).execute();//发送请求
 						String result = response.body().string();
-						tl.append(result);
+						runOnUiThread(new Runnable() {
+							@Override
+							public void run() {
+								tl.append(result);
+							}
+						});
+
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
 				}
 			}).start();
+
 		}
+
+
 		name.append(item.getTask_name());
 		tag.append(item.getStatus());
 		ddl1.append(item.getExpected_time());
@@ -121,11 +139,11 @@ public class ManagerDetailFragment extends Fragment {
 						mTimePickerDialog = new TimePickerBuilder(getContext(), new OnTimeSelectListener() {
 							@Override
 							public void onTimeSelected(Date date, View v) {
-								ddl1.setText("预计完成时间："+DateUtils.date2String(date, DateUtils.yyyyMMddHHmmss.get()));
+								ddl1.setText("完成截止时间："+DateUtils.date2String(date, DateUtils.yyyyMMddHHmmss.get()));
 								SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 								df.setTimeZone(TimeZone.getTimeZone("GMT+8:00"));
 								String expected_time=df.format(date);
-								RxHttp.postJson("http://10.0.2.2:8000/api/task/modifytask")
+								RxHttp.postJson("http://192.168.3.10:8000/api/task/modifytask")
 										.add("task_id",item.getTask_id()).add("expected_time",expected_time)
 										.asString()
 										.observeOn(AndroidSchedulers.mainThread()) //指定在主线程回调
@@ -163,11 +181,11 @@ public class ManagerDetailFragment extends Fragment {
 					mTimePickerDialog = new TimePickerBuilder(getContext(), new OnTimeSelectListener() {
 						@Override
 						public void onTimeSelected(Date date, View v) {
-							ddl2.setText("预计质检完成时间："+DateUtils.date2String(date, DateUtils.yyyyMMddHHmmss.get()));
+							ddl2.setText("质检截止时间："+DateUtils.date2String(date, DateUtils.yyyyMMddHHmmss.get()));
 							SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 							df.setTimeZone(TimeZone.getTimeZone("GMT+8:00"));
 							String expected_exam_time=df.format(date);
-							RxHttp.postJson("http://10.0.2.2:8000/api/task/modifytask")
+							RxHttp.postJson("http://192.168.3.10:8000/api/task/modifytask")
 									.add("task_id",item.getTask_id()).add("expected_exam_time",expected_exam_time)
 									.asString()
 									.observeOn(AndroidSchedulers.mainThread()) //指定在主线程回调

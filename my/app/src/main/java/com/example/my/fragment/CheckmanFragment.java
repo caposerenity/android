@@ -133,7 +133,7 @@ public class CheckmanFragment extends Fragment {
     }
     private void refresh(){
         ArrayList<Task> temp=new ArrayList<Task>();
-        RxHttp.get("http://10.0.2.2:8000/api/task/getAllTasks")
+        RxHttp.get("http://192.168.3.10:8000/api/task/getAllTasks")
                 .asList(String.class)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(s -> {

@@ -26,6 +26,8 @@ import rxhttp.RxHttp;
 
 import java.io.IOException;
 
+import static com.xuexiang.xutil.XUtil.runOnUiThread;
+
 public class ExecutorDetailFragment extends Fragment {
     private Task item;
     private static final int REQUEST_CODE_ADD = 1002;
@@ -54,27 +56,38 @@ public class ExecutorDetailFragment extends Fragment {
                 @Override
                 public void run() {
                     OkHttpClient client = new OkHttpClient();
-                    Request request = new Request.Builder().url("http://10.0.2.2:8000/api/user/" + item.getQuality_inspector() + "/getNameById").build();
+                    Request request = new Request.Builder().url("http://192.168.3.10:8000/api/user/" + item.getQuality_inspector() + "/getNameById").build();
                     try {
                         Response response = client.newCall(request).execute();//发送请求
                         String result = response.body().string();
-                        checkman.append(result);
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                checkman.append(result);
+                            }
+                        });
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
                 }
             }).start();
+
         }
         if(item.getGroup_leader()!=null&& !item.getGroup_leader().equals("null")&& !item.getGroup_leader().equals("")) {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
                     OkHttpClient client = new OkHttpClient();
-                    Request request = new Request.Builder().url("http://10.0.2.2:8000/api/user/" + item.getGroup_leader() + "/getNameById").build();
+                    Request request = new Request.Builder().url("http://192.168.3.10:8000/api/user/" + item.getGroup_leader() + "/getNameById").build();
                     try {
                         Response response = client.newCall(request).execute();//发送请求
                         String result = response.body().string();
-                        tl.append(result);
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                tl.append(result);
+                            }
+                        });
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -101,7 +114,7 @@ public class ExecutorDetailFragment extends Fragment {
         button1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                RxHttp.postJson("http://10.0.2.2:8000/api/task/modifytask")
+                RxHttp.postJson("http://192.168.3.10:8000/api/task/modifytask")
                         .add("task_id",item.getTask_id()).add("status","submitted")
                         .asString()
                         .observeOn(AndroidSchedulers.mainThread()) //指定在主线程回调

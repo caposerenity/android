@@ -53,7 +53,7 @@ public class VerifyFragment extends Fragment {
                 OptionsPickerView pvOptions = new OptionsPickerBuilder(getActivity(), (v, options1, options2, options3) -> {
                     resultSelectOption = options1;
                     if(resultSelectOption==1){
-                        RxHttp.get("http://10.0.2.2:8000/api/user/"+item.getPhone()+"/drop")
+                        RxHttp.get("http://192.168.3.10:8000/api/user/"+item.getPhone()+"/drop")
                                 .asString()
                                 .observeOn(AndroidSchedulers.mainThread()) //指定在主线程回调
                                 .subscribe(res -> {
@@ -70,7 +70,7 @@ public class VerifyFragment extends Fragment {
                                 });
                     }
                     else{
-                        RxHttp.postJson("http://10.0.2.2:8000/api/user/changePos")
+                        RxHttp.postJson("http://192.168.3.10:8000/api/user/changePos")
                             .add("phone",item.getPhone()).add("newPos",roleConvert.roleCNToEng(item.getRole()))
                             .asString()
                             .observeOn(AndroidSchedulers.mainThread()) //指定在主线程回调

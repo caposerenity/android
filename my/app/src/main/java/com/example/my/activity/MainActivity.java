@@ -88,7 +88,7 @@ public class MainActivity extends AppCompatActivity implements ManagerFragment.O
                 ArrayList<Task> tasks = Task.getItems();
                 tasks.clear();
 
-                RxHttp.get("http://10.0.2.2:8000/api/task/getAllTasks")
+                RxHttp.get("http://192.168.3.10:8000/api/task/getAllTasks")
                         .asList(String.class)
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(s -> {

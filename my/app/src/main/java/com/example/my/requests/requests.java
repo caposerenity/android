@@ -45,7 +45,7 @@ public class requests {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        RxHttp.postJson("http://10.0.2.2:8000/api/user/register")
+        RxHttp.postJson("http://192.168.3.10:8000/api/user/register")
                 .addAll(String.valueOf(json))
                 .asString()
                 .observeOn(AndroidSchedulers.mainThread()) //指定在主线程回调
@@ -71,7 +71,7 @@ public class requests {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        RxHttp.postJson("http://10.0.2.2:8000/api/user/login")
+        RxHttp.postJson("http://192.168.3.10:8000/api/user/login")
                 .addAll(String.valueOf(json))
                 .asString()
                 .observeOn(AndroidSchedulers.mainThread()) //指定在主线程回调
@@ -98,8 +98,8 @@ public class requests {
             e.printStackTrace();
         }
         //RequestBody requestBody =RequestBody.create(JSON, String.valueOf(json));
-        //return testconnect.postRequest("http://10.0.2.2:8000/api/user/changePos",requestBody);
-        RxHttp.postJson("http://10.0.2.2:8000/api/user/changePos")
+        //return testconnect.postRequest("http://192.168.3.10:8000/api/user/changePos",requestBody);
+        RxHttp.postJson("http://192.168.3.10:8000/api/user/changePos")
                 .addAll(String.valueOf(json))
                 .asString()
                 .observeOn(AndroidSchedulers.mainThread()) //指定在主线程回调
@@ -117,8 +117,8 @@ public class requests {
 
     //@interface 根据类别筛选用户
     public static void filterPosition(String position){
-        //testconnect.getRequest("http://10.0.2.2:8000/api/user"+position+"/filterPosition");
-        RxHttp.get("http://10.0.2.2:8000/api/user"+position+"/filterPosition")
+        //testconnect.getRequest("http://192.168.3.10:8000/api/user"+position+"/filterPosition");
+        RxHttp.get("http://192.168.3.10:8000/api/user"+position+"/filterPosition")
                 .asList(String.class)
                 .subscribe(res->{
                     if(res.size()!=0){
@@ -142,8 +142,8 @@ public class requests {
             e.printStackTrace();
         }
         //RequestBody requestBody =RequestBody.create(JSON, String.valueOf(json));
-        //testconnect.postRequest("http://10.0.2.2:8000/api/user/changePassword",requestBody);
-        RxHttp.postJson("http://10.0.2.2:8000/api/user/changePassword")
+        //testconnect.postRequest("http://192.168.3.10:8000/api/user/changePassword",requestBody);
+        RxHttp.postJson("http://192.168.3.10:8000/api/user/changePassword")
                 .addAll(String.valueOf(json))
                 .asString()
                 .observeOn(AndroidSchedulers.mainThread()) //指定在主线程回调
@@ -172,8 +172,8 @@ public class requests {
             e.printStackTrace();
         }
         //RequestBody requestBody =RequestBody.create(JSON, String.valueOf(json));
-        //testconnect.postRequest("http://10.0.2.2:8000/api/user/changeInfo",requestBody);
-        RxHttp.postJson("http://10.0.2.2:8000/api/user/changeInfo")
+        //testconnect.postRequest("http://192.168.3.10:8000/api/user/changeInfo",requestBody);
+        RxHttp.postJson("http://192.168.3.10:8000/api/user/changeInfo")
                 .addAll(String.valueOf(json))
                 .asString()
                 .observeOn(AndroidSchedulers.mainThread()) //指定在主线程回调
@@ -205,8 +205,8 @@ public class requests {
             e.printStackTrace();
         }
         //RequestBody requestBody =RequestBody.create(JSON, String.valueOf(json));
-        //testconnect.postRequest("http://10.0.2.2:8000/api/task/addtask",requestBody);
-        RxHttp.postJson("http://10.0.2.2:8000/api/task/addtask")
+        //testconnect.postRequest("http://192.168.3.10:8000/api/task/addtask",requestBody);
+        RxHttp.postJson("http://192.168.3.10:8000/api/task/addtask")
                 .addAll(String.valueOf(json))
                 .asString()
                 .observeOn(AndroidSchedulers.mainThread()) //指定在主线程回调
@@ -225,12 +225,12 @@ public class requests {
 
     //@interface 质检员或小组长获取对应的任务
     public static void getTasks(String user_id){
-        testconnect.getRequest("http://10.0.2.2:8000/api/task"+user_id+"/getTasks");
+        testconnect.getRequest("http://192.168.3.10:8000/api/task"+user_id+"/getTasks");
     }
 
     //@interface 获取全部接口
     public static void getAllTasks() {
-        RxHttp.get("http://10.0.2.2:8000/api/task/getAllTasks")
+        RxHttp.get("http://192.168.3.10:8000/api/task/getAllTasks")
                 .asString()
                 .subscribe(s -> {
                     JSONObject j= new JSONObject(s);
@@ -239,11 +239,11 @@ public class requests {
                 }, throwable -> {
             //失败回调
                 });
-        //return testconnect.getRequest("http://10.0.2.2:8000/api/user/getAllTasks");
+        //return testconnect.getRequest("http://192.168.3.10:8000/api/user/getAllTasks");
     }
 
     //@interface 筛选出对应状态的任务
     public static String getTasksByStatus(String status){
-        return testconnect.getRequest("http://10.0.2.2:8000/api/task"+status+"/getTasksByStatus");
+        return testconnect.getRequest("http://192.168.3.10:8000/api/task"+status+"/getTasksByStatus");
     }
 }
