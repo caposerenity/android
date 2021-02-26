@@ -3,10 +3,12 @@ package com.example.my.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.chapter3.demo.R;
@@ -26,6 +28,7 @@ public class LoginActivity extends AppCompatActivity{
         setContentView(R.layout.activity_login);
         SuperButton button=findViewById(R.id.btn_login);
         button.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public void onClick(View v) {
                 //模拟用户角色0：系统管理员 1：生产部经理 2：组长 3：质检部经理 4：质检员 5：行政综合部
@@ -64,6 +67,7 @@ public class LoginActivity extends AppCompatActivity{
                                 edit.putString("position",position);
                                 //提交
                                 edit.commit();
+
                                 login(roleConvert.roleStrToNum(position),user_id+"");
                             }
                         }, throwable -> {
