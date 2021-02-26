@@ -73,7 +73,7 @@ public class TeamLeaderDetailFragment extends Fragment {
                 SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 df.setTimeZone(TimeZone.getTimeZone("GMT+8:00"));
                 String finish_time=df.format(time);
-                RxHttp.postJson("http://192.168.3.10:8000/api/task/modifytask")
+                RxHttp.postJson("http://10.0.2.2:8000/api/task/modifytask")
                         .add("task_id",item.getTask_id()).add("finish_time",finish_time).add("status","wait_exam")
                         .asString()
                         .observeOn(AndroidSchedulers.mainThread()) //指定在主线程回调

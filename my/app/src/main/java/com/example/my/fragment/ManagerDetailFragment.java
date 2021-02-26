@@ -69,7 +69,7 @@ public class ManagerDetailFragment extends Fragment {
 				@Override
 				public void run() {
 					OkHttpClient client = new OkHttpClient();
-					Request request = new Request.Builder().url("http://192.168.3.10:8000/api/user/" + item.getQuality_inspector() + "/getNameById").build();
+					Request request = new Request.Builder().url("http://10.0.2.2:8000/api/user/" + item.getQuality_inspector() + "/getNameById").build();
 					try {
 						Response response = client.newCall(request).execute();//发送请求
 						String result = response.body().string();
@@ -91,7 +91,7 @@ public class ManagerDetailFragment extends Fragment {
 				@Override
 				public void run() {
 					OkHttpClient client = new OkHttpClient();
-					Request request = new Request.Builder().url("http://192.168.3.10:8000/api/user/" + item.getGroup_leader() + "/getNameById").build();
+					Request request = new Request.Builder().url("http://10.0.2.2:8000/api/user/" + item.getGroup_leader() + "/getNameById").build();
 					try {
 						Response response = client.newCall(request).execute();//发送请求
 						String result = response.body().string();
@@ -143,7 +143,7 @@ public class ManagerDetailFragment extends Fragment {
 								SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 								df.setTimeZone(TimeZone.getTimeZone("GMT+8:00"));
 								String expected_time=df.format(date);
-								RxHttp.postJson("http://192.168.3.10:8000/api/task/modifytask")
+								RxHttp.postJson("http://10.0.2.2:8000/api/task/modifytask")
 										.add("task_id",item.getTask_id()).add("expected_time",expected_time)
 										.asString()
 										.observeOn(AndroidSchedulers.mainThread()) //指定在主线程回调
@@ -185,7 +185,7 @@ public class ManagerDetailFragment extends Fragment {
 							SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 							df.setTimeZone(TimeZone.getTimeZone("GMT+8:00"));
 							String expected_exam_time=df.format(date);
-							RxHttp.postJson("http://192.168.3.10:8000/api/task/modifytask")
+							RxHttp.postJson("http://10.0.2.2:8000/api/task/modifytask")
 									.add("task_id",item.getTask_id()).add("expected_exam_time",expected_exam_time)
 									.asString()
 									.observeOn(AndroidSchedulers.mainThread()) //指定在主线程回调

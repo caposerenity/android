@@ -26,7 +26,7 @@ public class VerifyActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_verify);
         users=new ArrayList<User>();
-        RxHttp.get("http://192.168.3.10:8000/api/user/Visitor/filterPosition")
+        RxHttp.get("http://10.0.2.2:8000/api/user/Visitor/filterPosition")
                 .asList(String.class)
                 .subscribe(res->{
                     if(res.size()!=0){

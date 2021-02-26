@@ -62,7 +62,7 @@ public class CheckManagerDetailFragment_1 extends Fragment {
                 @Override
                 public void run() {
                     OkHttpClient client = new OkHttpClient();
-                    Request request = new Request.Builder().url("http://192.168.3.10:8000/api/user/" + item.getGroup_leader() + "/getNameById").build();
+                    Request request = new Request.Builder().url("http://10.0.2.2:8000/api/user/" + item.getGroup_leader() + "/getNameById").build();
                     try {
                         Response response = client.newCall(request).execute();//发送请求
                         String result = response.body().string();
@@ -100,7 +100,7 @@ public class CheckManagerDetailFragment_1 extends Fragment {
         ResultId= new ArrayList<Integer>();
         Result.add(user_name);
         ResultId.add(user_id);
-        RxHttp.get("http://192.168.3.10:8000/api/user/Quality_inspector/filterPosition")
+        RxHttp.get("http://10.0.2.2:8000/api/user/Quality_inspector/filterPosition")
                 .asList(String.class)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(res->{
@@ -122,7 +122,7 @@ public class CheckManagerDetailFragment_1 extends Fragment {
             public void onClick(View view) {
                 OptionsPickerView pvOptions = new OptionsPickerBuilder(getActivity(), (v, options1, options2, options3) -> {
                     resultSelectOption = options1;
-                    RxHttp.postJson("http://192.168.3.10:8000/api/task/modifytask")
+                    RxHttp.postJson("http://10.0.2.2:8000/api/task/modifytask")
                             .add("task_id",item.getTask_id()).add("status","examing").add("quality_inspector",ResultId.get(resultSelectOption))
                             .asString()
                             .observeOn(AndroidSchedulers.mainThread()) //指定在主线程回调
