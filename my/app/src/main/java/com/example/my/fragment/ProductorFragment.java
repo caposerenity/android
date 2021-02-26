@@ -236,7 +236,7 @@ public class ProductorFragment extends Fragment {
     private int overdue(){
         int res=0;
         for(int i=0;i<tasks.size();i++){
-            if(tasks.get(i).getStatus().equals("待完成")){
+            if(tasks.get(i).getStatus().equals("待完成")||tasks.get(i).getStatus().equals("不合格")){
                 Date beginTime= DateUtils.string2Date(tasks.get(i).getExpected_time(),DateUtils.yyyyMMddHHmmss.get());
                 Date endTime= DateUtils.getNowDate();
                 if (DateUtils.date2Millis(beginTime) <DateUtils.date2Millis( endTime)) {
@@ -256,7 +256,7 @@ public class ProductorFragment extends Fragment {
     private int needToDo(){
         int res=0;
         for(int i=0;i<tasks.size();i++){
-            if(tasks.get(i).getStatus().equals("待完成")){
+            if(tasks.get(i).getStatus().equals("待完成")||tasks.get(i).getStatus().equals("不合格")){
                 res++;
             }
         }
