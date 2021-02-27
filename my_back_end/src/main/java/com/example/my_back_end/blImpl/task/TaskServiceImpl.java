@@ -46,6 +46,7 @@ public class TaskServiceImpl implements TaskService {
         }
         else {
             taskMapper.createNewTask(task);
+            //发短信通知组长有新任务
             return ResponseVO.buildSuccess(true);
         }
     }
@@ -72,6 +73,12 @@ public class TaskServiceImpl implements TaskService {
         else new_task.setStatus(taskVO.getStatus().toString());
 
         taskMapper.modifyTask(new_task);
+        if(new_task.getStatus().equals("质检中")){
+            //给质检员发短信
+        }
+        if(new_task.getStatus().equals("待质检")){
+            //给质检部经理发短信,提醒选质检员
+        }
         return ResponseVO.buildSuccess(true);
     }
 

@@ -22,4 +22,7 @@ public interface AccountService {
     public ResponseVO dropUser(String phone);
 
     public String getNameById(int user_id);
-}
+
+    public String getPhoneById(int user_id);
+
+    }

@@ -127,4 +127,10 @@ public class AccountServiceImpl implements AccountService {
         return name;
     }
 
+    @Override
+    public String getPhoneById(int user_id) {
+        String phone=accountMapper.getAccountById(user_id).getPhone();
+        return phone;
+    }
+
 }

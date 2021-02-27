@@ -1,5 +1,9 @@
 package com.example.my.activity;
 
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -11,6 +15,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import com.example.chapter3.demo.R;
 import com.xuexiang.xui.widget.button.ButtonView;
 import com.xuexiang.xui.widget.dialog.materialdialog.DialogAction;
@@ -21,14 +27,52 @@ import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import org.json.JSONObject;
 import rxhttp.RxHttp;
 import com.example.my.utils.roleConvert;
+
+import static com.xuexiang.xutil.XUtil.getContext;
+
 public class LoginActivity extends AppCompatActivity{
+    private String createNotificationChannel(String channelID, String channelNAME, int level) {
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            NotificationManager manager = (NotificationManager) getContext().getSystemService(getContext().NOTIFICATION_SERVICE);
+            NotificationChannel channel = new NotificationChannel(channelID, channelNAME, level);
+            manager.createNotificationChannel(channel);
+            return channelID;
+        } else {
+            return null;
+        }
+    }
+
+    private void myNotify(){
+        Intent intent = new Intent(this, LoginActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
+        String channelId = createNotificationChannel("my_channel_ID", "my_channel_NAME", NotificationManager.IMPORTANCE_HIGH);
+        NotificationCompat.Builder notification = new NotificationCompat.Builder(this, channelId)
+                .setContentTitle("通知")
+                .setContentText("请联系管理员")
+                .setContentIntent(pendingIntent)
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setAutoCancel(true);
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
+        notificationManager.notify(100, notification.build());
+    }
     @Override
     protected void onCreate(Bundle savedInstance) {
         super.onCreate(savedInstance);
         setContentView(R.layout.activity_login);
+
+        ButtonView forget=findViewById(R.id.tv_forget_password);
+        forget.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                myNotify();
+            }
+        });
+
         SuperButton button=findViewById(R.id.btn_login);
         button.setOnClickListener(new View.OnClickListener() {
-            @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public void onClick(View v) {
                 //模拟用户角色0：系统管理员 1：生产部经理 2：组长 3：质检部经理 4：质检员 5：行政综合部
