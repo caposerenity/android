@@ -28,6 +28,7 @@ import com.example.my.listview.User;
 import com.example.my.requests.requests;
 import com.example.my.adapter.TaskAdapter;
 import com.example.my.listview.Task;
+import com.example.my.utils.roleConvert;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.xuexiang.xui.widget.button.ButtonView;
@@ -201,8 +202,16 @@ public class ManagerFragment extends Fragment {
         }
         text.setText(""+overdue());
         //TODO:在text2设置需要审核的人员数
-        text2.setText("3");
+        RxHttp.get("http://3s784625n5.qicp.vip:80/api/user/Visitor/filterPosition")
+                .asList(String.class)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(res->{
+                    text2.setText(String.valueOf(res.size()));
+                },throwable -> {
+                });
     }
+
+
     private void refresh(){
         ArrayList<Task> temp=new ArrayList<Task>();
         RxHttp.get("http://3s784625n5.qicp.vip:80/api/task/getAllTasks")
