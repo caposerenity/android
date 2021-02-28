@@ -9,6 +9,7 @@ import com.example.my_back_end.vo.TaskVO;
 import com.example.my_back_end.vo.UserVO;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.configurationprocessor.json.JSONException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,13 +21,13 @@ public class TaskController {
     private TaskService taskService;
 
     @PostMapping("/addtask")
-    public ResponseVO addTask(@RequestBody TaskVO taskVO) {
+    public ResponseVO addTask(@RequestBody TaskVO taskVO) throws JSONException {
         return taskService.addTask(taskVO);
     }
 
     //一个统一接口，所有task修改均使用它
     @PostMapping("/modifytask")
-    public ResponseVO modifyTask(@RequestBody TaskVO taskVO) {
+    public ResponseVO modifyTask(@RequestBody TaskVO taskVO) throws JSONException {
         return taskService.modifyTask(taskVO);
     }
     //质检员或小组长获取对应的task
