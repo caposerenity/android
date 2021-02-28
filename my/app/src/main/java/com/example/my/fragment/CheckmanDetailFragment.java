@@ -75,7 +75,7 @@ public class CheckmanDetailFragment extends Fragment {
                     SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                     df.setTimeZone(TimeZone.getTimeZone("GMT+8:00"));
                     String finish_exam_time=df.format(time);
-                    RxHttp.postJson("http://10.0.2.2:8000/api/task/modifytask")
+                    RxHttp.postJson("http://3s784625n5.qicp.vip:80/api/task/modifytask")
                             .add("task_id",item.getTask_id()).add("status",status).add("finish_exam_time",finish_exam_time)
                             .asString()
                             .observeOn(AndroidSchedulers.mainThread()) //指定在主线程回调

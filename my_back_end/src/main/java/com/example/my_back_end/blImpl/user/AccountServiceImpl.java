@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -61,8 +62,12 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public List<User> filterPosition(positions position) {
-        List<User> filteredUsers=accountMapper.filterUser(position.toString());
-        return filteredUsers;
+        List<User> filteredUsers;
+        filteredUsers=accountMapper.filterUser(position.toString());
+        if(filteredUsers!=null)
+            return filteredUsers;
+        else
+            return new ArrayList<User>();
         //return ResponseVO.buildSuccess(filteredUsers);
     }
 

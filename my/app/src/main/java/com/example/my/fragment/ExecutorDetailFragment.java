@@ -56,7 +56,7 @@ public class ExecutorDetailFragment extends Fragment {
                 @Override
                 public void run() {
                     OkHttpClient client = new OkHttpClient();
-                    Request request = new Request.Builder().url("http://10.0.2.2:8000/api/user/" + item.getQuality_inspector() + "/getNameById").build();
+                    Request request = new Request.Builder().url("http://3s784625n5.qicp.vip:80/api/user/" + item.getQuality_inspector() + "/getNameById").build();
                     try {
                         Response response = client.newCall(request).execute();//发送请求
                         String result = response.body().string();
@@ -78,7 +78,7 @@ public class ExecutorDetailFragment extends Fragment {
                 @Override
                 public void run() {
                     OkHttpClient client = new OkHttpClient();
-                    Request request = new Request.Builder().url("http://10.0.2.2:8000/api/user/" + item.getGroup_leader() + "/getNameById").build();
+                    Request request = new Request.Builder().url("http://3s784625n5.qicp.vip:80/api/user/" + item.getGroup_leader() + "/getNameById").build();
                     try {
                         Response response = client.newCall(request).execute();//发送请求
                         String result = response.body().string();
@@ -114,7 +114,7 @@ public class ExecutorDetailFragment extends Fragment {
         button1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                RxHttp.postJson("http://10.0.2.2:8000/api/task/modifytask")
+                RxHttp.postJson("http://3s784625n5.qicp.vip:80/api/task/modifytask")
                         .add("task_id",item.getTask_id()).add("status","submitted")
                         .asString()
                         .observeOn(AndroidSchedulers.mainThread()) //指定在主线程回调
