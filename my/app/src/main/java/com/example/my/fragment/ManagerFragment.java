@@ -218,7 +218,7 @@ public class ManagerFragment extends Fragment {
                 .asList(String.class)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(s -> {
-                    Log.d("TAG", s.get(0).toString());
+                    //Log.d("TAG", s.get(0).toString());
                     for (String value : s) {
                         JSONObject js = new JSONObject(value);
                         Task t = new Task(js.getString("task_id"), js.getString("task_name"), js.getString("group_leader"),
