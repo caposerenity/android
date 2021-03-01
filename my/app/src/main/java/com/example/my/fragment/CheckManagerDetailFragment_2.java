@@ -138,7 +138,6 @@ public class CheckManagerDetailFragment_2 extends Fragment {
                     @Override
                     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
                         dialog.dismiss();
-                        getActivity().finish();
                     }
                 })
                 .show();
