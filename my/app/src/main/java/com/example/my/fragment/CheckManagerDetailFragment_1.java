@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +18,7 @@ import androidx.fragment.app.Fragment;
 import com.example.chapter3.demo.R;
 import com.example.my.activity.NoteActivity;
 import com.example.my.listview.Task;
+import com.example.my.utils.XToastUtils;
 import com.xuexiang.xui.widget.dialog.materialdialog.DialogAction;
 import com.xuexiang.xui.widget.dialog.materialdialog.MaterialDialog;
 import com.xuexiang.xui.widget.picker.widget.OptionsPickerView;
@@ -40,7 +42,7 @@ public class CheckManagerDetailFragment_1 extends Fragment {
     private List<Integer> ResultId;
     private int resultSelectOption = 0;
     private static final int REQUEST_CODE_ADD = 1002;
-    public static TextView note;
+    private TextView note;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -159,12 +161,7 @@ public class CheckManagerDetailFragment_1 extends Fragment {
         return fragmentDemo;
     }
     private void add(){
-        String note=item.getComments();
-        String id=item.getTask_id();
-        Intent i=new Intent(getActivity(),NoteActivity.class);
-        i.putExtra("note",note);
-        i.putExtra("id",id);
-        startActivity(i);
+        showInputDialog();
     }
     public void showSimpleWarningDialog(String message) {
         new MaterialDialog.Builder(getContext())
@@ -195,5 +192,43 @@ public class CheckManagerDetailFragment_1 extends Fragment {
                 })
                 .show();
     }
-
+    private void showInputDialog() {
+        new MaterialDialog.Builder(getContext())
+                .iconRes(R.drawable.icon_tip)
+                .title("修改备注")
+                .inputType(
+                        InputType.TYPE_CLASS_TEXT)
+                .input(
+                        "",
+                        item.getComments(),
+                        false,
+                        ((dialog, input) -> XToastUtils.toast(input.toString())))
+                .positiveText("确定")
+                .negativeText("取消")
+                .onPositive(
+                        (dialog, which) -> {
+                            String content=dialog.getInputEditText().getText().toString();
+                            String id=item.getTask_id();
+                            RxHttp.postJson("http://3s784625n5.qicp.vip:80/api/task/modifytask")
+                                    .add("task_id",id).add("comments",content)
+                                    .asString()
+                                    .observeOn(AndroidSchedulers.mainThread()) //指定在主线程回调
+                                    .subscribe(res -> {
+                                        JSONObject j= new JSONObject(res);
+                                        String message =j.getString("message");
+                                        if(!message.equals("null")){
+                                            Log.d("TAG", message);
+                                            showSimpleWarningDialog(message);
+                                        }else{
+                                            note.setText(content);
+                                            showSimpleTipDialog("修改成功");
+                                        }
+                                    }, throwable -> {
+                                        showSimpleWarningDialog("网络不良,请重试");
+                                    });
+                        }
+                )
+                .cancelable(false)
+                .show();
+    }
 }

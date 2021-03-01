@@ -120,7 +120,6 @@ public class MainActivity extends AppCompatActivity implements ManagerFragment.O
                     case 5:
                         return ExecutorFragment.newInstance(tasks);
                 }
-
                     return new Fragment();
                 }
 
