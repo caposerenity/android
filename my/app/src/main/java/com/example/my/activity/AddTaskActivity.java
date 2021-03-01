@@ -161,7 +161,10 @@ public class AddTaskActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String name=taskName.getText().toString();
-                int leader=teamLeaderId.get(teamLeaderOption.indexOf(teamLeader.getText().toString()));
+                Integer leader=null;
+                if(teamLeaderId.size()!=0){
+                    leader=teamLeaderId.get(teamLeaderOption.indexOf(teamLeader.getText().toString()));
+                }
                 teamLeaderId.clear();
                 teamLeaderOption.clear();
                 String time1 = ddl1.getText().toString();
