@@ -12,7 +12,7 @@
         select * from tb_user where user_id=#{user_id}
     </select>
     <update id="changePos">
-        update tb_user set position=#{newPos}
+        update tb_user set position=#{newPos},name=#{name}
         where user_id=#{user_id}
     </update>
     <select id="filterUser" resultMap="User">

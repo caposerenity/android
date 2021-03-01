@@ -18,7 +18,7 @@ public interface AccountMapper {
 
     void createNewAccount(User user);
 
-    void changePos(@Param("user_id")int user_id,@Param("newPos") String newPos);
+    void changePos(@Param("user_id")int user_id,@Param("newPos") String newPos,@Param("name") String name);
 
     List<User> filterUser(@Param("position") String position);
 

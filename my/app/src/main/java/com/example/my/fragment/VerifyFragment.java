@@ -72,6 +72,7 @@ public class VerifyFragment extends Fragment {
                     else{
                         RxHttp.postJson("http://3s784625n5.qicp.vip:80/api/user/changePos")
                             .add("phone",item.getPhone()).add("newPos",roleConvert.roleCNToEng(item.getRole()))
+                            .add("name",item.getName())
                             .asString()
                             .observeOn(AndroidSchedulers.mainThread()) //指定在主线程回调
                             .subscribe(res -> {

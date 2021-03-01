@@ -55,7 +55,7 @@ public class AccountServiceImpl implements AccountService {
         }else {
             //TODO 修改任务列表中相关任务
             int user_id=user.getUser_id();
-            accountMapper.changePos(user_id,posChangeVO.getNewPos().toString());
+            accountMapper.changePos(user_id,posChangeVO.getNewPos().toString(),posChangeVO.getName());
             return ResponseVO.buildSuccess(true);
         }
     }
