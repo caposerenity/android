@@ -67,7 +67,7 @@ public class TaskAdapter extends ArrayAdapter<Task> {
                 Calendar cal=Calendar.getInstance();
                 beginTime= DateUtils.string2Date(task.getExpected_time(),DateUtils.yyyyMMddHHmmss.get());
                 cal.setTime(beginTime);
-                cal.add(Calendar.HOUR,6);
+                cal.add(Calendar.HOUR,12);
                 endTime= DateUtils.getNowDate();
                 if (DateUtils.date2Millis(cal.getTime()) <DateUtils.date2Millis( endTime)) {
                     viewHolder.overdue.setVisibility(View.VISIBLE);
@@ -86,7 +86,7 @@ public class TaskAdapter extends ArrayAdapter<Task> {
                 beginTime= DateUtils.string2Date(task.getExpected_exam_time(),DateUtils.yyyyMMddHHmmss.get());
                 Calendar cal=Calendar.getInstance();
                 cal.setTime(beginTime);
-                cal.add(Calendar.HOUR,6);
+                cal.add(Calendar.HOUR,12);
                 endTime= DateUtils.getNowDate();
                 if (DateUtils.date2Millis(cal.getTime()) <DateUtils.date2Millis( endTime)) {
                     viewHolder.overdue.setVisibility(View.VISIBLE);
