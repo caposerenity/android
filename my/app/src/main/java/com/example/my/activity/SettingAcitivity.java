@@ -1,6 +1,7 @@
 package com.example.my.activity;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.EditTextPreference;
@@ -37,6 +38,11 @@ public class SettingAcitivity extends PreferenceActivity {
         Preference pref = findPreference("modify_password");
         pref.setOnPreferenceClickListener(preference -> {
             showCustomDialog();
+            return false;
+        });
+        Preference leave=findPreference("logout");
+        leave.setOnPreferenceClickListener(preference -> {
+            logOut();
             return false;
         });
     }
@@ -154,6 +160,13 @@ public class SettingAcitivity extends PreferenceActivity {
                     }
                 })
                 .show();
+    }
+    public void logOut(){
+        SharedPreferences sharedPreferences=getSharedPreferences("config", MODE_PRIVATE);
+        SharedPreferences.Editor editor=sharedPreferences.edit();
+        editor.clear();
+        editor.commit();
+        startActivity(new Intent(this,LoginActivity.class));
     }
 
 }

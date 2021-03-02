@@ -12,7 +12,7 @@
             android:theme="@style/AppTheme" tools:ignore="GoogleAppIndexingWarning"
             android:usesCleartextTraffic="true">
 
-        <activity android:name="com.example.my.activity.LoginActivity">
+        <activity android:name="com.example.my.activity.EnterActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -38,5 +38,6 @@
         <activity android:name="com.example.my.activity.MainActivity"/>
         <activity android:name="com.example.my.activity.VerifyDetailActivity"/>
         <activity android:name="com.example.my.activity.VerifyActivity"/>
+        <activity android:name="com.example.my.activity.LoginActivity"/>
     </application>
 </manifest>

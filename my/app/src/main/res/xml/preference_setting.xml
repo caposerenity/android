@@ -34,9 +34,9 @@
                 android:title="修改密码"
                 android:key="modify_password">
         </Preference>
+        <Preference
+            android:title="退出登录"
+            android:key="logout">
+        </Preference>
     </PreferenceCategory>
-
-
-
-
 </PreferenceScreen>
