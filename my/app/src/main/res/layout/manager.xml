@@ -11,7 +11,7 @@
         android:layout_marginTop="10dp"
         android:background="@color/app_color_theme_7"
         app:navigationIcon="@drawable/ic_action_menu"
-        app:title="软件名称"/>
+        app:title="四方之星"/>
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/view_pager"
         android:layout_width="match_parent"
