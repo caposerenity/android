@@ -133,7 +133,8 @@ public class CheckmanFragment extends Fragment {
     }
     private void refresh(){
         ArrayList<Task> temp=new ArrayList<Task>();
-        RxHttp.get("http://3s784625n5.qicp.vip:80/api/task/getAllTasks")
+        SharedPreferences sharedPre=getActivity().getSharedPreferences("config",getActivity().MODE_PRIVATE);
+        RxHttp.get("http://3s784625n5.qicp.vip:80/api/task/"+String.valueOf(sharedPre.getInt("user_id",-1))+"/getTasks")
                 .asList(String.class)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(s -> {
