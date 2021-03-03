@@ -24,8 +24,15 @@ import com.xuexiang.xui.widget.picker.widget.builder.OptionsPickerBuilder;
 
 import org.json.JSONObject;
 
+import java.io.IOException;
+
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 import rxhttp.RxHttp;
+
+import static com.xuexiang.xutil.XUtil.runOnUiThread;
 
 public class CheckManagerDetailFragment_2 extends Fragment {
     private Task item;
@@ -50,12 +57,55 @@ public class CheckManagerDetailFragment_2 extends Fragment {
         TextView finish1=view.findViewById(R.id.finish1);
         name.append(item.getTask_name());
         ddl2.append(item.getExpected_exam_time());
-        tl.append(item.getGroup_leader());
         note.append(item.getComments());
         maketime.append(item.getCreate_time());
         finish1.append(item.getFinish_time());
         Button button=view.findViewById(R.id.add_button);
-        checkman.append(item.getQuality_inspector());
+        if(item.getQuality_inspector()!=null&& !item.getQuality_inspector().equals("null")&& !item.getQuality_inspector().equals("")) {
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    OkHttpClient client = new OkHttpClient();
+                    Request request = new Request.Builder().url("http://3s784625n5.qicp.vip:80/api/user/" + item.getQuality_inspector() + "/getNameById").build();
+                    try {
+                        Response response = client.newCall(request).execute();//发送请求
+                        String result = response.body().string();
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                checkman.append(result);
+                            }
+                        });
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }).start();
+
+        }
+        if(item.getGroup_leader()!=null&& !item.getGroup_leader().equals("null")&& !item.getGroup_leader().equals("")) {
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    OkHttpClient client = new OkHttpClient();
+                    Request request = new Request.Builder().url("http://3s784625n5.qicp.vip:80/api/user/" + item.getGroup_leader() + "/getNameById").build();
+                    try {
+                        Response response = client.newCall(request).execute();//发送请求
+                        String result = response.body().string();
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                tl.append(result);
+                            }
+                        });
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }).start();
+
+        }
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
