@@ -128,14 +128,6 @@ public class NoteActivity extends AppCompatActivity {
                 .onPositive(new MaterialDialog.SingleButtonCallback() {
                     @Override
                     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                        dialog.dismiss();
-                        String setText="备注："+editText.getText();
-                        ManagerDetailFragment.note.setText(setText);
-                        CheckManagerDetailFragment_1.note.setText(setText);
-                        CheckManagerDetailFragment_2.note.setText(setText);
-                        CheckmanDetailFragment.note.setText(setText);
-                        ExecutorDetailFragment.note.setText(setText);
-                        TeamLeaderDetailFragment.note.setText(setText);
                         finish();
                     }
                 })

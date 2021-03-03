@@ -2,6 +2,7 @@ package com.example.my.activity;
 
 import android.Manifest;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
@@ -21,6 +22,7 @@ import com.example.my.fragment.ProductorFragment;
 import com.example.my.fragment.TeamLeaderFragment;
 import com.example.my.listview.Task;
 import com.example.my.utils.XToastUtils;
+import com.example.my.utils.roleConvert;
 import com.google.android.material.tabs.TabLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentPagerAdapter;
@@ -69,9 +71,10 @@ public class MainActivity extends AppCompatActivity implements ManagerFragment.O
         super.onCreate(savedInstance);
         //checkNeedPermissions();
         //获取用户角色。0：系统管理员 1：生产部经理 2：组长 3：质检部经理 4：质检员 5：行政综合部
-        role=getIntent().getIntExtra("role",4);
+        SharedPreferences sharedPre=getSharedPreferences("config", MODE_PRIVATE);
+        id=sharedPre.getInt("user_id",0)+"";
         //获取用户Id
-        id=getIntent().getStringExtra("id");
+        role= roleConvert.roleStrToNum(sharedPre.getString("position","游客"));
         setContentView(R.layout.manager);
         ViewPager pager=findViewById(R.id.view_pager);
         Toolbar toolbar=findViewById(R.id.tool_bar);
@@ -120,7 +123,6 @@ public class MainActivity extends AppCompatActivity implements ManagerFragment.O
                     case 5:
                         return ExecutorFragment.newInstance(tasks);
                 }
-
                     return new Fragment();
                 }
 

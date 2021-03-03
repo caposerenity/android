@@ -63,16 +63,16 @@ public class TaskAdapter extends ArrayAdapter<Task> {
                 viewHolder.overdue.setVisibility(View.VISIBLE);
                 viewHolder.overdue.setText("生产已逾期");
             }
-        }
-        else if(task.getStatus().equals("待完成")){
-            Calendar cal=Calendar.getInstance();
-            Date beginTime= DateUtils.string2Date(task.getExpected_time(),DateUtils.yyyyMMddHHmmss.get());
-            cal.setTime(beginTime);
-            cal.add(Calendar.HOUR,6);
-            Date endTime= DateUtils.getNowDate();
-            if (DateUtils.date2Millis(cal.getTime()) <DateUtils.date2Millis( endTime)) {
-                viewHolder.overdue.setVisibility(View.VISIBLE);
-                viewHolder.overdue.setText("生产即将逾期");
+            else{
+                Calendar cal=Calendar.getInstance();
+                beginTime= DateUtils.string2Date(task.getExpected_time(),DateUtils.yyyyMMddHHmmss.get());
+                cal.setTime(beginTime);
+                cal.add(Calendar.HOUR,12);
+                endTime= DateUtils.getNowDate();
+                if (DateUtils.date2Millis(cal.getTime()) <DateUtils.date2Millis( endTime)) {
+                    viewHolder.overdue.setVisibility(View.VISIBLE);
+                    viewHolder.overdue.setText("生产即将逾期");
+                }
             }
         }
         else if(task.getStatus().equals("待质检")||task.getStatus().equals("质检中")){
@@ -82,16 +82,16 @@ public class TaskAdapter extends ArrayAdapter<Task> {
                 viewHolder.overdue.setVisibility(View.VISIBLE);
                 viewHolder.overdue.setText("质检已逾期");
             }
-        }
-        else if(task.getStatus().equals("待质检")||task.getStatus().equals("质检中")){
-            Date beginTime= DateUtils.string2Date(task.getExpected_exam_time(),DateUtils.yyyyMMddHHmmss.get());
-            Calendar cal=Calendar.getInstance();
-            cal.setTime(beginTime);
-            cal.add(Calendar.HOUR,6);
-            Date endTime= DateUtils.getNowDate();
-            if (DateUtils.date2Millis(cal.getTime()) <DateUtils.date2Millis( endTime)) {
-                viewHolder.overdue.setVisibility(View.VISIBLE);
-                viewHolder.overdue.setText("质检即将逾期");
+            else{
+                beginTime= DateUtils.string2Date(task.getExpected_exam_time(),DateUtils.yyyyMMddHHmmss.get());
+                Calendar cal=Calendar.getInstance();
+                cal.setTime(beginTime);
+                cal.add(Calendar.HOUR,12);
+                endTime= DateUtils.getNowDate();
+                if (DateUtils.date2Millis(cal.getTime()) <DateUtils.date2Millis( endTime)) {
+                    viewHolder.overdue.setVisibility(View.VISIBLE);
+                    viewHolder.overdue.setText("质检即将逾期");
+                }
             }
         }
         return view;

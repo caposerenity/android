@@ -99,20 +99,23 @@ public class LoginActivity extends AppCompatActivity{
                                 String user_name=c.getString("name");
                                 String position=c.getString("position");
                                 int user_id=c.getInt("user_id");
-
-                                SharedPreferences sharedPre=getSharedPreferences("config", MODE_PRIVATE);
-                                //获取Editor对象
-                                SharedPreferences.Editor edit = sharedPre.edit();
-                                //设置参数
-                                edit.putInt("user_id",user_id);
-                                edit.putString("phone",phone);
-                                edit.putString("password",pwd);
-                                edit.putString("name",user_name);
-                                edit.putString("position",position);
-                                //提交
-                                edit.commit();
-
-                                login(roleConvert.roleStrToNum(position),user_id+"");
+                                if(roleConvert.roleStrToNum(position)==6){
+                                    showSimpleWarningDialog("您的账号暂未通过审核");
+                                }
+                                else{
+                                    SharedPreferences sharedPre=getSharedPreferences("config", MODE_PRIVATE);
+                                    //获取Editor对象
+                                    SharedPreferences.Editor edit = sharedPre.edit();
+                                    //设置参数
+                                    edit.putInt("user_id",user_id);
+                                    edit.putString("phone",phone);
+                                    edit.putString("password",pwd);
+                                    edit.putString("name",user_name);
+                                    edit.putString("position",position);
+                                    //提交
+                                    edit.commit();
+                                    login(roleConvert.roleStrToNum(position),user_id+"");
+                                }
                             }
                         }, throwable -> {
                             //失败回调
@@ -155,5 +158,4 @@ public class LoginActivity extends AppCompatActivity{
                 })
                 .show();
     }
-
 }
