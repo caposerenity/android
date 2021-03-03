@@ -40,7 +40,7 @@ public class CheckService {
             }
             else if(task.getStatus().equals("质检中")){
                 Date now = new Date();
-                if(task.getExpected_exam_time()!=null&&task.getExpected_exam_time().getTime()-now.getTime()<=24*60*60*1000
+                if(task.getExpected_exam_time()!=null&&task.getExpected_exam_time().getTime()-now.getTime()<=12*60*60*1000
                         &&task.getExpected_exam_time().getTime()-now.getTime()>0
                 ){
                     //给质检员发短信,ddl快到了'

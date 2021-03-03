@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 
 import java.text.SimpleDateFormat;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -83,17 +84,17 @@ public class TaskServiceImpl implements TaskService {
         if(new_task.getStatus().equals("质检中")&&new_task.getQuality_inspector()!=null
         &&new_task.getQuality_inspector()!=-1){
             //给质检员发短信
-            String phone=accountService.getPhoneById(task.getQuality_inspector());
-            SmsService.sendSms(phone,task.getTask_name(),null,"SMS_212480527");
+            String phone=accountService.getPhoneById(new_task.getQuality_inspector());
+            SmsService.sendSms(phone,new_task.getTask_name(),null,"SMS_212480527");
         }
         if(new_task.getStatus().equals("待质检")){
             //给质检部经理发短信,提醒选质检员
             List<User> qua_manager_l=accountService.filterPosition(positions.Quality_manager);
             if(qua_manager_l.size()!=0){
                 String phone=qua_manager_l.get(0).getPhone();
-                Date time=task.getExpected_exam_time();
+                Date time=new_task.getExpected_exam_time();
                 SimpleDateFormat format= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                SmsService.sendSms(phone,task.getTask_name(),format.format(time),"SMS_212485535");
+                SmsService.sendSms(phone,new_task.getTask_name(),format.format(time),"SMS_212485535");
             }
         }
         if(new_task.getStatus().equals("待提交客户")){
@@ -101,7 +102,7 @@ public class TaskServiceImpl implements TaskService {
             List<User> comprehensives=accountService.filterPosition(positions.Comprehensive_depart);
             for (User people:comprehensives) {
                 String phone=people.getPhone();
-                SmsService.sendSms(phone,task.getTask_name(),null,"SMS_212485537");
+                SmsService.sendSms(phone,new_task.getTask_name(),null,"SMS_212485537");
             }
         }
         return ResponseVO.buildSuccess(true);
@@ -109,19 +110,22 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public List<Task> getTasks(int user_id) {
-         List<Task> tasks = taskMapper.getTasks(user_id);
+        List<Task> tasks = taskMapper.getTasks(user_id);
+        Collections.reverse(tasks);
         return tasks;
     }
 
     @Override
     public List<Task> getAllTasks() {
         List<Task> tasks = taskMapper.getAllTasks();
+        Collections.reverse(tasks);
         return tasks;
     }
 
     @Override
     public ResponseVO filterTasksByStatus(statuses status) {
         List<Task> tasks = taskMapper.filterTasksByStatus(status.toString());
+        Collections.reverse(tasks);
         return ResponseVO.buildSuccess(tasks);
     }
 
