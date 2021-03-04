@@ -1,6 +1,5 @@
 package com.example.my.fragment;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
 import android.util.Log;
@@ -8,13 +7,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.example.chapter3.demo.R;
-import com.example.my.activity.NoteActivity;
 import com.example.my.listview.Task;
 import com.example.my.utils.XToastUtils;
 import com.xuexiang.xui.widget.dialog.materialdialog.DialogAction;
@@ -204,7 +203,7 @@ public class ExecutorDetailFragment extends Fragment {
                                             Log.d("TAG", message);
                                             showSimpleWarningDialog(message);
                                         }else{
-                                            note.setText(content);
+                                            note.setText("备注："+content);
                                             showSimpleTipDialog("修改成功");
                                         }
                                     }, throwable -> {

@@ -14,9 +14,16 @@ import com.example.chapter3.demo.R;
 import com.example.my.listview.Task;
 import com.xuexiang.xutil.data.DateUtils;
 
+import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+
+import static com.xuexiang.xutil.XUtil.runOnUiThread;
 
 public class TaskAdapter extends ArrayAdapter<Task> {
     private int resourceId;
@@ -52,7 +59,58 @@ public class TaskAdapter extends ArrayAdapter<Task> {
         }
 
         // 获取控件实例，并调用set...方法使其显示出来
-        viewHolder.tag.setText(task.getStatus());
+        if(task.getStatus().equals("质检中")){
+            if(task.getQuality_inspector()!=null&& !task.getQuality_inspector().equals("null")&& !task.getQuality_inspector().equals("")) {
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        OkHttpClient client = new OkHttpClient();
+                        Request request = new Request.Builder().url("http://3s784625n5.qicp.vip:80/api/user/" + task.getQuality_inspector() + "/getNameById").build();
+                        try {
+                            Response response = client.newCall(request).execute();//发送请求
+                            String result = response.body().string();
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    viewHolder.tag.setText(result+"质检中");
+                                }
+                            });
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }).start();
+
+            }
+        }
+        else if(task.getStatus().equals("待完成")){
+            if(task.getGroup_leader()!=null&& !task.getGroup_leader().equals("null")&& !task.getGroup_leader().equals("")) {
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        OkHttpClient client = new OkHttpClient();
+                        Request request = new Request.Builder().url("http://3s784625n5.qicp.vip:80/api/user/" + task.getGroup_leader() + "/getNameById").build();
+                        try {
+                            Response response = client.newCall(request).execute();//发送请求
+                            String result = response.body().string();
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    viewHolder.tag.setText(result+"生产中");
+                                }
+                            });
+
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }).start();
+
+            }
+        }
+        else{
+            viewHolder.tag.setText(task.getStatus());
+        }
         viewHolder.title.setText(task.getTask_name());
         viewHolder.subtitle.setText("完成截止时间:"+task.getExpected_time()+"  "+"质检截止时间"+task.getExpected_exam_time());
         viewHolder.overdue.setVisibility(View.INVISIBLE);
@@ -65,11 +123,9 @@ public class TaskAdapter extends ArrayAdapter<Task> {
             }
             else{
                 Calendar cal=Calendar.getInstance();
-                beginTime= DateUtils.string2Date(task.getExpected_time(),DateUtils.yyyyMMddHHmmss.get());
-                cal.setTime(beginTime);
+                cal.setTime(endTime);
                 cal.add(Calendar.HOUR,12);
-                endTime= DateUtils.getNowDate();
-                if (DateUtils.date2Millis(cal.getTime()) <DateUtils.date2Millis( endTime)) {
+                if (DateUtils.date2Millis(beginTime) <DateUtils.date2Millis(cal.getTime())) {
                     viewHolder.overdue.setVisibility(View.VISIBLE);
                     viewHolder.overdue.setText("生产即将逾期");
                 }
@@ -83,12 +139,10 @@ public class TaskAdapter extends ArrayAdapter<Task> {
                 viewHolder.overdue.setText("质检已逾期");
             }
             else{
-                beginTime= DateUtils.string2Date(task.getExpected_exam_time(),DateUtils.yyyyMMddHHmmss.get());
                 Calendar cal=Calendar.getInstance();
-                cal.setTime(beginTime);
+                cal.setTime(endTime);
                 cal.add(Calendar.HOUR,12);
-                endTime= DateUtils.getNowDate();
-                if (DateUtils.date2Millis(cal.getTime()) <DateUtils.date2Millis( endTime)) {
+                if (DateUtils.date2Millis(beginTime) <DateUtils.date2Millis(cal.getTime())) {
                     viewHolder.overdue.setVisibility(View.VISIBLE);
                     viewHolder.overdue.setText("质检即将逾期");
                 }

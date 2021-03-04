@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="12dp"
-    tools:context="com.example.my.activity.NoteActivity">
+    android:id="@+id/dialog">
 
     <EditText
         android:id="@+id/edit_text"
@@ -15,17 +14,5 @@
         android:gravity="start|top"
         android:padding="4dp"
         android:textColor="#1e1e1e" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/add_note"
-        android:layout_marginTop="19dp"
-        android:layout_gravity="center"
-        android:background="@drawable/tag"
-        android:textColor="@color/blue_start"
-        android:text="提交">
-
-    </Button>
 
 </LinearLayout>

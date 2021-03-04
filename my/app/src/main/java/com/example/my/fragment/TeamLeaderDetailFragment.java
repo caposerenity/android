@@ -1,6 +1,5 @@
 package com.example.my.fragment;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
 import android.util.Log;
@@ -14,24 +13,17 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.example.chapter3.demo.R;
-import com.example.my.activity.NoteActivity;
 import com.example.my.listview.Task;
 import com.example.my.utils.XToastUtils;
 import com.xuexiang.xui.widget.dialog.materialdialog.DialogAction;
 import com.xuexiang.xui.widget.dialog.materialdialog.MaterialDialog;
-import com.xuexiang.xui.widget.picker.widget.TimePickerView;
-import com.xuexiang.xui.widget.picker.widget.builder.TimePickerBuilder;
-import com.xuexiang.xui.widget.picker.widget.configure.TimePickerType;
-import com.xuexiang.xui.widget.picker.widget.listener.OnTimeSelectListener;
-import com.xuexiang.xutil.data.DateUtils;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
+
 import rxhttp.RxHttp;
 
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
 
@@ -161,7 +153,7 @@ public class TeamLeaderDetailFragment extends Fragment {
                                             Log.d("TAG", message);
                                             showSimpleWarningDialog(message);
                                         }else{
-                                            note.setText(content);
+                                            note.setText("备注："+content);
                                             showSimpleTipDialog("修改成功");
                                         }
                                     }, throwable -> {

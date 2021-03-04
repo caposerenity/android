@@ -1,6 +1,5 @@
 package com.example.my.fragment;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
 import android.util.Log;
@@ -8,13 +7,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.example.chapter3.demo.R;
-import com.example.my.activity.NoteActivity;
 import com.example.my.listview.Task;
 import com.example.my.utils.XToastUtils;
 import com.xuexiang.xui.widget.dialog.materialdialog.DialogAction;
@@ -226,14 +225,6 @@ public class ManagerDetailFragment extends Fragment {
         fragmentDemo.setArguments(args);
         return fragmentDemo;
     }
-	private void add(){
-		String s=item.getComments();
-		String id=item.getTask_id();
-		Intent i=new Intent(getActivity(),NoteActivity.class);
-		i.putExtra("note",s);
-		i.putExtra("id",id);
-		startActivity(i);
-	}
 	public void showSimpleWarningDialog(String message) {
 		new MaterialDialog.Builder(getContext())
 				.iconRes(R.drawable.icon_warning)
@@ -291,7 +282,7 @@ public class ManagerDetailFragment extends Fragment {
 											Log.d("TAG", message);
 											showSimpleWarningDialog(message);
 										}else{
-											note.setText(content);
+											note.setText("备注："+content);
 											showSimpleTipDialog("修改成功");
 										}
 									}, throwable -> {

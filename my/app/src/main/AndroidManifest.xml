@@ -26,8 +26,6 @@
         <activity android:name="com.example.my.activity.SettingAcitivity">
 
         </activity>
-        <activity android:name="com.example.my.activity.NoteActivity">
-        </activity>
         <activity android:name="com.example.my.activity.AddTaskActivity"/>
         <activity android:name="com.example.my.activity.TeamLeaderDetailActivity"/>
         <activity android:name="com.example.my.activity.CheckmanDetailActivity"/>
