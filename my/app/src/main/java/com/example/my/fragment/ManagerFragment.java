@@ -201,7 +201,6 @@ public class ManagerFragment extends Fragment {
             }
         }
         text.setText(""+overdue());
-        //TODO:在text2设置需要审核的人员数
         RxHttp.get("http://3s784625n5.qicp.vip:80/api/user/Visitor/filterPosition")
                 .asList(String.class)
                 .observeOn(AndroidSchedulers.mainThread())

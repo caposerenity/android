@@ -43,7 +43,7 @@ public class ManagerDetailFragment extends Fragment {
 	private static final int REQUEST_CODE_ADD = 1002;
 	private TimePickerView mTimePickerDialog;
 	private TextView note;
-
+	private TextView name;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -55,7 +55,7 @@ public class ManagerDetailFragment extends Fragment {
 			Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_manager_detail, container, false);
 		TextView tag = view.findViewById(R.id.state);
-		TextView name = view.findViewById(R.id.TaskName);
+		name = view.findViewById(R.id.TaskName);
 		TextView ddl1=view.findViewById(R.id.ddl1);
 		TextView ddl2=view.findViewById(R.id.ddl2);
 		TextView tl=view.findViewById(R.id.Teamleader);
@@ -318,6 +318,23 @@ public class ManagerDetailFragment extends Fragment {
 							String content=dialog.getInputEditText().getText().toString();
 							String id=item.getTask_id();
 							//TODO：将content的内容保存为项目名称
+							RxHttp.postJson("http://3s784625n5.qicp.vip:80/api/task/modifytask")
+									.add("task_id",id).add("task_name",content)
+									.asString()
+									.observeOn(AndroidSchedulers.mainThread()) //指定在主线程回调
+									.subscribe(res -> {
+										JSONObject j= new JSONObject(res);
+										String message =j.getString("message");
+										if(!message.equals("null")){
+											Log.d("TAG", message);
+											showSimpleWarningDialog(message);
+										}else{
+											name.setText(content);
+											showSimpleTipDialog("修改成功");
+										}
+									}, throwable -> {
+										showSimpleWarningDialog("网络不良,请重试");
+									});
 						}
 				)
 				.cancelable(false)

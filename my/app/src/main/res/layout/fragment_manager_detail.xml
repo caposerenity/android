@@ -86,15 +86,15 @@
         android:text="修改备注">
     </Button>
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/edit_task"
-        android:layout_below="@+id/note"
-        android:layout_marginTop="19dp"
-        android:background="@drawable/tag"
-        android:layout_marginStart="100dp"
-        android:textColor="@color/blue_start"
-        android:text="修改项目名称">
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/edit_task"
+            android:layout_below="@+id/note"
+            android:layout_marginTop="19dp"
+            android:background="@drawable/tag"
+            android:layout_marginStart="100dp"
+            android:textColor="@color/blue_start"
+            android:text="修改项目名称">
     </Button>
     <Button
         android:layout_width="wrap_content"
