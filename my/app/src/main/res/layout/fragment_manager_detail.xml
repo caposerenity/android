@@ -60,7 +60,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/ddl2"
         android:layout_marginTop="19dp"
-        android:text="作业完成时间：" />
+        android:text="生产完成时间：" />
     <TextView
         android:id="@+id/finish2"
         android:layout_width="wrap_content"
@@ -84,6 +84,17 @@
         android:background="@drawable/tag"
         android:textColor="@color/blue_start"
         android:text="修改备注">
+    </Button>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/edit_task"
+        android:layout_below="@+id/note"
+        android:layout_marginTop="19dp"
+        android:background="@drawable/tag"
+        android:layout_marginStart="100dp"
+        android:textColor="@color/blue_start"
+        android:text="修改项目名称">
     </Button>
     <Button
         android:layout_width="wrap_content"

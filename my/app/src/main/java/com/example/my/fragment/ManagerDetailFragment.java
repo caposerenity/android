@@ -64,6 +64,7 @@ public class ManagerDetailFragment extends Fragment {
 		TextView maketime=view.findViewById(R.id.makeTime);
 		TextView finish1=view.findViewById(R.id.finish1);
 		TextView finish2=view.findViewById(R.id.finish2);
+		Button edit_task=view.findViewById(R.id.edit_task);
 
 		if(item.getQuality_inspector()!=null&& !item.getQuality_inspector().equals("null")&& !item.getQuality_inspector().equals("")) {
 			new Thread(new Runnable() {
@@ -215,6 +216,12 @@ public class ManagerDetailFragment extends Fragment {
 				mTimePickerDialog.show();
 			}
 		});
+		edit_task.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				showeditTaskDialog();
+			}
+		});
 		return view;
 	}
 
@@ -288,6 +295,29 @@ public class ManagerDetailFragment extends Fragment {
 									}, throwable -> {
 										showSimpleWarningDialog("网络不良,请重试");
 									});
+						}
+				)
+				.cancelable(false)
+				.show();
+	}
+	private void showeditTaskDialog() {
+		new MaterialDialog.Builder(getContext())
+				.iconRes(R.drawable.icon_tip)
+				.title("修改项目名称")
+				.inputType(
+						InputType.TYPE_CLASS_TEXT)
+				.input(
+						"",
+						item.getTask_name(),
+						false,
+						((dialog, input) -> XToastUtils.toast(input.toString())))
+				.positiveText("确定")
+				.negativeText("取消")
+				.onPositive(
+						(dialog, which) -> {
+							String content=dialog.getInputEditText().getText().toString();
+							String id=item.getTask_id();
+							//TODO：将content的内容保存为项目名称
 						}
 				)
 				.cancelable(false)
